@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		313BA3D31FB51DB70013D583 /* Hero4.m in Sources */ = {isa = PBXBuildFile; fileRef = 313BA3D21FB51DB70013D583 /* Hero4.m */; };
 		31A13C531FA6B5860012EC68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C521FA6B5860012EC68 /* main.m */; };
 		31A13C561FA6B5860012EC68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C551FA6B5860012EC68 /* AppDelegate.m */; };
 		31A13C591FA6B5860012EC68 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C581FA6B5860012EC68 /* ViewController.m */; };
@@ -16,10 +17,11 @@
 		31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C691FA6BFCC0012EC68 /* SettingsViewController.m */; };
 		31A13C701FA6C91C0012EC68 /* OptionAssignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C6F1FA6C91C0012EC68 /* OptionAssignViewController.m */; };
 		31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C771FA6CFCF0012EC68 /* MethodManager.m */; };
-		31A13C7B1FA6D0BB0012EC68 /* Hero4.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C7A1FA6D0BB0012EC68 /* Hero4.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		313BA3D11FB51DB70013D583 /* Hero4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hero4.h; path = DAO_Devices/Hero4.h; sourceTree = "<group>"; };
+		313BA3D21FB51DB70013D583 /* Hero4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero4.m; path = DAO_Devices/Hero4.m; sourceTree = "<group>"; };
 		31A13C4E1FA6B5860012EC68 /* GoProApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoProApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31A13C521FA6B5860012EC68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		31A13C541FA6B5860012EC68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -36,8 +38,6 @@
 		31A13C6F1FA6C91C0012EC68 /* OptionAssignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionAssignViewController.m; sourceTree = "<group>"; };
 		31A13C761FA6CFCF0012EC68 /* MethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodManager.h; sourceTree = "<group>"; };
 		31A13C771FA6CFCF0012EC68 /* MethodManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodManager.m; sourceTree = "<group>"; };
-		31A13C791FA6D0BB0012EC68 /* Hero4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hero4.h; path = DAO_Devices/Hero4.h; sourceTree = "<group>"; };
-		31A13C7A1FA6D0BB0012EC68 /* Hero4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero4.m; path = DAO_Devices/Hero4.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		319E4FA81FA815CC00A50F57 /* MethodManager */ = {
+			isa = PBXGroup;
+			children = (
+				31A13C761FA6CFCF0012EC68 /* MethodManager.h */,
+				31A13C771FA6CFCF0012EC68 /* MethodManager.m */,
+			);
+			path = MethodManager;
+			sourceTree = "<group>";
+		};
 		31A13C451FA6B5860012EC68 = {
 			isa = PBXGroup;
 			children = (
@@ -80,8 +89,7 @@
 				31A13C5F1FA6B5860012EC68 /* LaunchScreen.storyboard */,
 				31A13C621FA6B5860012EC68 /* Info.plist */,
 				31A13C511FA6B5860012EC68 /* Supporting Files */,
-				31A13C761FA6CFCF0012EC68 /* MethodManager.h */,
-				31A13C771FA6CFCF0012EC68 /* MethodManager.m */,
+				319E4FA81FA815CC00A50F57 /* MethodManager */,
 			);
 			path = GoProApp;
 			sourceTree = "<group>";
@@ -133,8 +141,8 @@
 		31A13C721FA6CD560012EC68 /* DAO Devices */ = {
 			isa = PBXGroup;
 			children = (
-				31A13C791FA6D0BB0012EC68 /* Hero4.h */,
-				31A13C7A1FA6D0BB0012EC68 /* Hero4.m */,
+				313BA3D11FB51DB70013D583 /* Hero4.h */,
+				313BA3D21FB51DB70013D583 /* Hero4.m */,
 			);
 			name = "DAO Devices";
 			sourceTree = "<group>";
@@ -213,7 +221,7 @@
 			files = (
 				31A13C591FA6B5860012EC68 /* ViewController.m in Sources */,
 				31A13C561FA6B5860012EC68 /* AppDelegate.m in Sources */,
-				31A13C7B1FA6D0BB0012EC68 /* Hero4.m in Sources */,
+				313BA3D31FB51DB70013D583 /* Hero4.m in Sources */,
 				31A13C531FA6B5860012EC68 /* main.m in Sources */,
 				31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */,
 				31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */,
@@ -380,6 +388,7 @@
 				31A13C671FA6B5860012EC68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

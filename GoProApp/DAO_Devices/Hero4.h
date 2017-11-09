@@ -22,6 +22,9 @@
 
 @property (nonatomic, retain) NSString *deviceName;
 
+@property (nonatomic, retain) NSString *urlForCurrentCall;
+
+
 
 
 @end

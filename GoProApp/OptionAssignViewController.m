@@ -8,6 +8,8 @@
 
 #import "OptionAssignViewController.h"
 
+// this is the page to use as the options available for the current setting (ie rsolution, FPS...)
+
 @interface OptionAssignViewController ()
 
 @end
@@ -23,6 +25,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - BUTTONS
+- (IBAction)option1:(id)sender {
+//    NSLog(@"print out %@", _option1.currentTitle);
+}
+
 
 /*
 #pragma mark - Navigation
