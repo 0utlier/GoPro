@@ -16,7 +16,7 @@
 
 // available
 @property (nonatomic, retain) NSMutableArray *availableModes;
-@property (nonatomic, retain) NSMutableArray *avaialbleSubModes;
+@property (nonatomic, retain) NSMutableArray *availableSubModes;
 @property (nonatomic, retain) NSMutableArray *availableResolutions;
 @property (nonatomic, retain) NSMutableArray *availableFrameRates;
 
@@ -25,6 +25,7 @@
 @property (nonatomic, retain) NSString *urlForCurrentCall;
 
 
++ (instancetype)sharedDAO;
 
 
 @end

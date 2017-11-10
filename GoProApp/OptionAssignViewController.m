@@ -9,7 +9,7 @@
 #import "OptionAssignViewController.h"
 
 // this is the page to use as the options available for the current setting (ie rsolution, FPS...)
-
+/*NOTHING GETS STORED HERE. ONLY ASSIGNED*/
 @interface OptionAssignViewController ()
 
 @end
