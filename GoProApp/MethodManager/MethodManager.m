@@ -14,6 +14,11 @@
 
 #pragma mark - Singleton Methods
 
+- (void)powerOn {
+    [_heroDAO powerOn];
+}
+
+
 
 + (id)sharedManager {
     static MethodManager *sharedMyManager = nil;
@@ -41,13 +46,13 @@
      opens view of gopro
      */
     //    NSObject *passThrough = [[NSObject alloc]init];
-    self.dao = [Hero4 sharedDAO];
+//    self.dao = [Hero4 sharedDAO];
 //    [self.dao shared];
 
     
     if (/*device is Hero 4*/true) {
         /*set DAO to Hero 4*/
-        self.dao = [Hero4 sharedDAO];
+//        self.dao = [Hero4 sharedDAO];
         
     }
     else /*device is NOT Hero 4*/{

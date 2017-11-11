@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		313BA3D31FB51DB70013D583 /* Hero4.m in Sources */ = {isa = PBXBuildFile; fileRef = 313BA3D21FB51DB70013D583 /* Hero4.m */; };
+		3156679B1FB68B660006C2FA /* Hero4.m in Sources */ = {isa = PBXBuildFile; fileRef = 3156679A1FB68B660006C2FA /* Hero4.m */; };
 		31A13C531FA6B5860012EC68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C521FA6B5860012EC68 /* main.m */; };
 		31A13C561FA6B5860012EC68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C551FA6B5860012EC68 /* AppDelegate.m */; };
 		31A13C591FA6B5860012EC68 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C581FA6B5860012EC68 /* ViewController.m */; };
@@ -20,8 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		313BA3D11FB51DB70013D583 /* Hero4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hero4.h; path = DAO_Devices/Hero4.h; sourceTree = "<group>"; };
-		313BA3D21FB51DB70013D583 /* Hero4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero4.m; path = DAO_Devices/Hero4.m; sourceTree = "<group>"; };
+		315667991FB68B660006C2FA /* Hero4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hero4.h; path = "DAO Devices/Hero4.h"; sourceTree = "<group>"; };
+		3156679A1FB68B660006C2FA /* Hero4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero4.m; path = "DAO Devices/Hero4.m"; sourceTree = "<group>"; };
 		31A13C4E1FA6B5860012EC68 /* GoProApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoProApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31A13C521FA6B5860012EC68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		31A13C541FA6B5860012EC68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -141,8 +141,8 @@
 		31A13C721FA6CD560012EC68 /* DAO Devices */ = {
 			isa = PBXGroup;
 			children = (
-				313BA3D11FB51DB70013D583 /* Hero4.h */,
-				313BA3D21FB51DB70013D583 /* Hero4.m */,
+				315667991FB68B660006C2FA /* Hero4.h */,
+				3156679A1FB68B660006C2FA /* Hero4.m */,
 			);
 			name = "DAO Devices";
 			sourceTree = "<group>";
@@ -221,7 +221,7 @@
 			files = (
 				31A13C591FA6B5860012EC68 /* ViewController.m in Sources */,
 				31A13C561FA6B5860012EC68 /* AppDelegate.m in Sources */,
-				313BA3D31FB51DB70013D583 /* Hero4.m in Sources */,
+				3156679B1FB68B660006C2FA /* Hero4.m in Sources */,
 				31A13C531FA6B5860012EC68 /* main.m in Sources */,
 				31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */,
 				31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */,
