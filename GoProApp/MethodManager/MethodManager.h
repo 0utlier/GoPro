@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "Hero4.h"
+#import "HeroProtocol.h"
 /* This is to store all of the apps required calls, properties and information needed everywhere in the app*/
 
+@class MethodManager;
+
+/*
 @protocol HeroDAO <NSObject>
 
 @required
@@ -22,6 +25,7 @@
 
 @end
 
+*/
 
 @interface MethodManager : NSObject
 

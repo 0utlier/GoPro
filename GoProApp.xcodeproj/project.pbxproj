@@ -17,6 +17,7 @@
 		31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C691FA6BFCC0012EC68 /* SettingsViewController.m */; };
 		31A13C701FA6C91C0012EC68 /* OptionAssignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C6F1FA6C91C0012EC68 /* OptionAssignViewController.m */; };
 		31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C771FA6CFCF0012EC68 /* MethodManager.m */; };
+		31C82C141FBA6E0C007799F9 /* HeroProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C82C131FBA6E0C007799F9 /* HeroProtocol.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,8 @@
 		31A13C6F1FA6C91C0012EC68 /* OptionAssignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionAssignViewController.m; sourceTree = "<group>"; };
 		31A13C761FA6CFCF0012EC68 /* MethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodManager.h; sourceTree = "<group>"; };
 		31A13C771FA6CFCF0012EC68 /* MethodManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodManager.m; sourceTree = "<group>"; };
+		31C82C121FBA6E0C007799F9 /* HeroProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeroProtocol.h; path = "DAO Devices/HeroProtocol.h"; sourceTree = "<group>"; };
+		31C82C131FBA6E0C007799F9 /* HeroProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeroProtocol.m; path = "DAO Devices/HeroProtocol.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +146,8 @@
 			children = (
 				315667991FB68B660006C2FA /* Hero4.h */,
 				3156679A1FB68B660006C2FA /* Hero4.m */,
+				31C82C121FBA6E0C007799F9 /* HeroProtocol.h */,
+				31C82C131FBA6E0C007799F9 /* HeroProtocol.m */,
 			);
 			name = "DAO Devices";
 			sourceTree = "<group>";
@@ -220,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				31A13C591FA6B5860012EC68 /* ViewController.m in Sources */,
+				31C82C141FBA6E0C007799F9 /* HeroProtocol.m in Sources */,
 				31A13C561FA6B5860012EC68 /* AppDelegate.m in Sources */,
 				3156679B1FB68B660006C2FA /* Hero4.m in Sources */,
 				31A13C531FA6B5860012EC68 /* main.m in Sources */,

@@ -18,6 +18,10 @@
     [_heroDAO powerOn];
 }
 
+- (void)powerOff {
+    [_heroDAO powerOff];
+}
+
 
 
 + (id)sharedManager {

@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "MethodManager.h"
+#import "Hero4.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    /*create a methodManager - use sharedDAO
+     create an instance of H4
+     create an instance of H3, etc.
+     */
+    MethodManager *methodManager = [[MethodManager alloc]init];
+    Hero4 *hero4 = [[Hero4 alloc]init];
+//    Hero4 *hero3 = [[Hero3 alloc]init];
+    
+    methodManager.heroDAO = hero4;
+//    methodManager.heroDAO = hero3;
+    methodManager.heroDAO.powerOn;
+    methodManager.heroDAO.powerOff;
+    
     return YES;
 }
 

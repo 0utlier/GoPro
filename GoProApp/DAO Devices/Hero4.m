@@ -25,10 +25,16 @@
 #pragma mark - POWER DELEGATE
 -(void)powerOn {
     self.urlForCurrentCall =@"http://10.5.5.9/bacpac/PW";
+    [self printCurrentURL];
 }
 -(void)powerOff {
     self.urlForCurrentCall = @"http://10.5.5.9/gp/gpControl/command/system/sleep";
+    [self printCurrentURL];
 
+}
+
+-(void)printCurrentURL {
+    NSLog(@"%@",self.urlForCurrentCall);
 }
 
 
