@@ -19,6 +19,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self makeHardCodeTestData]; // this is to be deleted, after data is accessible
+}
+
+- (void)makeHardCodeTestData {
+    self.availableModesForHero4 = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
+    NSLog(@"%@", self.availableModesForHero4);
+    // assign to currentProperties available modes
+    // assign to buttons, using array? compare
+    // gray out the buttons that are not found
 }
 
 - (void)didReceiveMemoryWarning {

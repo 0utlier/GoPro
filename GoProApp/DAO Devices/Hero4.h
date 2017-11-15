@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MethodManager.h"
+//#import "MethodManager.h"
+#import "HeroProtocol.h"
+
 /*This is the Device Manager for the GoPro Hero 4 Black
  All of the
  Calls
@@ -16,22 +18,48 @@
 
 @interface Hero4 : NSObject <HeroDAO>
 
++ (instancetype)sharedDAO;
+
+#pragma mark - POWER
 - (void)powerOn;
 - (void)powerOff;
 
+#pragma mark - MODES
+- (void)modeVideo;
+- (void)modePhoto;
+- (void)modeMulti;
 
-// available
+#pragma mark - SUB MODES
+//video
+- (void)subVidVideo;
+- (void)subVidTimeLapse;
+- (void)subVidAndPhoto;
+- (void)subVidLooping;
+//photo
+- (void)subPhoPhoto;
+- (void)subPhoContin;
+- (void)subPhoNight;
+//multi
+- (void)subMulBurst;
+- (void)subMulTimeLapse;
+- (void)subMulNightLapse;
+
+
+
+#pragma mark - AVAILABLE
 @property (nonatomic, retain) NSMutableArray *availableModes;
 @property (nonatomic, retain) NSMutableArray *availableSubModes;
 @property (nonatomic, retain) NSMutableArray *availableResolutions;
 @property (nonatomic, retain) NSMutableArray *availableFrameRates;
-
+/*
+ @property (nonatomic, retain) NSMutableArray *availableIntervals;
+*/
+#pragma mark - CURRENT INFO
 @property (nonatomic, retain) NSString *deviceName;
 
 @property (nonatomic, retain) NSString *urlForCurrentCall;
 
 
-+ (instancetype)sharedDAO;
 
 
 @end

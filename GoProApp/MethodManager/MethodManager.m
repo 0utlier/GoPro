@@ -14,6 +14,7 @@
 
 #pragma mark - Singleton Methods
 
+/*
 - (void)powerOn {
     [_heroDAO powerOn];
 }
@@ -22,6 +23,7 @@
     [_heroDAO powerOff];
 }
 
+*/
 
 
 + (id)sharedManager {

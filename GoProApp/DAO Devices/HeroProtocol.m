@@ -10,4 +10,31 @@
 
 @implementation HeroProtocol
 
+#pragma mark - POWER & SHUTTER
+- (void)powerOn{}
+- (void)powerOff{}
+- (void)shutterOn{}
+- (void)shutterOff{}
+
+#pragma mark - MODES
+- (void)modeVideo{}
+- (void)modePhoto{}
+- (void)modeMulti{}
+
+#pragma mark - SUB MODES
+//video
+- (void)subVidVideo{}
+- (void)subVidTimeLapse{}
+- (void)subVidAndPhoto{}
+- (void)subVidLooping{}
+//photo
+- (void)subPhoPhoto{}
+- (void)subPhoContin{}
+- (void)subPhoNight{}
+//multi
+- (void)subMulBurst{}
+- (void)subMulTimeLapse{}
+- (void)subMulNightLapse{}
+
+
 @end

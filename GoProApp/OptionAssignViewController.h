@@ -25,5 +25,8 @@
 @property (nonatomic, retain) NSString *desiredResolution;
 @property (nonatomic, retain) NSString *desiredFrameRate;
 
+// hard coded test data
+@property (nonatomic, retain) NSMutableArray *availableModesForHero4;
+
 
 @end

@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "HeroProtocol.h"
-/* This is to store all of the apps required calls, properties and information needed everywhere in the app*/
+/* This is to store all of the apps required calls, properties and information needed everywhere in the app
+ 
+ Also, and what that means, is that this calls EVERY SINGLE GoPro App. Info sent from options being decided, and filtered through here to make the URL calls to GoPro*/
 
 @class MethodManager;
 
@@ -40,7 +42,7 @@
 @property (nonatomic, strong) NSObject *dao;
 // trying again
 // any class of any type that implements the DAO delegate protocol
-@property (nonatomic, strong) id<HeroDAO> heroDAO;
+//@property (nonatomic, strong) id<HeroDAO> heroDAO;
 
 
 @end

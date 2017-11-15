@@ -11,18 +11,8 @@
 @implementation Hero4
 
 
-+ (instancetype)sharedDAO
-{
-    static Hero4 *sharedDAO = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedDAO = [[Hero4 alloc] init];
-        // Do any other initialisation stuff here
-    });
-    return sharedDAO;
-}
-
-#pragma mark - POWER DELEGATE
+#pragma mark - POWER & SHUTTER
+//power
 -(void)powerOn {
     self.urlForCurrentCall =@"http://10.5.5.9/bacpac/PW";
     [self printCurrentURL];
@@ -30,8 +20,37 @@
 -(void)powerOff {
     self.urlForCurrentCall = @"http://10.5.5.9/gp/gpControl/command/system/sleep";
     [self printCurrentURL];
-
 }
+
+//shutter
+- (void)shutterOn{self.urlForCurrentCall = @"http://10.5.5.9/gp/gpControl/command/shutter?p=1";
+    [self printCurrentURL];
+}
+- (void)shutterOff{self.urlForCurrentCall = @"http://10.5.5.9/gp/gpControl/command/shutter?p=0";
+    [self printCurrentURL];
+}
+
+
+#pragma mark - MODES
+- (void)modeVideo{}
+- (void)modePhoto{}
+- (void)modeMulti{}
+
+#pragma mark - SUB MODES
+//video
+- (void)subVidVideo{}
+- (void)subVidTimeLapse{}
+- (void)subVidAndPhoto{}
+- (void)subVidLooping{}
+//photo
+- (void)subPhoPhoto{}
+- (void)subPhoContin{}
+- (void)subPhoNight{}
+//multi
+- (void)subMulBurst{}
+- (void)subMulTimeLapse{}
+- (void)subMulNightLapse{}
+
 
 -(void)printCurrentURL {
     NSLog(@"%@",self.urlForCurrentCall);
@@ -181,5 +200,17 @@ NSString *GPShutterStop = @"http://10.5.5.9/gp/gpControl/command/shutter?p=0";
     }
     return self;
 }
+
++ (instancetype)sharedDAO
+{
+    static Hero4 *sharedDAO = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedDAO = [[Hero4 alloc] init];
+        // Do any other initialisation stuff here
+    });
+    return sharedDAO;
+}
+
 
 @end
