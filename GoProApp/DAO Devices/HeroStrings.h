@@ -1,21 +1,21 @@
 //
-//  Hero4.h
+//  HeroStrings.h
 //  GoProApp
 //
-//  Created by JD Leonard on 10/29/17.
+//  Created by JD Leonard on 11/17/17.
 //  Copyright © 2017 JD Leonard. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "HeroProtocol.h"
 
-/*This is the Device Manager for the GoPro Hero 4 Black
+/*This is the Device Manager for the GoPro Hero TESTING
  All of the
  Calls
  Properties
  Information pertaining directly and specifically to this device*/
 
-@interface Hero4 : NSObject <HeroDAO>
+@interface HeroStrings : NSObject <HeroDAO>
 
 + (instancetype)sharedDAO;
 
@@ -52,13 +52,11 @@
 @property (nonatomic, retain) NSMutableArray *availableFrameRates;
 /*
  @property (nonatomic, retain) NSMutableArray *availableIntervals;
-*/
+ */
 #pragma mark - CURRENT INFO
 @property (nonatomic, retain) NSString *deviceName;
 
 @property (nonatomic, retain) NSString *urlForCurrentCall;
-
-
 
 
 @end

@@ -8,9 +8,11 @@
 
 #import "AppDelegate.h"
 #import "MethodManager.h"
-#import "Hero4.h"
 #import "HeroProtocol.h"
 
+// DEVICES IMPORT
+#import "Hero4.h"
+#import "HeroStrings.h"
 
 @interface AppDelegate ()
 
@@ -26,13 +28,20 @@
      create an instance of H4
      create an instance of H3, etc.
      */
-    //    MethodManager *methodManager = [[MethodManager alloc]init];
     HeroProtocol *deviceCurrent = [[HeroProtocol alloc]init];
     //    Hero3 *hero3 = [[Hero3 alloc]init];
     Hero4 *hero4 = [[Hero4 alloc]init];
+    HeroStrings *heroStrings = [[HeroStrings alloc]init];
     
     //    deviceCurrent.heroDAO = hero3;
     deviceCurrent.heroDAO = hero4;
+    [deviceCurrent.heroDAO powerOn];
+    [deviceCurrent.heroDAO powerOff];
+    
+    [deviceCurrent.heroDAO shutterOn];
+    [deviceCurrent.heroDAO shutterOff];
+    
+    deviceCurrent.heroDAO = heroStrings;
     [deviceCurrent.heroDAO powerOn];
     [deviceCurrent.heroDAO powerOff];
     
