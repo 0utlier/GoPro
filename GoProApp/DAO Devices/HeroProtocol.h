@@ -19,6 +19,8 @@
 
 @required
 
+- (void)createAvailableSettings;
+
 #pragma mark - POWER & SHUTTER
 - (void)powerOn;
 - (void)powerOff;

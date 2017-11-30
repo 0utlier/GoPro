@@ -85,9 +85,9 @@
 		31A13C501FA6B5860012EC68 /* GoProApp */ = {
 			isa = PBXGroup;
 			children = (
+				31A13C6D1FA6C60D0012EC68 /* AppDelegate */,
 				31A13C721FA6CD560012EC68 /* DAO Devices */,
 				31A13C711FA6C9220012EC68 /* OptionAssignVC */,
-				31A13C6D1FA6C60D0012EC68 /* AppDelegate */,
 				31A13C6C1FA6C5FF0012EC68 /* ViewController */,
 				31A13C6B1FA6BFD20012EC68 /* SettingsVC */,
 				31A13C5A1FA6B5860012EC68 /* Main.storyboard */,

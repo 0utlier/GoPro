@@ -10,6 +10,9 @@
 
 @implementation Hero4
 
+-(void)createAvailableSettings {
+    //assign the arrays
+}
 
 #pragma mark - POWER & SHUTTER
 //power

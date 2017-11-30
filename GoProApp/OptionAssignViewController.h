@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MethodManager.h"
 
 @interface OptionAssignViewController : UIViewController
 

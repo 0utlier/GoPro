@@ -18,6 +18,7 @@
 @interface Hero4 : NSObject <HeroDAO>
 
 + (instancetype)sharedDAO;
+- (void)createAvailableSettings;
 
 #pragma mark - POWER
 - (void)powerOn;
