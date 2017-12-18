@@ -1,15 +1,16 @@
 //
-//  OptionAssignViewController.h
+//  OptionsCollectionViewController.h
 //  GoProApp
 //
-//  Created by JD Leonard on 10/29/17.
+//  Created by JD Leonard on 12/14/17.
 //  Copyright © 2017 JD Leonard. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "MethodManager.h"
 
-@interface OptionAssignViewController : UIViewController
+@interface OptionsCollectionViewController : UICollectionViewController
+
 
 @property (nonatomic, retain) NSString *optionsType; //which type of options (ie resolution, fps, etc.)
 @property (nonatomic, retain) NSMutableArray *optionsAvailableForDevice; // assign to correct model's array of current settings
@@ -39,6 +40,7 @@
 @property (nonatomic, retain) UIButton *rightT;
 @property (nonatomic, retain) UIButton *top;
 @property (nonatomic, retain) UIButton *bottom;
+
 
 
 

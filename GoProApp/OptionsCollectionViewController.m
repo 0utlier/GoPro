@@ -1,26 +1,28 @@
 //
-//  OptionAssignViewController.m
+//  OptionsCollectionViewController.m
 //  GoProApp
 //
-//  Created by JD Leonard on 10/29/17.
+//  Created by JD Leonard on 12/14/17.
 //  Copyright © 2017 JD Leonard. All rights reserved.
 //
 
-#import "OptionAssignViewController.h"
+#import "OptionsCollectionViewController.h"
+#import "OptionsCollectionViewCell.h"
 
 // this is the page to use as the options available for the current setting (ie rsolution, FPS...)
 /*NOTHING GETS STORED HERE. ONLY ASSIGNED*/
-@interface OptionAssignViewController ()
+@interface OptionsCollectionViewController ()
 
 @property (strong, nonatomic) MethodManager *methodManager;
 
 @end
 
-@implementation OptionAssignViewController
+@implementation OptionsCollectionViewController
+
+static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     /*create a methodManager - use sharedDAO*/
     self.methodManager = [MethodManager sharedManager];
@@ -28,9 +30,21 @@
     /*check if it exists, and did not return empty/null*/
     NSLog(@"device is object %@", self.methodManager.deviceCurrent);
     
-/*assign buttons to correct OPTION (i.e. modes,subModes,FR, Res) */
+    /*assign buttons to correct OPTION (i.e. modes,subModes,FR, Res) */
     [self createButtons];
 	   
+
+    
+    // FOLLOWING is specific to CollectionView:
+    
+    // Uncomment the following line to preserve selection between presentations
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Register cell classes
+//    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    
+    // Do any additional setup after loading the view.
+    
 }
 
 - (void)createButtons {
@@ -51,6 +65,7 @@
     
 }
 
+/*
 -(void)assignSlices {
     self.screenSize = self.view.bounds.size;
     
@@ -108,6 +123,7 @@
     [self.view addSubview:self.bottom];
 }
 
+*/
 - (void)makeHardCodeTestData {
     self.availableModesForHero4 = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
     NSLog(@"%@", self.availableModesForHero4);
@@ -115,6 +131,8 @@
     // assign to buttons, using array? compare
     // gray out the buttons that are not found
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -126,15 +144,79 @@
     //    NSLog(@"print out %@", _option1.currentTitle);
 }
 
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+#pragma mark <UICollectionViewDataSource>
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+#warning Incomplete implementation, return the number of sections
+    return 1;
+}
+
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+#warning Incomplete implementation, return the number of items
+    return 10;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    OptionsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    
+    // Configure the cell
+    
+    
+// assign the string by the current option being edited (eg frameRates, Modes)
+    // use string to be textlabel for cell
+    // assign the title as per the number of index AND frameRate array
+    NSString *myString = [NSString stringWithFormat:@"%@", [self.methodManager.deviceCurrent.heroDAO.availableFrameRates objectAtIndex:indexPath.row]];
+    cell.textLabel.text = myString;
+    
+
+    return cell;
+}
+
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    OptionsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    NSLog(@"%@", [NSString stringWithFormat:@"%@", cell.textLabel.text]);
+}
+#pragma mark <UICollectionViewDelegate>
 
 /*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+// Uncomment this method to specify if the specified item should be highlighted during tracking
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+	return YES;
+}
+*/
+
+/*
+// Uncomment this method to specify if the specified item should be selected
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+*/
+
+/*
+// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
+	return NO;
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+	return NO;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+	
+}
+*/
 
 @end
