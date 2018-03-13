@@ -17,12 +17,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"Oh boy is it good to be back in Objective-C");
+    [self createTimeLapseButton];
     [self createSettingsButton];
     [self createTESTButton];
 }
 
 #pragma mark - BUTTON CREATION
 
+
+- (void)createTimeLapseButton {
+    UIButton *openToTimeLapse = [UIButton buttonWithType:UIButtonTypeCustom];
+    [openToTimeLapse addTarget:self
+                       action:@selector(timeLapseButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
+    [openToTimeLapse setTitle:@"Show TimeLapse" forState:UIControlStateNormal];
+    openToTimeLapse.frame = CGRectMake(80.0, 110.0, 160.0, 40.0);
+    openToTimeLapse.backgroundColor = [UIColor greenColor];
+    [self.view addSubview:openToTimeLapse];
+}
+
+-(void)timeLapseButtonPressed:(UIButton *)openToTimeLapse {
+    NSLog(@"works, opening timeLapse page");
+    UIViewController *timeLapseController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"TLSettingsViewController"];
+    [self presentViewController:timeLapseController animated:YES completion:nil];
+    
+}
 
 - (void)createSettingsButton {
     UIButton *openToSettings = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -35,13 +54,14 @@
     [self.view addSubview:openToSettings];
 }
 
--(void)settingsButtonPressed:(UIButton *)openToSettings {
+- (void)settingsButtonPressed:(UIButton *)openToSettings {
     NSLog(@"works, opening settings page");
     UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"OptionAssignViewController"];
     [self presentViewController:settingsController animated:YES completion:nil];
     
 }
 
+// this is a test button currently sends GoPro power off signal 03.05.18
 - (void)createTESTButton {
     UIButton *openToSettings = [UIButton buttonWithType:UIButtonTypeCustom];
     [openToSettings addTarget:self

@@ -9,7 +9,7 @@
 #import "OptionsCollectionViewController.h"
 #import "OptionsCollectionViewCell.h"
 
-// this is the page to use as the options available for the current setting (ie rsolution, FPS...)
+// this is the page to use as the options available for the current device's settings (ie rsolution, FPS...)
 /*NOTHING GETS STORED HERE. ONLY ASSIGNED*/
 @interface OptionsCollectionViewController ()
 
@@ -30,8 +30,19 @@ static NSString * const reuseIdentifier = @"Cell";
     /*check if it exists, and did not return empty/null*/
     NSLog(@"device is object %@", self.methodManager.deviceCurrent);
     
+    /**Please remove this ASAP, as it is HARDCODE**/
+    /*This is where the assignment comes in*/
+    self.optionsAvailableForDevice = self.methodManager.deviceCurrent.heroDAO.availableFrameRates;
+//    self.optionsAvailableForDevice = self.methodManager.deviceCurrent.heroDAO.availableModes;
+    
+    /*set which options Type is being requested*/
+    NSLog(@"Options Page Loading for %@", self.optionsAvailableForDevice);
+//    NSLog(@"Options Page Loading for %@", self.optionsAvailableForDevice);
+    
     /*assign buttons to correct OPTION (i.e. modes,subModes,FR, Res) */
-    [self createButtons];
+//    [self createButtons];
+    
+    self.methodManager.desiredOptions = self.optionsAvailableForDevice;
 	   
 
     
@@ -139,22 +150,8 @@ static NSString * const reuseIdentifier = @"Cell";
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - BUTTONS
-- (IBAction)option1:(id)sender {
-    //    NSLog(@"print out %@", _option1.currentTitle);
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-#pragma mark <UICollectionViewDataSource>
+#pragma mark - COLLECTIONVIEW
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 #warning Incomplete implementation, return the number of sections
@@ -164,7 +161,10 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of items
-    return 10;
+    NSUInteger arrayLength = self.optionsAvailableForDevice.count;
+//    arrayLength -= 30;
+    NSLog(@"Length of the array = %lu", (unsigned long)arrayLength);
+    return arrayLength;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -176,7 +176,7 @@ static NSString * const reuseIdentifier = @"Cell";
 // assign the string by the current option being edited (eg frameRates, Modes)
     // use string to be textlabel for cell
     // assign the title as per the number of index AND frameRate array
-    NSString *myString = [NSString stringWithFormat:@"%@", [self.methodManager.deviceCurrent.heroDAO.availableFrameRates objectAtIndex:indexPath.row]];
+    NSString *myString = [NSString stringWithFormat:@"%@", [self.optionsAvailableForDevice objectAtIndex:indexPath.row]];
     cell.textLabel.text = myString;
     
 
@@ -186,7 +186,10 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     OptionsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    NSLog(@"%@", [NSString stringWithFormat:@"%@", cell.textLabel.text]);
+
+    /*print the quality selected*/
+    NSString* printMe = [self.optionsAvailableForDevice objectAtIndex:indexPath.row];
+    NSLog(@"The user has chosen %@", printMe);
 }
 #pragma mark <UICollectionViewDelegate>
 

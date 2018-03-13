@@ -11,10 +11,16 @@
 
 @interface OptionsCollectionViewController : UICollectionViewController
 
-
+// This should be set when the page is being called, thus it is public. The page that loads this one should have it set
 @property (nonatomic, retain) NSString *optionsType; //which type of options (ie resolution, fps, etc.)
 @property (nonatomic, retain) NSMutableArray *optionsAvailableForDevice; // assign to correct model's array of current settings
 
+/* MOVED TO METHODMANAGER 01.04.18 /////
+ 
+// this is the current options settings for device
+@property (nonatomic, retain) NSMutableArray *currentSettings;
+
+*/
 // available - to be set by MM, through the DAO
 @property (nonatomic, retain) NSMutableArray *availableModes;
 @property (nonatomic, retain) NSMutableArray *availableSubModes;

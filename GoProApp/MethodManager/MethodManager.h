@@ -44,6 +44,14 @@
 @property (strong, nonatomic) NSString *buildNumber;
 @property (strong, nonatomic) HeroProtocol *deviceCurrent;
 
+// this is the current options settings for device
+@property (nonatomic, retain) NSMutableArray *currentSettings;
+
+// use for submitting the desired to the DAO
+// needs to be set when app starts and device is set. assign it to current, when current is found out
+@property (strong, nonatomic) NSMutableArray *desiredOptions;
+
+
 + (id)sharedManager;
 
 - (void)assignDeviceManager: (NSObject *)device;
