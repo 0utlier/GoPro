@@ -8,6 +8,8 @@
 
 #import "TLSettingsViewController.h"
 
+// this is the page to use as the options available for the current device's TIME LAPSE settings (ie rsolution, FPS...)
+/*NOTHING GETS STORED HERE. ONLY ASSIGNED*/
 @interface TLSettingsViewController ()
 
 
@@ -22,38 +24,52 @@
  
  */
 
+@property (strong, nonatomic) MethodManager *methodManager;
+
 @end
 
 @implementation TLSettingsViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"TL page did open");
+
+    /*create a methodManager - use sharedDAO*/
+    self.methodManager = [MethodManager sharedManager];
+    [self.methodManager assignDeviceManager:NULL];
+    /*check if it exists, and did not return empty/null*/
+    NSLog(@"device is object %@", self.methodManager.deviceCurrent);
     
+    /*This is where the assignment comes in*/
+    [self assignAvailable];
+//    NSLog(@"TLSettings Page Loading for %@", self.availableFPS);
+    
+    /* in case we need hard code 03.19.18
+     [self makeHardCodeTestData]; */
+    
+    [self delegateForUIPickers];
+    [self labelForUIPickerViews];
+}
+    
+
+-(void) assignAvailable {
+    self.availableFPS = self.methodManager.deviceCurrent.heroDAO.availableFrameRates;
+    self.availableSeconds = self.methodManager.deviceCurrent.heroDAO.availableTLSeconds;
+    
+// hard code this one, as it is up to user
+    self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
+
+}
+
+- (void) makeHardCodeTestData{ // NOT CURRENTLY BEING USED
     // Initialize Data
     self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
     self.availableFPS = [[NSMutableArray alloc]initWithObjects:@"24", @"30", @"60", nil];
     self.availableSeconds = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"3", @"4", @"5", @"6", nil];
 
-    
-    // Connect data for UIPickers
-
-    self.X_Minutes.dataSource = self;
-    self.X_Minutes.delegate = self;
-    
-    self.Y_FPS.dataSource = self;
-    self.Y_FPS.delegate = self;
-    
-    self.Z_Seconds.dataSource = self;
-    self.Z_Seconds.delegate = self;
-    
 }
-    
-    // for TEST PURPOSES
-//    [self createSettingsButton];
 
-
-- (void)createSettingsButton {
+- (void) createSettingsButton {
     UIButton *openToSettings = [UIButton buttonWithType:UIButtonTypeCustom];
     [openToSettings addTarget:self
                        action:@selector(settingsButtonPressed:)
@@ -72,6 +88,88 @@
 }
 
 #pragma mark - UIPickerDelegate
+
+- (void) delegateForUIPickers{
+    // Connect data for UIPickers
+    
+    self.X_Minutes.dataSource = self;
+    self.X_Minutes.delegate = self;
+    
+    self.Y_FPS.dataSource = self;
+    self.Y_FPS.delegate = self;
+    
+    self.Z_Seconds.dataSource = self;
+    self.Z_Seconds.delegate = self;
+    
+}
+
+-(void)labelForUIPickerViews
+{
+    NSString *strSec = @"Seconds";
+    float lblWidth = self.Z_Seconds.frame.size.width / 2;//self.Z_Seconds.numberOfComponents;
+    float lblXposition = self.Z_Seconds.frame.origin.x;
+    float lblYposition = (self.Z_Seconds.frame.origin.y);
+    
+    UILabel *lblSec = [[UILabel alloc] initWithFrame:CGRectMake(lblXposition,
+                                                                lblYposition,
+                                                                lblWidth,
+                                                                100)];
+    [lblSec setText:strSec];
+    [lblSec setTextAlignment:NSTextAlignmentCenter];
+    
+    [self.view addSubview:lblSec];
+
+    NSString *strFPS = @"FPS";
+    float lblWidthFPS = self.Y_FPS.frame.size.width/2;// / self.Y_FPS.numberOfComponents;
+    float lblXpositionFPS = self.Y_FPS.frame.origin.x;
+    float lblYpositionFPS = (self.Y_FPS.frame.origin.y);
+    
+    UILabel *lblFPS = [[UILabel alloc] initWithFrame:CGRectMake(lblXpositionFPS,
+                                                                lblYpositionFPS,
+                                                                lblWidthFPS,
+                                                                100)];
+    [lblFPS setText:strFPS];
+    [lblFPS setTextAlignment:NSTextAlignmentCenter];
+    
+    [self.view addSubview:lblFPS];
+
+    
+    /* // tried adding a label to test against
+NSString *strMinutes = @"Minutes";
+    float lblWidthMin = self.X_Minutes.frame.size.width/2;// / self.Y_FPS.numberOfComponents;
+    float lblXpositionMin = self.X_Minutes.frame.origin.x;
+    float lblYpositionMin = (self.X_Minutes.frame.origin.y);
+    
+    UILabel *lblMin = [[UILabel alloc] initWithFrame:CGRectMake(lblXpositionMin,
+                                                                lblYpositionMin,
+                                                                lblWidthMin,
+                                                                100)];
+    [lblMin setText:strMinutes];
+    [lblMin setTextAlignment:NSTextAlignmentCenter];
+    
+    [self.view addSubview:lblMin];
+
+*/
+}
+
+/*If I want EACH item to have the description following (i.e. 1 minutes, 2 minutes, 3 minutes)
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+    
+    UIView *pickerviewtemp=[[UIView alloc] initWithFrame:CGRectZero];
+
+    UILabel *labelForMinutes=[[UILabel alloc] initWithFrame:CGRectMake(30, 0, 100, 50)];
+    [labelForMinutes setBackgroundColor:[UIColor clearColor]];
+    [labelForMinutes setText:[NSString stringWithFormat:@"%@ Minutes", self.availableMinutes[row]]];
+    [labelForMinutes setFont:[UIFont boldSystemFontOfSize:16]];
+    [pickerviewtemp addSubview:labelForMinutes];
+    
+    return pickerviewtemp;
+    
+}
+
+*/
+
+
 
 // The number of columns of data
 - (int)numberOfComponentsInPickerView:(UIPickerView *)pickerView

@@ -206,6 +206,12 @@
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pe6-kg-cOK">
                                 <rect key="frame" x="250" y="28" width="125" height="216"/>
                             </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minutes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Bv-gh-VQp">
+                                <rect key="frame" x="-2" y="27" width="85" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -215,6 +221,9 @@
                             <constraint firstItem="74L-Iq-e8Y" firstAttribute="top" secondItem="64l-lm-zNC" secondAttribute="bottom" constant="8" id="907-xX-NHT"/>
                             <constraint firstItem="pe6-kg-cOK" firstAttribute="width" secondItem="q1S-Md-erk" secondAttribute="width" multiplier="1:3" id="Cg3-7f-Ve2"/>
                             <constraint firstItem="pe6-kg-cOK" firstAttribute="top" secondItem="64l-lm-zNC" secondAttribute="bottom" constant="8" id="Cu2-Km-O4L"/>
+                            <constraint firstItem="2Bv-gh-VQp" firstAttribute="width" secondItem="hTb-QT-uA8" secondAttribute="width" constant="-40" id="Dqf-AO-T1t"/>
+                            <constraint firstItem="hTb-QT-uA8" firstAttribute="leading" secondItem="2Bv-gh-VQp" secondAttribute="trailing" constant="-83" id="eB3-mP-vN7"/>
+                            <constraint firstItem="hTb-QT-uA8" firstAttribute="top" secondItem="2Bv-gh-VQp" secondAttribute="bottom" constant="-20" id="grS-YD-9kM"/>
                             <constraint firstItem="hTb-QT-uA8" firstAttribute="width" secondItem="q1S-Md-erk" secondAttribute="width" multiplier="1:3" id="kP9-9C-UMD"/>
                             <constraint firstItem="74L-Iq-e8Y" firstAttribute="width" secondItem="q1S-Md-erk" secondAttribute="width" multiplier="1:3" id="suw-Un-3LA"/>
                             <constraint firstItem="pe6-kg-cOK" firstAttribute="leading" secondItem="74L-Iq-e8Y" secondAttribute="trailing" constant="-8" id="vZh-U9-5dF"/>

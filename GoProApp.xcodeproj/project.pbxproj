@@ -117,17 +117,17 @@
 			children = (
 				31A13C6D1FA6C60D0012EC68 /* AppDelegate */,
 				31A13C721FA6CD560012EC68 /* DAO Devices */,
+				319E4FA81FA815CC00A50F57 /* MethodManager */,
 				31A13C711FA6C9220012EC68 /* OptionAssignVC */,
 				31A13C6C1FA6C5FF0012EC68 /* ViewController */,
 				31A13C6B1FA6BFD20012EC68 /* SettingsVC */,
-				31A13C5A1FA6B5860012EC68 /* Main.storyboard */,
+				312BC85C204E312900D4CDC6 /* TLSettingsVC */,
 				31A13C5D1FA6B5860012EC68 /* Assets.xcassets */,
+				31A13C5A1FA6B5860012EC68 /* Main.storyboard */,
 				31A13C5F1FA6B5860012EC68 /* LaunchScreen.storyboard */,
 				31A13C621FA6B5860012EC68 /* Info.plist */,
 				31A13C511FA6B5860012EC68 /* Supporting Files */,
-				319E4FA81FA815CC00A50F57 /* MethodManager */,
 				31718BAE1FFE567100ED5F69 /* PreviewVC */,
-				312BC85C204E312900D4CDC6 /* TLSettingsVC */,
 			);
 			path = GoProApp;
 			sourceTree = "<group>";

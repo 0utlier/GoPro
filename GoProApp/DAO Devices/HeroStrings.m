@@ -10,6 +10,8 @@
 
 @implementation HeroStrings
 
+/* 03.19.18 currently what we're pulling from to assign*/
+
 -(void)createAvailableSettings {
     self.availableModes = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
 //    NSLog(@"The Modes available for this device %@",self.availableModes);
@@ -20,6 +22,9 @@
 
     self.availableFrameRates = [[NSMutableArray alloc]initWithObjects:@"240", @"120", @"100", @"90", @"80", @"60", @"50", @"48", @"30", @"24", nil];
 //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
+
+    self.availableTLSeconds = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"4", @"80", nil];
+    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
 }
 
 

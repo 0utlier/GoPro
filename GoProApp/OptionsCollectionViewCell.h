@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+/* Testing for Cell in OptionsCollectionView*/
+
 @interface OptionsCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
