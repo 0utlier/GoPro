@@ -154,13 +154,11 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark - COLLECTIONVIEW
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete implementation, return the number of sections
     return 1;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of items
     NSUInteger arrayLength = self.optionsAvailableForDevice.count;
 //    arrayLength -= 30;
     NSLog(@"Length of the array = %lu", (unsigned long)arrayLength);
@@ -185,7 +183,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    OptionsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+//    OptionsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
 
     /*print the quality selected*/
     NSString* printMe = [self.optionsAvailableForDevice objectAtIndex:indexPath.row];

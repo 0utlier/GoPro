@@ -23,7 +23,10 @@
     self.availableFrameRates = [[NSMutableArray alloc]initWithObjects:@"240", @"120", @"100", @"90", @"80", @"60", @"50", @"48", @"30", @"24", nil];
 //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
 
-    self.availableTLSeconds = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"4", @"80", nil];
+    self.availableTLIntervals = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"4", @"80", nil];
+    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
+
+    self.availableResolutions = [[NSMutableArray alloc]initWithObjects:@"4K", @"2.7K", @"1080", nil];
     //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
 }
 

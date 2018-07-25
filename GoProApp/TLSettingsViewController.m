@@ -24,7 +24,23 @@
  
  */
 
+
 @property (strong, nonatomic) MethodManager *methodManager;
+
+/*
+ 03.19.18
+ NEXT things to do
+ Set item when other item changed (ie time in seconds affects shooting minutes, effected by interval)
+ Once this happens, add SUBMIT button
+ Try to make the button send the signal to MM to send signal
+ 
+ make 2 buttons: submit and set view
+ if submit hit, start clock timer after sending signal
+ 
+ 07.02.18
+ set up live stream
+ */
+
 
 @end
 
@@ -54,11 +70,14 @@
 
 -(void) assignAvailable {
     self.availableFPS = self.methodManager.deviceCurrent.heroDAO.availableFrameRates;
-    self.availableSeconds = self.methodManager.deviceCurrent.heroDAO.availableTLSeconds;
+    self.availableQuality = self.methodManager.deviceCurrent.heroDAO.availableResolutions;
+    self.availableInterval = self.methodManager.deviceCurrent.heroDAO.availableTLIntervals;
     
-// hard code this one, as it is up to user
-    self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
+// hard code these two, as it is up to user and NOT determined by the GoPro
+    self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // available to shoot
+    self.availableSeconds = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // post after creation
 
+    self.availableSize = [[NSMutableArray alloc]initWithObjects:@"standard", @"wide", nil]; // need to set in protocl and DAO
 }
 
 - (void) makeHardCodeTestData{ // NOT CURRENTLY BEING USED
@@ -101,6 +120,15 @@
     self.Z_Seconds.dataSource = self;
     self.Z_Seconds.delegate = self;
     
+    self.Quality.dataSource = self;
+    self.Quality.delegate = self;
+    
+    self.IntervalExposure.dataSource = self;
+    self.IntervalExposure.delegate = self;
+    
+    self.Size.dataSource = self;
+    self.Size.delegate = self;
+    
 }
 
 -(void)labelForUIPickerViews
@@ -135,6 +163,7 @@
 
     
     /* // tried adding a label to test against
+     
 NSString *strMinutes = @"Minutes";
     float lblWidthMin = self.X_Minutes.frame.size.width/2;// / self.Y_FPS.numberOfComponents;
     float lblXpositionMin = self.X_Minutes.frame.origin.x;
@@ -192,8 +221,20 @@ NSString *strMinutes = @"Minutes";
         return (int)self.availableSeconds.count;
         
     }
+    else if (pickerView == self.Quality) {
+        return (int)self.availableQuality.count;
+        
+    }
+    else if (pickerView == self.IntervalExposure) {
+        return (int)self.availableInterval.count;
+        
+    }
+    else if (pickerView == self.Size) {
+        return (int)self.availableSize.count;
+        
+    }
     else
-    return (int)self.availableMinutes.count;
+        return (int)self.availableMinutes.count;
 }
 
 // The data to return for the row and component (column) that's being passed in
@@ -209,6 +250,18 @@ NSString *strMinutes = @"Minutes";
     }
     else if (pickerView == self.Z_Seconds) {
         return self.availableSeconds[row];
+        
+    }
+    else if (pickerView == self.Quality) {
+        return self.availableQuality[row];
+        
+    }
+    else if (pickerView == self.IntervalExposure) {
+        return self.availableInterval[row];
+        
+    }
+    else if (pickerView == self.Size) {
+        return self.availableSize[row];
         
     }
     else
@@ -230,6 +283,18 @@ NSString *strMinutes = @"Minutes";
     }
     else if (pickerView == self.Z_Seconds) {
         NSLog(@"Seconds set to %@", self.availableSeconds[row]);
+        
+    }
+    else if (pickerView == self.Quality) {
+        NSLog(@"Seconds set to %@", self.availableQuality[row]);
+        
+    }
+    else if (pickerView == self.IntervalExposure) {
+        NSLog(@"Seconds set to %@", self.availableInterval[row]);
+        
+    }
+    else if (pickerView == self.Size) {
+        NSLog(@"Seconds set to %@", self.availableSize[row]);
         
     }
     else

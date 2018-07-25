@@ -14,7 +14,7 @@
     // should start at grey and then highlight color for given OPTION type
     self.backgroundColor = [UIColor orangeColor];
     self.textLabel.textColor = [UIColor blackColor];
-    
+    [super awakeFromNib];
 }
 
 @end

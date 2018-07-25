@@ -51,6 +51,7 @@
     
 }
 
+/*
 -(void)assignSlices {
     self.screenSize = self.view.bounds.size;
     
@@ -108,6 +109,7 @@
     [self.view addSubview:self.bottom];
 }
 
+*/
 - (void)makeHardCodeTestData {
     self.availableModesForHero4 = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
     NSLog(@"%@", self.availableModesForHero4);

@@ -21,6 +21,7 @@
 		31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C691FA6BFCC0012EC68 /* SettingsViewController.m */; };
 		31A13C701FA6C91C0012EC68 /* OptionAssignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C6F1FA6C91C0012EC68 /* OptionAssignViewController.m */; };
 		31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C771FA6CFCF0012EC68 /* MethodManager.m */; };
+		31C2871D20EB13DB00259049 /* StreamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C2871C20EB13DB00259049 /* StreamViewController.m */; };
 		31C82C141FBA6E0C007799F9 /* HeroProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C82C131FBA6E0C007799F9 /* HeroProtocol.m */; };
 		31EB9C9C1FBFDD5C00B1D07D /* HeroStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,8 @@
 		31A13C6F1FA6C91C0012EC68 /* OptionAssignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionAssignViewController.m; sourceTree = "<group>"; };
 		31A13C761FA6CFCF0012EC68 /* MethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodManager.h; sourceTree = "<group>"; };
 		31A13C771FA6CFCF0012EC68 /* MethodManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodManager.m; sourceTree = "<group>"; };
+		31C2871B20EB13DB00259049 /* StreamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamViewController.h; sourceTree = "<group>"; };
+		31C2871C20EB13DB00259049 /* StreamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamViewController.m; sourceTree = "<group>"; };
 		31C82C121FBA6E0C007799F9 /* HeroProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeroProtocol.h; path = "DAO Devices/HeroProtocol.h"; sourceTree = "<group>"; };
 		31C82C131FBA6E0C007799F9 /* HeroProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeroProtocol.m; path = "DAO Devices/HeroProtocol.m"; sourceTree = "<group>"; };
 		31EB9C9A1FBFDD5C00B1D07D /* HeroStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeroStrings.h; path = "DAO Devices/HeroStrings.h"; sourceTree = "<group>"; };
@@ -122,8 +125,9 @@
 				31A13C6C1FA6C5FF0012EC68 /* ViewController */,
 				31A13C6B1FA6BFD20012EC68 /* SettingsVC */,
 				312BC85C204E312900D4CDC6 /* TLSettingsVC */,
-				31A13C5D1FA6B5860012EC68 /* Assets.xcassets */,
+				31C2871E20EB13F400259049 /* StreamVC */,
 				31A13C5A1FA6B5860012EC68 /* Main.storyboard */,
+				31A13C5D1FA6B5860012EC68 /* Assets.xcassets */,
 				31A13C5F1FA6B5860012EC68 /* LaunchScreen.storyboard */,
 				31A13C621FA6B5860012EC68 /* Info.plist */,
 				31A13C511FA6B5860012EC68 /* Supporting Files */,
@@ -191,6 +195,15 @@
 				31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */,
 			);
 			name = "DAO Devices";
+			sourceTree = "<group>";
+		};
+		31C2871E20EB13F400259049 /* StreamVC */ = {
+			isa = PBXGroup;
+			children = (
+				31C2871B20EB13DB00259049 /* StreamViewController.h */,
+				31C2871C20EB13DB00259049 /* StreamViewController.m */,
+			);
+			name = StreamVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,6 +288,7 @@
 				31A13C531FA6B5860012EC68 /* main.m in Sources */,
 				31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */,
 				31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */,
+				31C2871D20EB13DB00259049 /* StreamViewController.m in Sources */,
 				31A13C701FA6C91C0012EC68 /* OptionAssignViewController.m in Sources */,
 				317384991FE36FF500C2B6CE /* OptionsCollectionViewController.m in Sources */,
 				31718BAD1FFE55CC00ED5F69 /* PreviewViewController.m in Sources */,

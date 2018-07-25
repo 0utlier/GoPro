@@ -52,10 +52,9 @@
 @property (nonatomic, retain) NSMutableArray *availableSubModes;
 @property (nonatomic, retain) NSMutableArray *availableResolutions;
 @property (nonatomic, retain) NSMutableArray *availableFrameRates;
-@property (nonatomic, retain) NSMutableArray *availableTLSeconds;
-/*
- @property (nonatomic, retain) NSMutableArray *availableIntervals;
- */
+//@property (nonatomic, retain) NSMutableArray *availableTLSeconds; // think I meant intervals
+@property (nonatomic, retain) NSMutableArray *availableTLIntervals;
+@property (nonatomic, retain) NSMutableArray *availableTLExposure;
 
 
 

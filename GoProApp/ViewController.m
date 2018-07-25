@@ -19,6 +19,7 @@
     NSLog(@"Oh boy is it good to be back in Objective-C");
     [self createTimeLapseButton];
     [self createSettingsButton];
+    [self createStreamButton];
     [self createTESTButton];
 }
 
@@ -61,6 +62,24 @@
     
 }
 
+- (void)createStreamButton {
+    UIButton *openToStream = [UIButton buttonWithType:UIButtonTypeCustom];
+    [openToStream addTarget:self
+                       action:@selector(streamButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
+    [openToStream setTitle:@"Show Stream" forState:UIControlStateNormal];
+    openToStream.frame = CGRectMake(80.0, 310.0, 160.0, 40.0);
+    openToStream.backgroundColor = [UIColor redColor];
+    [self.view addSubview:openToStream];
+}
+
+- (void)streamButtonPressed:(UIButton *)openToStream {
+    NSLog(@"works, opening stream page");
+    UIViewController *streamController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"StreamViewController"];
+    [self presentViewController:streamController animated:YES completion:nil];
+    
+}
+
 // this is a test button currently sends GoPro power off signal 03.05.18
 - (void)createTESTButton {
     UIButton *openToSettings = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -75,9 +94,10 @@
 
 -(void)testButtonPressed:(UIButton *)openToSettings {
 // powerDeviceOn
-    NSLog(@"power off please");
+    NSLog(@"power off please dfgdfvfdfdgdf");
     
-    NSURL *url = [[NSURL alloc]initWithString:@"http://10.5.5.9/bacpac/PW?t=inbinary&p=%01"];
+//    NSURL *url = [[NSURL alloc]initWithString:@"http://10.5.5.9/bacpac/PW?t=inbinary&p=%01"];
+    NSURL *url = [[NSURL alloc]initWithString:@"http://10.5.5.9/gp/gpControl/command/system/sleep"];
     //type your URL you can use initWithFormat for placeholders
     NSURLSession *session = [NSURLSession sharedSession];  //use NSURLSession class
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];

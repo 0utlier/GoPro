@@ -14,11 +14,18 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *X_Minutes;
 @property (weak, nonatomic) IBOutlet UIPickerView *Y_FPS;
 @property (weak, nonatomic) IBOutlet UIPickerView *Z_Seconds;
+@property (weak, nonatomic) IBOutlet UIPickerView *Quality;
+@property (weak, nonatomic) IBOutlet UIPickerView *IntervalExposure;
+@property (weak, nonatomic) IBOutlet UIPickerView *Size;
 
 // available - to be set by MM, through the DAO
 @property (nonatomic, retain) NSMutableArray *availableMinutes;
 @property (nonatomic, retain) NSMutableArray *availableFPS;
 @property (nonatomic, retain) NSMutableArray *availableSeconds;
+@property (nonatomic, retain) NSMutableArray *availableQuality;
+@property (nonatomic, retain) NSMutableArray *availableInterval;
+@property (nonatomic, retain) NSMutableArray *availableExposure;
+@property (nonatomic, retain) NSMutableArray *availableSize;
 
 // desired - to be set in TLSettings and sent to Method Manager
 @property (nonatomic, retain) NSString *desiredMode;
