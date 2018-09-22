@@ -13,16 +13,40 @@
 @implementation MethodManager
 
 #pragma mark - BOOLS
+// these BOOLS are meant to track certain binaries in the app, to ensure it reflects the given information. explanations below the BOOLs will help to understand each intention
+
+/*09.17.18 added, but have not used any of these in code yet*/
 
 BOOL shooting; // shooting or  (NO = 0 = Silent)
+BOOL connected; // connected or  (NO = 0 = no connection found)
+BOOL power; // deviceOn or  (NO = 0 = deviceOff)
+BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 
 /*
  shooting 11.18.17
  created in MM
  [not initialized, but assumed NO]
- VC VWA if, set NO
+ meant to be in: VC VWA if, set NO : not there yet
+ 
+ connected 09.17.18
+ created in MM
+ [not initialized, but assumed NO]
+ a light to signify to the user that the gopro is actually still connected to the app
+ this may want to have a "check" every given amount of time
+ also when this changes, save all information from current use. last used setting. date stamp [for last used]?
+ 
+ power 09.17.18
+ created in MM
+ [not initialized, but assumed NO]
+ connected, but powered down
+ 
+ streaming 09.17.18
+ created in MM
+ [not initialized, but assumed NO]
+ meant to be in: VC VWA if, set NO : not there yet
  
  */
+
 
 #pragma mark - Singleton Methods
 + (id)sharedManager {

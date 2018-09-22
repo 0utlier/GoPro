@@ -10,7 +10,7 @@
 #import "HeroProtocol.h"
 
 /*This is the Device Manager for the GoPro Hero TESTING
- All of the
+ All of the:
  Calls
  Properties
  Information pertaining directly and specifically to this device*/
@@ -50,8 +50,7 @@
 @property (nonatomic, retain) NSMutableArray *availableSubModes;
 @property (nonatomic, retain) NSMutableArray *availableResolutions;
 @property (nonatomic, retain) NSMutableArray *availableFrameRates;
-//@property (nonatomic, retain) NSMutableArray *availableTLSeconds; // think I meant intervals
-@property (nonatomic, retain) NSMutableArray *availableTLIntervals;
+//@property (nonatomic, retain) NSMutableArray *availableTLIntervals;
 @property (nonatomic, retain) NSMutableArray *availableTLExposure;
 
 

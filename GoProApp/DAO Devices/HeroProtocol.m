@@ -10,6 +10,8 @@
 
 @implementation HeroProtocol
 
+// list of the calls that need to be made
+
 - (void)createAvailableSettings{}
 
 #pragma mark - POWER & SHUTTER
