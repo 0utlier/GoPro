@@ -65,39 +65,61 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 }
 
 
+
 #pragma mark - TEST CODE
 //(Move to startUpApp method)
 
-- (void)assignDeviceManager: (NSObject *)device/*(*UIViewController or whatever to pass in right one)*/ {
+- (void)assignDeviceManager: (NSString *)device/*(*UIViewController or whatever to pass in right one)*/ {
+    // allocate the public property
+    self.deviceCurrent = [[HeroProtocol alloc]init];
+    //    Hero3 *hero3 = [[Hero3 alloc]init];
+    
+    // set object to correct hero, using "if then" and then from there, use the DAO to your will
     /*
      create an instance of H4
      create an instance of H3, etc.
      */
     
-    //    HeroProtocol *deviceCurrent = [[HeroProtocol alloc]init];
-    self.deviceCurrent = [[HeroProtocol alloc]init]; // allocate the public property
-    //    Hero3 *hero3 = [[Hero3 alloc]init];
-    Hero4 *hero4 = [[Hero4 alloc]init];
-    HeroStrings *heroStrings = [[HeroStrings alloc]init];
-    ;
+    if ([device isEqual:@"HeroStrings"])
+        [self creationOfHeroStrings];
+    else if ([device isEqual:@"Hero4"])
+        [self creationOfHero4];
+    else
+        NSLog(@"No GoPro was selected");
     
+    
+    [self.deviceCurrent.heroDAO createAvailableSettings]; // sets the values of all available options for given Hero model
+    NSLog(@"Current modes available %@", self.deviceCurrent.heroDAO.availableModes);
+    [self.deviceCurrent.heroDAO powerOn];
+    
+    
+    
+}
+
+
+- (void) justSomeOfTheCallsThatCanBeMade {
     //    deviceCurrent.heroDAO = hero3;
-    self.deviceCurrent.heroDAO = hero4;
+    //     self.deviceCurrent.heroDAO = hero4;
     [self.deviceCurrent.heroDAO powerOn];
     [self.deviceCurrent.heroDAO powerOff];
     
     [self.deviceCurrent.heroDAO shutterOn];
     [self.deviceCurrent.heroDAO shutterOff];
     
-    self.deviceCurrent.heroDAO = heroStrings;
+    //     self.deviceCurrent.heroDAO = heroStrings;
     [self.deviceCurrent.heroDAO powerOn];
     [self.deviceCurrent.heroDAO powerOff];
     
     [self.deviceCurrent.heroDAO shutterOn];
     [self.deviceCurrent.heroDAO shutterOff];
     
-    NSLog(@"this device is %@", self.deviceCurrent);
-    [self.deviceCurrent.heroDAO createAvailableSettings];
+    
+    // setting the current device to strings HARD CODE
+    //     self.deviceCurrent.heroDAO = heroStrings;
+    NSLog(@"the hero is currently strings");
+    
+    
+    //    NSLog(@"this device is %@", self.deviceCurrent); // this is to check when using it throughout app, to ensure it is still same object
     
     /*
      NSLog(@"this device's available modes = \n %@", self.deviceCurrent.heroDAO.availableModes);
@@ -105,7 +127,6 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
      NSLog(@"this device's available frameRates = \n %@", self.deviceCurrent.heroDAO.availableFrameRates);
      
      */
-    
 }
 
 #pragma mark - START UP
@@ -162,6 +183,19 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
         //works asynchronously i think
     }];
     [task resume]; // to start the download task
+}
+
+#pragma mark - CREATE HERO
+- (void) creationOfHeroStrings {
+    self.HeroStrings = [HeroStrings sharedDAO];
+    //    self.HeroStrings = [[HeroStrings alloc]init];
+    self.deviceCurrent.heroDAO = self.HeroStrings;
+}
+
+- (void) creationOfHero4 {
+    self.Hero4 = [Hero4 sharedDAO];
+    //    self.Hero4 = [[Hero4 alloc]init];
+    self.deviceCurrent.heroDAO = self.Hero4;
 }
 
 

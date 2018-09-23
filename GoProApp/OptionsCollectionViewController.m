@@ -42,8 +42,10 @@ static NSString * const reuseIdentifier = @"Cell";
     /*assign buttons to correct OPTION (i.e. modes,subModes,FR, Res) */
 //    [self createButtons];
     
-    self.methodManager.desiredOptions = self.optionsAvailableForDevice;
-	   
+/* please add back when settingsDesired is a real thing 09.22.18
+ self.methodManager.settingsDesired = self.optionsAvailableForDevice;
+
+ */
 
     
     // FOLLOWING is specific to CollectionView:

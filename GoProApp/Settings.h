@@ -5,14 +5,17 @@
 //  Created by JDSL on 9/22/18.
 //  Copyright © 2018 JD Leonard. All rights reserved.
 //
+
 /* the Settings Object is to define all of the types of options that a GoPro can have
  it will travel throughout the app [thanks to the Method Manager] to define the following SettingTypes:*/
+
 /*
  *Current = when GoPro is turned on and connected, the values currently set [usually will be default]
  *Available = depending on the GoPro, there will be different options to choose from (e.g. older GoPros do not have 1080p 240fps)
  *Desired = the user will choose from the available options and this will retain that information, then send HTTP calls to set the GoPro. Followed by setting the Current values as well.
  *Last Used = This is optional and lower priority, but this is for the user to access the "latest used settings" in case they want to quickly return after a new shot, or when they turn it back on
  */
+
 #import <Foundation/Foundation.h>
 
 @interface Settings : NSObject

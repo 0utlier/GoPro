@@ -24,6 +24,7 @@
 		31C2871D20EB13DB00259049 /* StreamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C2871C20EB13DB00259049 /* StreamViewController.m */; };
 		31C82C141FBA6E0C007799F9 /* HeroProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C82C131FBA6E0C007799F9 /* HeroProtocol.m */; };
 		31EB9C9C1FBFDD5C00B1D07D /* HeroStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */; };
+		433C200721574FB900C436BC /* MethodManager.h in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C761FA6CFCF0012EC68 /* MethodManager.h */; };
 		43DBCB2A2156DEB400DBDD42 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DBCB292156DEB400DBDD42 /* Settings.m */; };
 /* End PBXBuildFile section */
 
@@ -291,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				433C200721574FB900C436BC /* MethodManager.h in Sources */,
 				312BC85B204E312100D4CDC6 /* TLSettingsViewController.m in Sources */,
 				31A13C591FA6B5860012EC68 /* ViewController.m in Sources */,
 				43DBCB2A2156DEB400DBDD42 /* Settings.m in Sources */,

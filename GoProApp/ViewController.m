@@ -10,6 +10,9 @@
 
 @interface ViewController ()
 
+// MethodManager property
+@property (strong, nonatomic) MethodManager *methodManager;
+
 @end
 
 @implementation ViewController
@@ -17,10 +20,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"Oh boy is it good to be back in Objective-C");
+    // create a reference to the MethodManager
+    self.methodManager = [MethodManager sharedManager];
+    
     [self createTimeLapseButton];
     [self createSettingsButton];
     [self createStreamButton];
     [self createTESTButton];
+    [self createConnectButton];
+    
+    
 }
 
 #pragma mark - BUTTON CREATION
@@ -29,8 +38,8 @@
 - (void)createTimeLapseButton {
     UIButton *openToTimeLapse = [UIButton buttonWithType:UIButtonTypeCustom];
     [openToTimeLapse addTarget:self
-                       action:@selector(timeLapseButtonPressed:)
-             forControlEvents:UIControlEventTouchUpInside];
+                        action:@selector(timeLapseButtonPressed:)
+              forControlEvents:UIControlEventTouchUpInside];
     [openToTimeLapse setTitle:@"Show TimeLapse" forState:UIControlStateNormal];
     openToTimeLapse.frame = CGRectMake(80.0, 110.0, 160.0, 40.0);
     openToTimeLapse.backgroundColor = [UIColor greenColor];
@@ -65,8 +74,8 @@
 - (void)createStreamButton {
     UIButton *openToStream = [UIButton buttonWithType:UIButtonTypeCustom];
     [openToStream addTarget:self
-                       action:@selector(streamButtonPressed:)
-             forControlEvents:UIControlEventTouchUpInside];
+                     action:@selector(streamButtonPressed:)
+           forControlEvents:UIControlEventTouchUpInside];
     [openToStream setTitle:@"Show Stream" forState:UIControlStateNormal];
     openToStream.frame = CGRectMake(80.0, 310.0, 160.0, 40.0);
     openToStream.backgroundColor = [UIColor redColor];
@@ -93,10 +102,10 @@
 }
 
 -(void)testButtonPressed:(UIButton *)openToSettings {
-// powerDeviceOn
+    // powerDeviceOn
     NSLog(@"power off please dfgdfvfdfdgdf");
     
-//    NSURL *url = [[NSURL alloc]initWithString:@"http://10.5.5.9/bacpac/PW?t=inbinary&p=%01"];
+    //    NSURL *url = [[NSURL alloc]initWithString:@"http://10.5.5.9/bacpac/PW?t=inbinary&p=%01"];
     NSURL *url = [[NSURL alloc]initWithString:@"http://10.5.5.9/gp/gpControl/command/system/sleep"];
     //type your URL you can use initWithFormat for placeholders
     NSURLSession *session = [NSURLSession sharedSession];  //use NSURLSession class
@@ -110,15 +119,43 @@
         //works asynchronously i think
     }];
     [task resume]; // to start the download task
-
     
+    
+    
+}
 
+// this is a test button to currently connect GoPro STRINGS to 09.22.18
+- (void)createConnectButton {
+    UIButton *connectStrings = [UIButton buttonWithType:UIButtonTypeCustom];
+    [connectStrings addTarget:self
+                       action:@selector(connectButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
+    [connectStrings setTitle:@"connect" forState:UIControlStateNormal];
+    connectStrings.frame = CGRectMake(240.0, 40.0, 80.0, 40.0);
+    connectStrings.backgroundColor = [UIColor greenColor];
+    [self.view addSubview:connectStrings];
+}
+
+// this will be method to grab which GoPro is connected, to assign to the MethodManager and thus DAO
+-(void)connectButtonPressed:(UIButton *)openToSettings {
+    // connect MM to the correct DAO
+    NSLog(@"connect MM to the correct DAO");
+    // Assign the MM's currentString which GoPro Model
+    self.methodManager.gpCurrent = [[NSString alloc]init];
+    self.methodManager.gpCurrent = @"HeroStrings";
+    // device will be selected from given connection
+    [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
+    self.methodManager.gpCurrent = @"Hero4";
+    [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
+    self.methodManager.gpCurrent = @"NothingTestFail";
+    [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
+    
 }
 
 
 
 
-    
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

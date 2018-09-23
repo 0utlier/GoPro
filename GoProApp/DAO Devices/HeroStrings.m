@@ -10,7 +10,7 @@
 
 @implementation HeroStrings
 
-/* 03.19.18 currently what we're pulling from to assign*/
+/* 03.19.18 09.22.18 currently what we're pulling from to assign*/
 
 -(void)createAvailableSettings {
     self.availableModes = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
