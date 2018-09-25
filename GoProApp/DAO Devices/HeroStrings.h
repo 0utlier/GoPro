@@ -18,6 +18,7 @@
 @interface HeroStrings : NSObject <HeroDAO>
 
 + (instancetype)sharedDAO;
+- (void)createAvailableSettings;
 
 #pragma mark - POWER
 - (void)powerOn;

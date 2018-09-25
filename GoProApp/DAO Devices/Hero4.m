@@ -10,10 +10,6 @@
 
 @implementation Hero4
 
--(void)createAvailableSettings {
-    //assign the arrays
-}
-
 #pragma mark - POWER & SHUTTER
 //power
 -(void)powerOn {
@@ -53,6 +49,31 @@
 - (void)subMulBurst{}
 - (void)subMulTimeLapse{}
 - (void)subMulNightLapse{}
+
+
+-(void)createAvailableSettings {
+    self.availableModes = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
+    //    NSLog(@"The Modes available for this device %@",self.availableModes);
+    
+    self.availableSubModes = [[NSMutableArray alloc]initWithObjects:@"vidVideo", @"vidTimeLapse", @"vidAndPhoto", @"vidLooping", nil];
+    //    NSLog(@"The subModes available for this device %@",self.availableSubModes);
+    
+    
+    self.availableFrameRates = [[NSMutableArray alloc]initWithObjects:@"240", @"120", @"100", @"90", @"80", @"60", @"50", @"48", @"30", @"24", nil];
+    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
+    
+    self.availableTLIntervals = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"4", @"80", nil];
+    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
+    
+    self.availableResolutions = [[NSMutableArray alloc]initWithObjects:@"4K", @"2.7K", @"1080", nil];
+    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
+}
+- (void)assignCurrentSettings { 
+    NSLog(@"get the JSON");
+
+}
+
+
 
 
 -(void)printCurrentURL {

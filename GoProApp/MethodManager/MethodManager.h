@@ -18,6 +18,8 @@
 #import "Hero4.h"
 #import "HeroStrings.h"
 
+#import "Settings.h"
+
 @interface MethodManager : NSObject
 
 
@@ -52,12 +54,19 @@
 @property (strong, nonatomic) Hero4 *Hero4;
 //@property (strong, nonatomic) Hero3 *Hero3;
 
+// create a settings property for current and desired, accesible anywhere in the app
+@property (strong, nonatomic) Settings *settingsCurrent;
+@property (strong, nonatomic) Settings *settingsDesired;
+
 //calls
 
 /*This is for the MethodManager to have a singleton - very important*/
 + (id)sharedManager;
 
 - (void)assignDeviceManager: (NSObject *)device;
+- (void)SetMode: (NSString *)mode;
+- (void)SetSubMode: (NSString *)subMode;
+- (void)SetQuality: (NSString *)quality;
 
 
 

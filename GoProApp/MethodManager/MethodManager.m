@@ -48,21 +48,6 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
  */
 
 
-#pragma mark - Singleton Methods
-+ (id)sharedManager {
-    static MethodManager *sharedMyManager = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedMyManager = [[self alloc] init];
-    });
-    return sharedMyManager;
-}
-
-- (id)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
 
 
 
@@ -89,11 +74,20 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     
     
     [self.deviceCurrent.heroDAO createAvailableSettings]; // sets the values of all available options for given Hero model
-    NSLog(@"Current modes available %@", self.deviceCurrent.heroDAO.availableModes);
+    NSLog(@"Device's modes available %@", self.deviceCurrent.heroDAO.availableModes);
     [self.deviceCurrent.heroDAO powerOn];
     
+    // allocated the settingsCurrent, so that it exists
+    self.settingsCurrent = [[Settings alloc]init];
+    // Gather all current settings from GoPro [via DAO?] and assign the values
+    [self.deviceCurrent.heroDAO assignCurrentSettings];
+    self.settingsCurrent.mode = @"vid";
+    self.settingsCurrent.subMode = @"vidTL";
+    self.settingsCurrent.quality = @"4K";
     
-    
+// allocated the settingsDesired, so that it exists
+    self.settingsDesired = [[Settings alloc]init];
+
 }
 
 
@@ -128,6 +122,52 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
      
      */
 }
+
+#pragma mark - Submitting Values to DAO
+
+
+- (void)SetMode:(NSString *)mode {
+    // here is the check and send to DAO
+    if ([mode isEqualToString:self.settingsCurrent.mode]) {
+        NSLog(@"SAME MODE, PASS");
+
+    }
+    else {
+        NSLog(@"user chose %@, assign through DAO", mode);
+        NSLog(@"mode: %@", self.settingsCurrent.mode);
+        [self.deviceCurrent.heroDAO modeVideo];
+
+
+    }
+}
+- (void)SetSubMode:(NSString *)subMode {
+    // here is the check and send to DAO
+    if ([subMode isEqualToString:self.settingsCurrent.subMode]) {
+        NSLog(@"SAME SUBMODE, PASS");
+        
+    }
+    else {
+        NSLog(@"user chose %@, assign through DAO", subMode);
+        NSLog(@"subm: %@", self.settingsCurrent.subMode);
+
+    }
+    
+}
+    
+- (void)SetQuality:(NSString *)quality {
+    // here is the check and send to DAO
+    if ([quality isEqualToString:self.settingsCurrent.quality]) {
+        NSLog(@"SAME QUALITY, PASS");
+        
+    }
+    else {
+        NSLog(@"user chose %@, assign through DAO", quality);
+        NSLog(@"qual: %@", self.settingsCurrent.quality);
+
+    }
+    
+}
+
 
 #pragma mark - START UP
 
@@ -198,6 +238,21 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     self.deviceCurrent.heroDAO = self.Hero4;
 }
 
+#pragma mark - Singleton Methods
++ (id)sharedManager {
+    static MethodManager *sharedMyManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedMyManager = [[self alloc] init];
+    });
+    return sharedMyManager;
+}
+
+- (id)init {
+    if (self = [super init]) {
+    }
+    return self;
+}
 
 
 @end

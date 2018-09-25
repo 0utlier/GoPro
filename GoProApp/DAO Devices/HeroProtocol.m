@@ -12,7 +12,7 @@
 
 // list of the calls that need to be made
 
-- (void)createAvailableSettings{}
+//- (void)createAvailableSettings{}
 
 #pragma mark - POWER & SHUTTER
 - (void)powerOn{}

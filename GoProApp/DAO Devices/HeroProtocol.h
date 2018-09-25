@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Settings.h"
 /*This is the Device Manager for the GoPro Hero
  All of the
  Calls
@@ -19,7 +20,6 @@
 
 @required
 
-- (void)createAvailableSettings;
 
 #pragma mark - POWER & SHUTTER
 - (void)powerOn;
@@ -47,6 +47,14 @@
 - (void)subMulTimeLapse;
 - (void)subMulNightLapse;
 
+// get status from call to GoPro - JSON is returned. Either return the JSON or convert to proper information
+- (void)assignCurrentSettings;
+
+// list the available settings for current device
+- (void)createAvailableSettings;
+
+
+
 #pragma mark - AVAILABLE
 @property (nonatomic, retain) NSMutableArray *availableModes;
 @property (nonatomic, retain) NSMutableArray *availableSubModes;
@@ -54,8 +62,6 @@
 @property (nonatomic, retain) NSMutableArray *availableFrameRates;
 @property (nonatomic, retain) NSMutableArray *availableTLIntervals;
 @property (nonatomic, retain) NSMutableArray *availableTLExposure;
-
-
 
 
 

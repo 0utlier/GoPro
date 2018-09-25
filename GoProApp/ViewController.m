@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+/* This is just for opening page use, to point to next pages, test buttons,etc.*/
 
 @interface ViewController ()
 
@@ -120,7 +121,17 @@
     }];
     [task resume]; // to start the download task
     
+    // test code: self.methodManager.settingsCurrent.mode = @"photo";
+    //    if the settingsCurrent is set, then submit to change with these values
     
+    self.methodManager.settingsDesired.mode = @"vid";
+    self.methodManager.settingsDesired.subMode = @"vidTL";
+    self.methodManager.settingsDesired.quality = @"1080p";
+    //    to check if it is what is expected: NSLog(@"%@", self.methodManager.settingsCurrent.mode);
+    
+    [self.methodManager SetMode:self.methodManager.settingsDesired.mode];
+    [self.methodManager SetSubMode:self.methodManager.settingsDesired.subMode];
+    [self.methodManager SetQuality:self.methodManager.settingsDesired.quality];
     
 }
 
@@ -139,20 +150,20 @@
 // this will be method to grab which GoPro is connected, to assign to the MethodManager and thus DAO
 -(void)connectButtonPressed:(UIButton *)openToSettings {
     // connect MM to the correct DAO
-    NSLog(@"connect MM to the correct DAO");
     // Assign the MM's currentString which GoPro Model
     self.methodManager.gpCurrent = [[NSString alloc]init];
     self.methodManager.gpCurrent = @"HeroStrings";
+    NSLog(@"connected MM to the correct DAO [%@]", self.methodManager.gpCurrent);
     // device will be selected from given connection
     [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
-    self.methodManager.gpCurrent = @"Hero4";
-    [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
-    self.methodManager.gpCurrent = @"NothingTestFail";
-    [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
     
+    /* // testing to change to different gopro
+     self.methodManager.gpCurrent = @"Hero4";
+     [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
+     self.methodManager.gpCurrent = @"NothingTestFail";
+     [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
+     */
 }
-
-
 
 
 

@@ -10,7 +10,7 @@
 #import "HeroProtocol.h"
 
 /*This is the Device Manager for the GoPro Hero 4 Black
- All of the
+ All of the:
  Calls
  Properties
  Information pertaining directly and specifically to this device*/
