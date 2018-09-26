@@ -29,7 +29,8 @@
     [self createStreamButton];
     [self createTESTButton];
     [self createConnectButton];
-    
+    [self createSetDesiredButton];
+
     
 }
 
@@ -102,36 +103,7 @@
     [self.view addSubview:openToSettings];
 }
 
--(void)testButtonPressed:(UIButton *)openToSettings {
-    // powerDeviceOn
-    NSLog(@"power off please dfgdfvfdfdgdf");
-    
-    //    NSURL *url = [[NSURL alloc]initWithString:@"http://10.5.5.9/bacpac/PW?t=inbinary&p=%01"];
-    NSURL *url = [[NSURL alloc]initWithString:@"http://10.5.5.9/gp/gpControl/command/system/sleep"];
-    //type your URL you can use initWithFormat for placeholders
-    NSURLSession *session = [NSURLSession sharedSession];  //use NSURLSession class
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
-    //You then can use NSURLSessionDownloadTask or NSURLSessionUploadTask
-    
-    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-        //note that your requested data are stored on the disk automatic
-        //if u need to retrieve your data use the location parameter not the response parameter
-        //as it stores the location of ur retrieved data that was saved on the disk
-        //works asynchronously i think
-    }];
-    [task resume]; // to start the download task
-    
-    // test code: self.methodManager.settingsCurrent.mode = @"photo";
-    //    if the settingsCurrent is set, then submit to change with these values
-    
-    self.methodManager.settingsDesired.mode = @"vid";
-    self.methodManager.settingsDesired.subMode = @"vidTL";
-    self.methodManager.settingsDesired.quality = @"1080p";
-    //    to check if it is what is expected: NSLog(@"%@", self.methodManager.settingsCurrent.mode);
-    
-    [self.methodManager SetMode:self.methodManager.settingsDesired.mode];
-    [self.methodManager SetSubMode:self.methodManager.settingsDesired.subMode];
-    [self.methodManager SetQuality:self.methodManager.settingsDesired.quality];
+-(void)testButtonPressed:(UIButton *)submitTestCode {
     
 }
 
@@ -148,7 +120,7 @@
 }
 
 // this will be method to grab which GoPro is connected, to assign to the MethodManager and thus DAO
--(void)connectButtonPressed:(UIButton *)openToSettings {
+-(void)connectButtonPressed:(UIButton *)connectToDevice {
     // connect MM to the correct DAO
     // Assign the MM's currentString which GoPro Model
     self.methodManager.gpCurrent = [[NSString alloc]init];
@@ -165,13 +137,60 @@
      */
 }
 
+// this is a test button to set the desired settings for the GoPro 09.25.18
+- (void)createSetDesiredButton {
+    UIButton *setDesired = [UIButton buttonWithType:UIButtonTypeCustom];
+    [setDesired addTarget:self
+                       action:@selector(setDesiredButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
+    [setDesired setTitle:@"SetDesir" forState:UIControlStateNormal];
+    setDesired.frame = CGRectMake(240.0, 160.0, 80.0, 40.0);
+    setDesired.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:setDesired];
+}
 
+// this will be method to grab which GoPro is connected, to assign to the MethodManager and thus DAO
+-(void)setDesiredButtonPressed:(UIButton *)setDesired {
+    
+    // test code: self.methodManager.settingsCurrent.mode = @"photo";
+    //    if the settingsCurrent is set, then submit to change with these values
+    
+    self.methodManager.settingsDesired.mode = @"vid";
+    self.methodManager.settingsDesired.subMode = @"vidTL";
+    self.methodManager.settingsDesired.quality = @"1080p";
+    //    to check if it is what is expected: NSLog(@"%@", self.methodManager.settingsCurrent.mode);
+    
+    [self.methodManager SetMode:self.methodManager.settingsDesired.mode];
+    [self.methodManager SetSubMode:self.methodManager.settingsDesired.subMode];
+    [self.methodManager SetQuality:self.methodManager.settingsDesired.quality];
+    
+}
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+/* // code pulled from test. unsused 9.25.18
+ // powerDeviceOn
+ NSLog(@"power off please dfgdfvfdfdgdf");
+ 
+ //    NSURL *url = [[NSURL alloc]initWithString:@"http://10.5.5.9/bacpac/PW?t=inbinary&p=%01"];
+ NSURL *url = [[NSURL alloc]initWithString:@"http://10.5.5.9/gp/gpControl/command/system/sleep"];
+ //type your URL you can use initWithFormat for placeholders
+ NSURLSession *session = [NSURLSession sharedSession];  //use NSURLSession class
+ NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+ //You then can use NSURLSessionDownloadTask or NSURLSessionUploadTask
+ 
+ NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+ //note that your requested data are stored on the disk automatic
+ //if u need to retrieve your data use the location parameter not the response parameter
+ //as it stores the location of ur retrieved data that was saved on the disk
+ //works asynchronously i think
+ }];
+ [task resume]; // to start the download task
+ */
 
 
 @end

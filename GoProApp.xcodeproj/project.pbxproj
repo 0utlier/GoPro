@@ -31,8 +31,8 @@
 /* Begin PBXFileReference section */
 		312BC859204E312100D4CDC6 /* TLSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLSettingsViewController.h; sourceTree = "<group>"; };
 		312BC85A204E312100D4CDC6 /* TLSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLSettingsViewController.m; sourceTree = "<group>"; };
-		315667991FB68B660006C2FA /* Hero4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hero4.h; path = "DAO Devices/Hero4.h"; sourceTree = "<group>"; };
-		3156679A1FB68B660006C2FA /* Hero4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero4.m; path = "DAO Devices/Hero4.m"; sourceTree = "<group>"; };
+		315667991FB68B660006C2FA /* Hero4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hero4.h; path = DAODevices/Hero4.h; sourceTree = "<group>"; };
+		3156679A1FB68B660006C2FA /* Hero4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero4.m; path = DAODevices/Hero4.m; sourceTree = "<group>"; };
 		31718BAB1FFE55CC00ED5F69 /* PreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewViewController.h; sourceTree = "<group>"; };
 		31718BAC1FFE55CC00ED5F69 /* PreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewViewController.m; sourceTree = "<group>"; };
 		317384971FE36FF500C2B6CE /* OptionsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsCollectionViewController.h; sourceTree = "<group>"; };
@@ -43,7 +43,7 @@
 		31A13C521FA6B5860012EC68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		31A13C541FA6B5860012EC68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		31A13C551FA6B5860012EC68 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		31A13C571FA6B5860012EC68 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		31A13C571FA6B5860012EC68 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = GoProApp/ViewController.h; sourceTree = SOURCE_ROOT; };
 		31A13C581FA6B5860012EC68 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		31A13C5B1FA6B5860012EC68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		31A13C5D1FA6B5860012EC68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -53,14 +53,14 @@
 		31A13C691FA6BFCC0012EC68 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		31A13C6E1FA6C91C0012EC68 /* OptionAssignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionAssignViewController.h; sourceTree = "<group>"; };
 		31A13C6F1FA6C91C0012EC68 /* OptionAssignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionAssignViewController.m; sourceTree = "<group>"; };
-		31A13C761FA6CFCF0012EC68 /* MethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodManager.h; sourceTree = "<group>"; };
+		31A13C761FA6CFCF0012EC68 /* MethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MethodManager.h; path = GoProApp/MethodManager/MethodManager.h; sourceTree = SOURCE_ROOT; };
 		31A13C771FA6CFCF0012EC68 /* MethodManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodManager.m; sourceTree = "<group>"; };
 		31C2871B20EB13DB00259049 /* StreamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamViewController.h; sourceTree = "<group>"; };
 		31C2871C20EB13DB00259049 /* StreamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamViewController.m; sourceTree = "<group>"; };
-		31C82C121FBA6E0C007799F9 /* HeroProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeroProtocol.h; path = "DAO Devices/HeroProtocol.h"; sourceTree = "<group>"; };
-		31C82C131FBA6E0C007799F9 /* HeroProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeroProtocol.m; path = "DAO Devices/HeroProtocol.m"; sourceTree = "<group>"; };
-		31EB9C9A1FBFDD5C00B1D07D /* HeroStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeroStrings.h; path = "DAO Devices/HeroStrings.h"; sourceTree = "<group>"; };
-		31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeroStrings.m; path = "DAO Devices/HeroStrings.m"; sourceTree = "<group>"; };
+		31C82C121FBA6E0C007799F9 /* HeroProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeroProtocol.h; path = GoProApp/DAODevices/HeroProtocol.h; sourceTree = SOURCE_ROOT; };
+		31C82C131FBA6E0C007799F9 /* HeroProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeroProtocol.m; path = DAODevices/HeroProtocol.m; sourceTree = "<group>"; };
+		31EB9C9A1FBFDD5C00B1D07D /* HeroStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeroStrings.h; path = DAODevices/HeroStrings.h; sourceTree = "<group>"; };
+		31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeroStrings.m; path = DAODevices/HeroStrings.m; sourceTree = "<group>"; };
 		43DBCB282156DEB400DBDD42 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = GoProApp/Settings.h; sourceTree = SOURCE_ROOT; };
 		43DBCB292156DEB400DBDD42 /* Settings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Settings.m; path = GoProApp/Settings.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
