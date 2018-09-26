@@ -123,7 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				31A13C6D1FA6C60D0012EC68 /* AppDelegate */,
-				31A13C721FA6CD560012EC68 /* DAO Devices */,
+				31A13C721FA6CD560012EC68 /* DAODevices */,
 				319E4FA81FA815CC00A50F57 /* MethodManager */,
 				31A13C711FA6C9220012EC68 /* OptionAssignVC */,
 				31A13C6C1FA6C5FF0012EC68 /* ViewController */,
@@ -189,7 +189,7 @@
 			name = OptionAssignVC;
 			sourceTree = "<group>";
 		};
-		31A13C721FA6CD560012EC68 /* DAO Devices */ = {
+		31A13C721FA6CD560012EC68 /* DAODevices */ = {
 			isa = PBXGroup;
 			children = (
 				315667991FB68B660006C2FA /* Hero4.h */,
@@ -199,7 +199,7 @@
 				31EB9C9A1FBFDD5C00B1D07D /* HeroStrings.h */,
 				31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */,
 			);
-			name = "DAO Devices";
+			name = DAODevices;
 			sourceTree = "<group>";
 		};
 		31C2871E20EB13F400259049 /* StreamVC */ = {
