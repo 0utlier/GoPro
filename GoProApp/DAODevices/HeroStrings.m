@@ -30,13 +30,201 @@
     //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
 }
 
--(void)assignCurrentSettings {
+-(void)objectDidLoad {
+    
+    // create the hardcoded dictionary to define "keys" for the status/settings
+    self.dictionarySettingsDefinition = [[NSDictionary alloc]init];
+    [self createHardCodeDictionary];
+    self.dictionaryStatusDefinition = [[NSDictionary alloc]init];
+    self.dictionaryStatusDefinition = @{@"CurrentMode": @"43", @"CurrentSubMode":@"44", @"BatteryLevel": @"2", @"BatteryAvailable": @"1"};
+    
+    // ensure value passed aound through readable functions is allocated
+    self.testValue = [[NSString alloc]init];
+}
+
+- (void)createHardCodeDictionary {
+    NSDictionary *myDictionary = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                  @"1", @"battery",
+                                  @"2", @"batteryLevel",
+                                  @"43", @"modeCurrent",
+                                  @"44", @"subModeCurrent",
+                                  @"13", @"currentVideoDuration",
+                                  @"39", @"capturedmultiShot",
+                                  @"31", @"clientsConnected",
+                                  @"32", @"streamingFeed",
+                                  @"33", @"sdCardPresent",
+                                  @"34", @"remainingPhotos",
+                                  @"35", @"remainingVideoTime",
+                                  @"36", @"capturedBatchPhotos",
+                                  @"37", @"capturedVideos",
+                                  @"38", @"capturedPhotosAll",
+                                  @"39", @"capturedVideosAll",
+                                  @"8", @"recordingProcessing",
+                                  @"54", @"remainingBytes",
+                                  nil];
+    NSLog(@"%@", myDictionary);
+    
+    self.dictionaryStatusDefinition = myDictionary;
+}
+
+// CHANGE, SINCE WE WON'T BE RETURNING ANYHING OR TAKING PARAMETER
+-(NSString *)assignCurrentSettings: (NSString *)setting {
+    
+    [self createHardCodeDictionary];
+    NSDictionary *myJSONDict = [self fetchGoProSettingsAndStatus];
     // send signal to GoPro to recover current settings
-    // return whatever JSON info comes back to MM.
     NSLog(@"signal sent, and received JSON. now returning that information back to MM");
     /*http://10.5.5.9/gp/gpControl/status*/
-
+    // assign to the array of values for given arrays
+    self.testSettings.batteryLevel = [self readableBatteryLevel:[[myJSONDict valueForKey:[self.dictionaryStatusDefinition valueForKey:@"batteryLevel"]]intValue]];
+    self.testSettings.battery =
+    self.testSettings.mode = [self readableModeCurrent:[[myJSONDict valueForKey:[self.dictionaryStatusDefinition valueForKey:@"modeCurrent"]]intValue]];
+    self.testSettings.subMode = [self readableSubModeCurrent:[[myJSONDict valueForKey:[self.dictionaryStatusDefinition valueForKey:@"subModeCurrent"]]intValue]];
+    
+    self.testValue = [[NSString alloc]init];
+    int valueInDict = [[myJSONDict valueForKey:[self.dictionaryStatusDefinition valueForKey:setting]]intValue];
+    NSLog(@"valueinDict = %d", valueInDict);
+    // this is the part that moves to its own functions
+    if (valueInDict == 0) {
+        self.testValue = @"video";
+    }
+    else if (valueInDict == 1) {
+        self.testValue = @"photo";
+    }
+    else if (valueInDict == 2) {
+        self.testValue = @"multiPhoto";
+    }
+    NSLog(@"%@", self.testValue);
+    
+    NSLog(@"the value of %@ has been input, the value in dict: %d, the meaning is %@",setting,valueInDict,self.testValue);
+    
+    return self.testValue;
 }
+
+-(NSDictionary *)fetchGoProSettingsAndStatus {
+    // create string and fetch status/settings from JSON
+    NSString *urlString = @"http://10.5.5.9/gp/gpControl/status";
+    NSURL *url = [NSURL URLWithString:urlString];
+    [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"finished fetching data");
+        
+        NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+        
+        //        NSLog(@"my dictionary: %@", jsonDictionary);
+        
+        NSDictionary *jsonStatusDict = [jsonDictionary objectForKey:@"status"];
+        NSLog(@"my status dict: %@", jsonStatusDict);
+        NSLog(@"value of 40 is %@", [jsonStatusDict objectForKey:@"40"]);
+        self.testDictionary = jsonStatusDict;
+        
+        // create array with values of status/settings
+        NSArray *jsonStatus=[jsonDictionary objectForKey:@"status"];
+        NSArray *jsonSettings=[jsonDictionary objectForKey:@"settings"];
+        NSLog(@"results = %@", jsonStatus);
+        //        NSLog(@"results = %@", jsonSettings);
+        
+        // use key values to assign status/settings
+        NSLog(@"Current mode (43) = %@", [jsonStatus valueForKey:@"43"]);
+        NSLog(@"Current default mode (53) = %@", [jsonSettings valueForKey:@"53"]);
+        //        [self iterateTheArray:jsonSettings];
+        //        [self iterateTheArray:jsonStatus];
+        //
+        //        [self assignValues:jsonStatus];
+        
+        // this is not ready yet 10/16/18
+        //        Hero4_DEMO *hero4 = [[Hero4_DEMO alloc]init];
+        //        [hero4 presentInformationFor:jsonSettings forKey:@"53"];
+        
+        NSError *err;
+        if (err) {
+            NSLog(@"failed to fetch");
+            return;
+        }
+    }] resume];
+    return self.testDictionary;
+}
+
+#pragma mark - READABLE FUNCTIONS
+// return readable values
+
+- (NSString *) readableBatteryLevel:(int)value {
+    if (value == 0) {
+        self.testValue = @"Empty";
+    }
+    else if (value == 1) {
+        self.testValue = @"Low";
+    }
+    else if (value == 2) {
+        self.testValue = @"Halfway";
+    }
+    else if (value == 3) {
+        self.testValue = @"Full";
+    }
+    else if (value == 4) {
+        self.testValue = @"Charging";
+    }
+    return self.testValue;
+}
+
+- (NSString *)readableModeCurrent:(int)value {
+    if (value == 0) {
+        self.testValue = @"video";
+    }
+    else if (value == 1) {
+        self.testValue = @"photo";
+    }
+    else if (value == 2) {
+        self.testValue = @"multiPhoto";
+    }
+    return self.testValue;
+}
+
+- (NSString *)readableSubModeCurrent:(int)value { // totally dependent on which current mode is set!
+    if ([self.testSettings.mode isEqualToString:@"video"]) {
+        
+        if (value == 0) {
+            self.testValue = @"Video";
+        }
+        else if (value == 1) {
+            self.testValue = @"TLVideo";
+        }
+        else if (value == 2) {
+            self.testValue = @"Video+Photo";
+        }
+        return self.testValue;
+    }
+    
+    else if ([self.testSettings.mode isEqualToString:@"photo"]) {
+        
+        if (value == 0) {
+            self.testValue = @"SinglePic";
+        }
+        else if (value == 1) {
+            self.testValue = @"Continuous";
+        }
+        else if (value == 2) {
+            self.testValue = @"NightPhoto";
+        }
+        return self.testValue;
+    }
+ 
+    else if ([self.testSettings.mode isEqualToString:@"multiPhoto"]) {
+        
+        if (value == 0) {
+            self.testValue = @"Burst";
+        }
+        else if (value == 1) {
+            self.testValue = @"TL";
+        }
+        else if (value == 2) {
+            self.testValue = @"NightLapse";
+        }
+        return self.testValue;
+    }
+    
+    else return @"";
+}
+
 
 
 #pragma mark - POWER & SHUTTER
@@ -130,6 +318,33 @@
     [self printCurrentURL];
 }
 
+- (void)changeMode:(NSString *)mode {
+    if ([mode isEqual:@"video"]) {
+        //        NSLog(@"change to video");
+        [self modeVideo];
+    }
+    else if ([mode isEqual:@"photo"]) {
+        //        NSLog(@"change to photo");
+        [self modePhoto];
+        
+    }
+    else if ([mode isEqual:@"multi"]) {
+        //        NSLog(@"change to multi");
+        [self modeMulti];
+        
+    }
+    else
+        NSLog(@"Uh oh, user chose something unavaialable");
+    
+}
+
+- (void)changeSubMode:(NSString *)subMode {
+    // if statement
+}
+
+- (void)changeQuality:(NSString *)quality {
+    // if statement
+}
 
 #pragma mark - PRINTING
 

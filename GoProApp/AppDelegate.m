@@ -32,6 +32,10 @@
     
     /*create a methodManager - use sharedDAO*/
     MethodManager *methodManager = [MethodManager sharedManager];
+    if (methodManager) {
+        //yay - this is useless
+    }
+    
     /*if the camera is ready and attached, then by all means set this here. But if it is not, set it from VC*/
 //    [methodManager assignDeviceManager:NULL];
 //    NSLog(@"device is object %@", methodManager.deviceCurrent);

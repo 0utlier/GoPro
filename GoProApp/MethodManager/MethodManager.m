@@ -80,8 +80,12 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     // allocated the settingsCurrent, so that it exists
     self.settingsCurrent = [[Settings alloc]init];
     // Gather all current settings from GoPro [via DAO?] and assign the values
-    [self.deviceCurrent.heroDAO assignCurrentSettings];
-    self.settingsCurrent.mode = @"vid";
+    [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
+    self.settingsCurrent.mode = @"photo";
+    // this is the line that will need to be duplicated many times over - INCORRECT - CALL JSON ONCE
+    self.settingsCurrent.mode = [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
+    self.settingsCurrent.batteryLevel = [self.deviceCurrent.heroDAO assignCurrentSettings:@"batteryLevel"];
+    self.settingsCurrent.battery = [self.deviceCurrent.heroDAO assignCurrentSettings:@"battery"];
     self.settingsCurrent.subMode = @"vidTL";
     self.settingsCurrent.quality = @"4K";
     
@@ -135,8 +139,9 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     else {
         NSLog(@"user chose %@, assign through DAO", mode);
         NSLog(@"mode: %@", self.settingsCurrent.mode);
-        [self.deviceCurrent.heroDAO modeVideo];
-
+//        [self.deviceCurrent.heroDAO modeVideo];
+        [self.deviceCurrent.heroDAO changeMode:mode];
+        
 
     }
 }
@@ -163,8 +168,7 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     else {
         NSLog(@"user chose %@, assign through DAO", quality);
         NSLog(@"qual: %@", self.settingsCurrent.quality);
-
-    }
+        }
     
 }
 
@@ -197,6 +201,13 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     
 }
 
+
+#pragma mark - CURRENT SETTINGS ASSIGNMENT
+// the aim is to have a READABLE output here. the string goes in, the meaning comes out
+// @"modeCurrent" >> json >> 43 >> 1 >> @"photo"
+- (void)assignGivenValues {
+//    self.settingsCurrent.battery = [self.deviceCurrent.heroDAO assignCurrentSettings];
+}
 
 #pragma mark - CALLS
 

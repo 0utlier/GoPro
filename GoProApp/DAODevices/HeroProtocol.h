@@ -20,6 +20,8 @@
 
 @required
 
+// this can be a ViewDidLoad for the object. Anything hard coded that needs to be set
+-(void)objectDidLoad;
 
 #pragma mark - POWER & SHUTTER
 - (void)powerOn;
@@ -28,11 +30,16 @@
 - (void)shutterOff;
 
 #pragma mark - MODES
+- (void)changeMode:(NSString *)mode;
+
+//types of mode
 - (void)modeVideo;
 - (void)modePhoto;
 - (void)modeMulti;
 
 #pragma mark - SUB MODES
+- (void)changeSubMode:(NSString *)subMode; // this will contain the switchCase/if statements that will send the below calls depending on that the input is
+
 //video
 - (void)subVidVideo;
 - (void)subVidTimeLapse;
@@ -47,11 +54,20 @@
 - (void)subMulTimeLapse;
 - (void)subMulNightLapse;
 
-// get status from call to GoPro - JSON is returned. Either return the JSON or convert to proper information
-- (void)assignCurrentSettings;
+#pragma mark - QUALITY
+//types of qualities [too many to have all different calls]
+- (void)changeQuality:(NSString *)quality;
+
+
+
+// get status from call to GoPro - JSON is returned. Assign to dictionary of settings/status
+- (NSString *)assignCurrentSettings: (NSString *)setting;
 
 // list the available settings for current device
 - (void)createAvailableSettings;
+
+// make the comparable dictionary to assign readable value to the JSON
+- (void)createHardCodeDictionary;
 
 
 
@@ -63,8 +79,11 @@
 @property (nonatomic, retain) NSMutableArray *availableTLIntervals;
 @property (nonatomic, retain) NSMutableArray *availableTLExposure;
 
+// hardcoded dictionary to define "keys" for the status/settings
+@property (nonatomic, retain) NSDictionary *dictionaryStatusDefinition;
+@property (nonatomic, retain) NSDictionary *dictionarySettingsDefinition;
 
-
+/*=============================================================*/
 @optional
 /*maybe HDR?*/
 @end

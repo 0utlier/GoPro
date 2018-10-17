@@ -73,6 +73,78 @@
 
 }
 
+- (void)changeMode:(NSString *)mode { 
+    if ([mode isEqual:@"video"]) {
+        //        NSLog(@"change to video");
+        [self modeVideo];
+    }
+    else if ([mode isEqual:@"photo"]) {
+        //        NSLog(@"change to photo");
+        [self modePhoto];
+        
+    }
+    else if ([mode isEqual:@"multi"]) {
+        //        NSLog(@"change to multi");
+        [self modeMulti];
+        
+    }
+    else
+        NSLog(@"Uh oh, user chose something unavaialable");
+
+}
+
+
+- (void)changeQuality:(NSString *)quality { 
+    // if statement
+
+}
+
+
+- (void)changeSubMode:(NSString *)subMode { 
+    // if statement
+
+}
+
+- (void)objectDidLoad {
+    // create the hardcoded dictionary to define "keys" for the status/settings
+    self.dictionarySettingsDefinition = [[NSDictionary alloc]init];
+    
+    self.dictionaryStatusDefinition = [[NSDictionary alloc]init];
+    self.dictionaryStatusDefinition = @{@"CurrentMode": @"43", @"CurrentSubMode":@"44", @"BatteryLevel": @"2", @"BatteryAvailable": @"1"};
+    
+}
+
+- (NSString *)assignCurrentSettings:(NSString *)setting {
+//    NSString *test = @"test with %@", setting;
+    return setting;
+}
+
+
+- (void)createHardCodeDictionary {
+    NSDictionary *myDictionary = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                  @"1", @"battery",
+                                  @"2", @"batteryLevel",
+                                  @"43", @"modeCurrent",
+                                  @"44", @"subModeCurrent",
+                                  @"13", @"currentVideoDuration",
+                                  @"39", @"capturedmultiShot",
+                                  @"31", @"clientsConnected",
+                                  @"32", @"streamingFeed",
+                                  @"33", @"sdCardPresent",
+                                  @"34", @"remainingPhotos",
+                                  @"35", @"remainingVideoTime",
+                                  @"36", @"capturedBatchPhotos",
+                                  @"37", @"capturedVideos",
+                                  @"38", @"capturedPhotosAll",
+                                  @"39", @"capturedVideosAll",
+                                  @"8", @"recordingProcessing",
+                                  @"54", @"remainingBytes",
+                                  nil];
+    NSLog(@"%@", myDictionary);
+    
+    self.dictionaryStatusDefinition = myDictionary;
+}
+
 
 
 

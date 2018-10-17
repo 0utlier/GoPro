@@ -20,6 +20,8 @@
 
 @interface Settings : NSObject
 
+#pragma mark - SETTINGS
+
 // types of settings [dependent on one another]
     // mode = video, photo, multi-shot
 @property (nonatomic, retain) NSString *mode;
@@ -35,5 +37,14 @@
 @property (nonatomic) int interval;
 // Exposure = 1,2,5,... [QUESTION: how to represent AUTO? - maybe using 99?]
 @property (nonatomic) int exposure;
+
+#pragma mark - STATUS
+
+// battery =
+@property (nonatomic, retain) NSString *battery;
+@property (nonatomic, retain) NSString *batteryLevel;
+
+
+
 
 @end

@@ -54,6 +54,14 @@
 @property (nonatomic, retain) NSMutableArray *availableTLIntervals;
 @property (nonatomic, retain) NSMutableArray *availableTLExposure;
 
+// hardcoded dictionary to define "keys" for the status/settings
+@property (nonatomic, retain) NSDictionary *dictionaryStatusDefinition;
+@property (nonatomic, retain) NSDictionary *dictionarySettingsDefinition;
+
+// make the comparable dictionary to assign readable value to the JSON
+- (void)createHardCodeDictionary;
+
+
 #pragma mark - CURRENT INFO
 @property (nonatomic, retain) NSString *deviceName;
 

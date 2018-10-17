@@ -30,6 +30,7 @@
     [self createTESTButton];
     [self createConnectButton];
     [self createSetDesiredButton];
+    [self createChangeDeviceButton];
 
     
 }
@@ -155,7 +156,7 @@
     // test code: self.methodManager.settingsCurrent.mode = @"photo";
     //    if the settingsCurrent is set, then submit to change with these values
     
-    self.methodManager.settingsDesired.mode = @"vid";
+    self.methodManager.settingsDesired.mode = @"videod";
     self.methodManager.settingsDesired.subMode = @"vidTL";
     self.methodManager.settingsDesired.quality = @"1080p";
     //    to check if it is what is expected: NSLog(@"%@", self.methodManager.settingsCurrent.mode);
@@ -166,6 +167,39 @@
     
 }
 
+// this is a test button to set the desired settings for the GoPro 09.25.18
+- (void)createChangeDeviceButton {
+    UIButton *changeDevice = [UIButton buttonWithType:UIButtonTypeCustom];
+    [changeDevice addTarget:self
+                   action:@selector(changeDeviceButtonPressed:)
+         forControlEvents:UIControlEventTouchUpInside];
+    [changeDevice setTitle:@"chngDevi" forState:UIControlStateNormal];
+    changeDevice.frame = CGRectMake(240.0, 260.0, 80.0, 40.0);
+    changeDevice.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:changeDevice];
+}
+
+// this will be method to grab which GoPro is connected, to assign to the MethodManager and thus DAO
+-(void)changeDeviceButtonPressed:(UIButton *)changeDevice {
+    NSLog(@"user requested to change device");
+    if ([self.methodManager.gpCurrent isEqual:@"HeroStrings"]) {
+        self.methodManager.gpCurrent = @"Hero4";
+    }
+    else
+        self.methodManager.gpCurrent = @"HeroStrings";
+    NSLog(@"connected MM to the correct DAO [%@]", self.methodManager.gpCurrent);
+    // device will be selected from given connection
+    [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
+    
+    /* // testing to change to different gopro
+     self.methodManager.gpCurrent = @"Hero4";
+     [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
+     self.methodManager.gpCurrent = @"NothingTestFail";
+     [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
+     */
+
+
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
