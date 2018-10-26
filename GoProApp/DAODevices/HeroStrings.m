@@ -10,37 +10,20 @@
 
 @implementation HeroStrings
 
-/* 03.19.18 09.22.18 currently what we're pulling from to assign*/
-
--(void)createAvailableSettings {
-    self.availableModes = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
-    //    NSLog(@"The Modes available for this device %@",self.availableModes);
-    
-    self.availableSubModes = [[NSMutableArray alloc]initWithObjects:@"vidVideo", @"vidTimeLapse", @"vidAndPhoto", @"vidLooping", nil];
-    //    NSLog(@"The subModes available for this device %@",self.availableSubModes);
-    
-    
-    self.availableFrameRates = [[NSMutableArray alloc]initWithObjects:@"240", @"120", @"100", @"90", @"80", @"60", @"50", @"48", @"30", @"24", nil];
-    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
-    
-    self.availableTLIntervals = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"4", @"80", nil];
-    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
-    
-    self.availableResolutions = [[NSMutableArray alloc]initWithObjects:@"4K", @"2.7K", @"1080", nil];
-    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
-}
 
 -(void)objectDidLoad {
     
     // create the hardcoded dictionary to define "keys" for the status/settings
     self.dictionarySettingsDefinition = [[NSDictionary alloc]init];
-    [self createHardCodeDictionary];
     self.dictionaryStatusDefinition = [[NSDictionary alloc]init];
+    [self createHardCodeDictionary];
     self.dictionaryStatusDefinition = @{@"CurrentMode": @"43", @"CurrentSubMode":@"44", @"BatteryLevel": @"2", @"BatteryAvailable": @"1"};
     
-    // ensure value passed aound through readable functions is allocated
+    // ensure value passed around through readable functions is allocated
     self.testValue = [[NSString alloc]init];
 }
+
+# pragma mark - DICTIONARIES
 
 - (void)createHardCodeDictionary {
     NSDictionary *myDictionary = [[NSDictionary alloc]initWithObjectsAndKeys:
@@ -62,78 +45,82 @@
                                   @"8", @"recordingProcessing",
                                   @"54", @"remainingBytes",
                                   nil];
-    NSLog(@"%@", myDictionary);
+    NSLog(@"Hardcoded Dict: %@", myDictionary);
     
-    self.dictionaryStatusDefinition = myDictionary;
+    self.dictionaryHardcode = myDictionary;
 }
 
-// CHANGE, SINCE WE WON'T BE RETURNING ANYHING OR TAKING PARAMETER
--(NSString *)assignCurrentSettings: (NSString *)setting {
+/* 03.19.18 09.22.18 currently what we're pulling from to assign*/
+
+-(void)createAvailableSettings {
+    self.availableModes = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
+    //    NSLog(@"The Modes available for this device %@",self.availableModes);
     
-    [self createHardCodeDictionary];
-    NSDictionary *myJSONDict = [self fetchGoProSettingsAndStatus];
-    // send signal to GoPro to recover current settings
-    NSLog(@"signal sent, and received JSON. now returning that information back to MM");
-    /*http://10.5.5.9/gp/gpControl/status*/
+    self.availableSubModes = [[NSMutableArray alloc]initWithObjects:@"vidVideo", @"vidTimeLapse", @"vidAndPhoto", @"vidLooping", nil];
+    //    NSLog(@"The subModes available for this device %@",self.availableSubModes);
+    
+    
+    self.availableFrameRates = [[NSMutableArray alloc]initWithObjects:@"240", @"120", @"100", @"90", @"80", @"60", @"50", @"48", @"30", @"24", nil];
+    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
+    
+    self.availableTLIntervals = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"4", @"80", nil];
+    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
+    
+    self.availableResolutions = [[NSMutableArray alloc]initWithObjects:@"4K", @"2.7K", @"1080", nil];
+    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
+}
+
+
+// function to assign the JSON values to the settings, displayed in VCs
+// this will need to be broken up for given usage of the mode. no need to display video specs, if photo is current.
+-(void)assignCurrentSettings{
     // assign to the array of values for given arrays
-    self.testSettings.batteryLevel = [self readableBatteryLevel:[[myJSONDict valueForKey:[self.dictionaryStatusDefinition valueForKey:@"batteryLevel"]]intValue]];
-    self.testSettings.battery =
-    self.testSettings.mode = [self readableModeCurrent:[[myJSONDict valueForKey:[self.dictionaryStatusDefinition valueForKey:@"modeCurrent"]]intValue]];
-    self.testSettings.subMode = [self readableSubModeCurrent:[[myJSONDict valueForKey:[self.dictionaryStatusDefinition valueForKey:@"subModeCurrent"]]intValue]];
+    self.testSettings.batteryLevel = [self readableBatteryLevel:[[self.dictionaryHardcode valueForKey:[self.dictionaryStatusDefinition valueForKey:@"batteryLevel"]]intValue]];
+    self.testSettings.battery = [self readableModeCurrent:[[self.dictionaryHardcode valueForKey:[self.dictionaryStatusDefinition valueForKey:@"battery"]]intValue]];
+    self.testSettings.mode = [self readableModeCurrent:[[self.dictionaryHardcode valueForKey:[self.dictionaryStatusDefinition valueForKey:@"modeCurrent"]]intValue]];
+    self.testSettings.subMode = [self readableSubModeCurrent:[[self.dictionaryHardcode valueForKey:[self.dictionaryStatusDefinition valueForKey:@"subModeCurrent"]]intValue]];
     
-    self.testValue = [[NSString alloc]init];
-    int valueInDict = [[myJSONDict valueForKey:[self.dictionaryStatusDefinition valueForKey:setting]]intValue];
-    NSLog(@"valueinDict = %d", valueInDict);
-    // this is the part that moves to its own functions
-    if (valueInDict == 0) {
-        self.testValue = @"video";
-    }
-    else if (valueInDict == 1) {
-        self.testValue = @"photo";
-    }
-    else if (valueInDict == 2) {
-        self.testValue = @"multiPhoto";
-    }
-    NSLog(@"%@", self.testValue);
     
-    NSLog(@"the value of %@ has been input, the value in dict: %d, the meaning is %@",setting,valueInDict,self.testValue);
+}
+-(void)splitJSON{
     
-    return self.testValue;
+    // send signal to GoPro to recover current settings, and wait for completion
+    [self fetchGoProSettingsAndStatusJSONWithCompletion:^(NSDictionary *myJSONDictionary) {
+        /*
+         NSDictionary *myJSONDictTest = [[NSDictionary alloc]init];
+         myJSONDictTest = myDictionary;
+         
+         */        // split dictionary into status and settings
+        self.dictionaryStatusDefinition = [myJSONDictionary objectForKey:@"status"];
+        self.dictionarySettingsDefinition = [myJSONDictionary objectForKey:@"settings"];
+        
+        NSLog(@"signal sent, and received JSON. Now splitting, and assigning to DAO's Setting Object");
+        /*http://10.5.5.9/gp/gpControl/status*/
+        NSLog(@"settingsDict = %@", self.dictionarySettingsDefinition);
+        NSLog(@"statusDict = %@", self.dictionaryStatusDefinition);
+        
+        // use dictionaries and assign values
+        [self assignCurrentSettings];
+    }];
+    
+    
+    
+    
 }
 
--(NSDictionary *)fetchGoProSettingsAndStatus {
+// send signal to GoPro to receive the JSON - turn that into dictionary - return
+-(NSDictionary *)fetchGoProSettingsAndStatusJSON {
     // create string and fetch status/settings from JSON
     NSString *urlString = @"http://10.5.5.9/gp/gpControl/status";
     NSURL *url = [NSURL URLWithString:urlString];
     [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSLog(@"finished fetching data");
         
+        // create the dictionary from the DATA received
         NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-        
         //        NSLog(@"my dictionary: %@", jsonDictionary);
         
-        NSDictionary *jsonStatusDict = [jsonDictionary objectForKey:@"status"];
-        NSLog(@"my status dict: %@", jsonStatusDict);
-        NSLog(@"value of 40 is %@", [jsonStatusDict objectForKey:@"40"]);
-        self.testDictionary = jsonStatusDict;
-        
-        // create array with values of status/settings
-        NSArray *jsonStatus=[jsonDictionary objectForKey:@"status"];
-        NSArray *jsonSettings=[jsonDictionary objectForKey:@"settings"];
-        NSLog(@"results = %@", jsonStatus);
-        //        NSLog(@"results = %@", jsonSettings);
-        
-        // use key values to assign status/settings
-        NSLog(@"Current mode (43) = %@", [jsonStatus valueForKey:@"43"]);
-        NSLog(@"Current default mode (53) = %@", [jsonSettings valueForKey:@"53"]);
-        //        [self iterateTheArray:jsonSettings];
-        //        [self iterateTheArray:jsonStatus];
-        //
-        //        [self assignValues:jsonStatus];
-        
-        // this is not ready yet 10/16/18
-        //        Hero4_DEMO *hero4 = [[Hero4_DEMO alloc]init];
-        //        [hero4 presentInformationFor:jsonSettings forKey:@"53"];
+        self.testDictionary = jsonDictionary;
         
         NSError *err;
         if (err) {
@@ -142,6 +129,34 @@
         }
     }] resume];
     return self.testDictionary;
+}
+
+// send signal to GoPro to receive the JSON - turn that into dictionary - return
+-(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler {
+    // create string and fetch status/settings from JSON
+    NSString *urlString = @"http://10.5.5.9/gp/gpControl/status";
+    NSURL *url = [NSURL URLWithString:urlString];
+    [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"finished fetching data");
+        
+        // create the dictionary from the DATA received
+        NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+        //        NSLog(@"my dictionary: %@", jsonDictionary);
+        
+        //        self.testDictionary = jsonDictionary;
+        //10.25.18 needs a check for either correct wifi connection, or that the data is not nil, or that the request hits something and doesnt just float waiting for a response
+        NSError *err;
+        if (err) {
+            NSLog(@"failed to fetch");
+            return;
+        }
+        // once all is complete, and obtained, return the handler
+        //        completionHandler(self.testDictionary);
+        completionHandler(jsonDictionary);
+        
+    }]
+     resume];
+    //    return self.testDictionary;
 }
 
 #pragma mark - READABLE FUNCTIONS
@@ -207,7 +222,7 @@
         }
         return self.testValue;
     }
- 
+    
     else if ([self.testSettings.mode isEqualToString:@"multiPhoto"]) {
         
         if (value == 0) {

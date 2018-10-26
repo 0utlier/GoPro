@@ -80,12 +80,14 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     // allocated the settingsCurrent, so that it exists
     self.settingsCurrent = [[Settings alloc]init];
     // Gather all current settings from GoPro [via DAO?] and assign the values
-    [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
-    self.settingsCurrent.mode = @"photo";
-    // this is the line that will need to be duplicated many times over - INCORRECT - CALL JSON ONCE
-    self.settingsCurrent.mode = [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
-    self.settingsCurrent.batteryLevel = [self.deviceCurrent.heroDAO assignCurrentSettings:@"batteryLevel"];
-    self.settingsCurrent.battery = [self.deviceCurrent.heroDAO assignCurrentSettings:@"battery"];
+    /*
+     [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
+     self.settingsCurrent.mode = @"photo";
+     // this is the line that will need to be duplicated many times over - INCORRECT - CALL JSON ONCE
+     self.settingsCurrent.mode = [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
+     self.settingsCurrent.batteryLevel = [self.deviceCurrent.heroDAO assignCurrentSettings:@"batteryLevel"];
+     self.settingsCurrent.battery = [self.deviceCurrent.heroDAO assignCurrentSettings:@"battery"];
+     */
     self.settingsCurrent.subMode = @"vidTL";
     self.settingsCurrent.quality = @"4K";
     

@@ -100,7 +100,7 @@
              forControlEvents:UIControlEventTouchUpInside];
     [openToSettings setTitle:@"TEST" forState:UIControlStateNormal];
     openToSettings.frame = CGRectMake(80.0, 410.0, 160.0, 40.0);
-    openToSettings.backgroundColor = [UIColor yellowColor];
+    openToSettings.backgroundColor = [UIColor orangeColor];
     [self.view addSubview:openToSettings];
 }
 
@@ -129,6 +129,8 @@
     NSLog(@"connected MM to the correct DAO [%@]", self.methodManager.gpCurrent);
     // device will be selected from given connection
     [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
+    [self.methodManager.deviceCurrent.heroDAO objectDidLoad];
+    [self.methodManager.deviceCurrent.heroDAO assignCurrentSettings];
     
     /* // testing to change to different gopro
      self.methodManager.gpCurrent = @"Hero4";

@@ -58,10 +58,11 @@
 //types of qualities [too many to have all different calls]
 - (void)changeQuality:(NSString *)quality;
 
+#pragma mark - SETTINGS
 
 
 // get status from call to GoPro - JSON is returned. Assign to dictionary of settings/status
-- (NSString *)assignCurrentSettings: (NSString *)setting;
+- (void)assignCurrentSettings;
 
 // list the available settings for current device
 - (void)createAvailableSettings;
@@ -69,9 +70,11 @@
 // make the comparable dictionary to assign readable value to the JSON
 - (void)createHardCodeDictionary;
 
+// obtain the JSON and return the dictionary
+-(NSDictionary *)fetchGoProSettingsAndStatusJSON;
 
 
-#pragma mark - AVAILABLE
+#pragma mark - AVAILABLE Properties
 @property (nonatomic, retain) NSMutableArray *availableModes;
 @property (nonatomic, retain) NSMutableArray *availableSubModes;
 @property (nonatomic, retain) NSMutableArray *availableResolutions;

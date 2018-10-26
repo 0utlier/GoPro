@@ -46,6 +46,8 @@
 
 // make the comparable dictionary to assign readable value to the JSON
 - (void)createHardCodeDictionary;
+-(NSDictionary *)fetchGoProSettingsAndStatusJSON;
+
 
 #pragma mark - AVAILABLE
 @property (nonatomic, retain) NSMutableArray *availableModes;
@@ -56,6 +58,7 @@
 @property (nonatomic, retain) NSMutableArray *availableTLExposure;
 
 // hardcoded dictionary to define "keys" for the status/settings
+@property (nonatomic, retain) NSDictionary *dictionaryHardcode;
 @property (nonatomic, retain) NSDictionary *dictionaryStatusDefinition;
 @property (nonatomic, retain) NSDictionary *dictionarySettingsDefinition;
 @property (nonatomic, retain) NSDictionary *testDictionary;

@@ -145,6 +145,12 @@
     self.dictionaryStatusDefinition = myDictionary;
 }
 
+- (NSDictionary *)fetchGoProSettingsAndStatusJSON {
+    // write for GoPro 4
+    return NULL;
+}
+
+
 
 
 
