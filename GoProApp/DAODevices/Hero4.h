@@ -17,6 +17,8 @@
 
 @interface Hero4 : NSObject <HeroDAO>
 
+/* // I do not need to write out the functions in the h file, as long as the protocol has it
+ 
 + (instancetype)sharedDAO;
 - (void)createAvailableSettings;
 
@@ -44,9 +46,16 @@
 - (void)subMulTimeLapse;
 - (void)subMulNightLapse;
 
+// split up JSON after FETCH complete
+- (void)splitJSON;
+
+// obtain the JSON and return the dictionary, with use of CompletionHandler
+-(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler;
 
 
-#pragma mark - AVAILABLE
+
+
+#pragma mark - AVAILABLE Properties
 @property (nonatomic, retain) NSMutableArray *availableModes;
 @property (nonatomic, retain) NSMutableArray *availableSubModes;
 @property (nonatomic, retain) NSMutableArray *availableResolutions;
@@ -68,6 +77,6 @@
 @property (nonatomic, retain) NSString *urlForCurrentCall;
 
 
-
+*/
 
 @end

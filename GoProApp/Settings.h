@@ -32,17 +32,22 @@
 
 // types of settings with interger values [QUESTION: what is best to transfer these values? NSNumber, NSInteger, int, float]
     // frameRate = 24,30,48,60,80,120,240
-@property (nonatomic) int frameRate;
+//@property (nonatomic) int frameRate;
+@property (nonatomic, retain) NSString *frameRate;
 // interval = 1,2,5,... [QUESTION: how to represent .5? - maybe using 11?]
-@property (nonatomic) int interval;
+//@property (nonatomic) int interval;
+@property (nonatomic, retain) NSString *interval;
 // Exposure = 1,2,5,... [QUESTION: how to represent AUTO? - maybe using 99?]
-@property (nonatomic) int exposure;
+//@property (nonatomic) int exposure;
+@property (nonatomic, retain) NSString *exposure;
 
 #pragma mark - STATUS
 
-// battery =
+// the few portions of STATUS dictionary
 @property (nonatomic, retain) NSString *battery;
 @property (nonatomic, retain) NSString *batteryLevel;
+@property (nonatomic, retain) NSString *streamingStatus;
+@property (nonatomic, retain) NSString *sdCardPresent;
 
 
 

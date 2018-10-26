@@ -130,7 +130,7 @@
     // device will be selected from given connection
     [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
     [self.methodManager.deviceCurrent.heroDAO objectDidLoad];
-    [self.methodManager.deviceCurrent.heroDAO assignCurrentSettings];
+    [self.methodManager.deviceCurrent.heroDAO splitJSON];
     
     /* // testing to change to different gopro
      self.methodManager.gpCurrent = @"Hero4";

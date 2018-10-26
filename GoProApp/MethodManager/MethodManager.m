@@ -207,8 +207,9 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 #pragma mark - CURRENT SETTINGS ASSIGNMENT
 // the aim is to have a READABLE output here. the string goes in, the meaning comes out
 // @"modeCurrent" >> json >> 43 >> 1 >> @"photo"
+
 - (void)assignGivenValues {
-//    self.settingsCurrent.battery = [self.deviceCurrent.heroDAO assignCurrentSettings];
+//    self.settingsCurrent.battery = [self.deviceCurrent.heroDAO readableBatteryLevel:<#(int)#>];
 }
 
 #pragma mark - CALLS

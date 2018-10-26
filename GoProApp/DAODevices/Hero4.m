@@ -145,9 +145,11 @@
     self.dictionaryStatusDefinition = myDictionary;
 }
 
-- (NSDictionary *)fetchGoProSettingsAndStatusJSON {
+// obtain the JSON and return the dictionary, with use of CompletionHandler
+-(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler {
     // write for GoPro 4
-    return NULL;
+    completionHandler(NULL);
+
 }
 
 
@@ -314,5 +316,17 @@ NSString *GPShutterStop = @"http://10.5.5.9/gp/gpControl/command/shutter?p=0";
     return sharedDAO;
 }
 
+// Synthesize Properties
+@synthesize availableFrameRates;
+@synthesize availableModes;
+@synthesize availableResolutions;
+@synthesize availableSubModes;
+@synthesize availableTLExposure;
+@synthesize availableTLIntervals;
+@synthesize dictionaryHardcode;
+@synthesize dictionarySettingsDefinition;
+@synthesize dictionaryStatusDefinition;
+@synthesize testSettings;
+@synthesize urlForCurrentCall;
 
 @end
