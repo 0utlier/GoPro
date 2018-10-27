@@ -1,302 +1,268 @@
 //
-//  Hero4.m
+//  MethodManager.m
 //  GoProApp
 //
 //  Created by JD Leonard on 10/29/17.
 //  Copyright © 2017 JD Leonard. All rights reserved.
 //
 
-#import "Hero4.h"
-
-@implementation Hero4
-
-#pragma mark - POWER & SHUTTER
-//power
--(void)powerOn {
-    self.urlForCurrentCall =@"http://10.5.5.9/bacpac/PW";
-    [self printCurrentURL];
-}
--(void)powerOff {
-    self.urlForCurrentCall = @"http://10.5.5.9/gp/gpControl/command/system/sleep";
-    [self printCurrentURL];
-}
-
-//shutter
-- (void)shutterOn{self.urlForCurrentCall = @"http://10.5.5.9/gp/gpControl/command/shutter?p=1";
-    [self printCurrentURL];
-}
-- (void)shutterOff{self.urlForCurrentCall = @"http://10.5.5.9/gp/gpControl/command/shutter?p=0";
-    [self printCurrentURL];
-}
+#import "MethodManager.h"
+//AppDelegate *appDelegate;
 
 
-#pragma mark - MODES
-- (void)modeVideo{}
-- (void)modePhoto{}
-- (void)modeMulti{}
+@implementation MethodManager
 
-#pragma mark - SUB MODES
-//video
-- (void)subVidVideo{}
-- (void)subVidTimeLapse{}
-- (void)subVidAndPhoto{}
-- (void)subVidLooping{}
-//photo
-- (void)subPhoPhoto{}
-- (void)subPhoContin{}
-- (void)subPhoNight{}
-//multi
-- (void)subMulBurst{}
-- (void)subMulTimeLapse{}
-- (void)subMulNightLapse{}
+#pragma mark - BOOLS
+// these BOOLS are meant to track certain binaries in the app, to ensure it reflects the given information. explanations below the BOOLs will help to understand each intention
 
+/*09.17.18 added, but have not used any of these in code yet*/
 
--(void)createAvailableSettings {
-    self.availableModes = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
-    //    NSLog(@"The Modes available for this device %@",self.availableModes);
-    
-    self.availableSubModes = [[NSMutableArray alloc]initWithObjects:@"vidVideo", @"vidTimeLapse", @"vidAndPhoto", @"vidLooping", nil];
-    //    NSLog(@"The subModes available for this device %@",self.availableSubModes);
-    
-    
-    self.availableFrameRates = [[NSMutableArray alloc]initWithObjects:@"240", @"120", @"100", @"90", @"80", @"60", @"50", @"48", @"30", @"24", nil];
-    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
-    
-    self.availableTLIntervals = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"4", @"80", nil];
-    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
-    
-    self.availableResolutions = [[NSMutableArray alloc]initWithObjects:@"4K", @"2.7K", @"1080", nil];
-    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
-}
-- (void)assignCurrentSettings { 
-    NSLog(@"get the JSON");
-
-}
-
-- (void)changeMode:(NSString *)mode { 
-    if ([mode isEqual:@"video"]) {
-        //        NSLog(@"change to video");
-        [self modeVideo];
-    }
-    else if ([mode isEqual:@"photo"]) {
-        //        NSLog(@"change to photo");
-        [self modePhoto];
-        
-    }
-    else if ([mode isEqual:@"multi"]) {
-        //        NSLog(@"change to multi");
-        [self modeMulti];
-        
-    }
-    else
-        NSLog(@"Uh oh, user chose something unavaialable");
-
-}
-
-
-- (void)changeQuality:(NSString *)quality { 
-    // if statement
-
-}
-
-
-- (void)changeSubMode:(NSString *)subMode { 
-    // if statement
-
-}
-
-- (void)objectDidLoad {
-    // create the hardcoded dictionary to define "keys" for the status/settings
-    self.dictionarySettingsDefinition = [[NSDictionary alloc]init];
-    
-    self.dictionaryStatusDefinition = [[NSDictionary alloc]init];
-    self.dictionaryStatusDefinition = @{@"CurrentMode": @"43", @"CurrentSubMode":@"44", @"BatteryLevel": @"2", @"BatteryAvailable": @"1"};
-    
-}
-
-- (NSString *)assignCurrentSettings:(NSString *)setting {
-//    NSString *test = @"test with %@", setting;
-    return setting;
-}
-
-
-- (void)createHardCodeDictionary {
-    NSDictionary *myDictionary = [[NSDictionary alloc]initWithObjectsAndKeys:
-                                  @"1", @"battery",
-                                  @"2", @"batteryLevel",
-                                  @"43", @"modeCurrent",
-                                  @"44", @"subModeCurrent",
-                                  @"13", @"currentVideoDuration",
-                                  @"39", @"capturedmultiShot",
-                                  @"31", @"clientsConnected",
-                                  @"32", @"streamingFeed",
-                                  @"33", @"sdCardPresent",
-                                  @"34", @"remainingPhotos",
-                                  @"35", @"remainingVideoTime",
-                                  @"36", @"capturedBatchPhotos",
-                                  @"37", @"capturedVideos",
-                                  @"38", @"capturedPhotosAll",
-                                  @"39", @"capturedVideosAll",
-                                  @"8", @"recordingProcessing",
-                                  @"54", @"remainingBytes",
-                                  nil];
-    NSLog(@"%@", myDictionary);
-    
-    self.dictionaryStatusDefinition = myDictionary;
-}
-
-// obtain the JSON and return the dictionary, with use of CompletionHandler
--(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler {
-    // write for GoPro 4
-    completionHandler(NULL);
-
-}
-
-
-
-
-
--(void)printCurrentURL {
-    NSLog(@"%@",self.urlForCurrentCall);
-}
-
-
-
- #pragma mark - POWER
- NSString *GPPowerON = @"http://10.5.5.9/bacpac/PW"; //(does not work yet)
- NSString *GPPowerOFF = @"http://10.5.5.9/gp/gpControl/command/system/sleep";
-
-
- #pragma mark - SHUTTER
-
-NSString *GPShutterStart = @"http://10.5.5.9/gp/gpControl/command/shutter?p=1";
-NSString *GPShutterStop = @"http://10.5.5.9/gp/gpControl/command/shutter?p=0";
+BOOL shooting; // shooting or  (NO = 0 = Silent)
+BOOL connected; // connected or  (NO = 0 = no connection found)
+BOOL power; // deviceOn or  (NO = 0 = deviceOff)
+BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 
 /*
- #pragma mark - MODE
- MODES: (Primary modes:)
+ shooting 11.18.17
+ created in MM
+ [not initialized, but assumed NO]
+ meant to be in: VC VWA if, set NO : not there yet
  
- Video:     http://10.5.5.9/gp/gpControl/command/mode?p=0
- Photo:     http://10.5.5.9/gp/gpControl/command/mode?p=1
- MultiShot: http://10.5.5.9/gp/gpControl/command/mode?p=2
-========
+ connected 09.17.18
+ created in MM
+ [not initialized, but assumed NO]
+ a light to signify to the user that the gopro is actually still connected to the app
+ this may want to have a "check" every given amount of time
+ also when this changes, save all information from current use. last used setting. date stamp [for last used]?
  
- #pragma mark - SUB MODE
- SUB MODES: (Secondary modes:)
+ power 09.17.18
+ created in MM
+ [not initialized, but assumed NO]
+ connected, but powered down
  
- Video (VIDEO):             http://10.5.5.9/gp/gpControl/command/sub_mode?mode=0&sub_mode=0
- TimeLapse Video (VIDEO):   http://10.5.5.9/gp/gpControl/command/sub_mode?mode=0&sub_mode=1
- Video + Photo (VIDEO):     http://10.5.5.9/gp/gpControl/command/sub_mode?mode=0&sub_mode=2
- Looping (VIDEO):           http://10.5.5.9/gp/gpControl/command/sub_mode?mode=0&sub_mode=3
- 
- Single (PHOTO):        http://10.5.5.9/gp/gpControl/command/sub_mode?mode=1&sub_mode=0
- Continuous (PHOTO):    http://10.5.5.9/gp/gpControl/command/sub_mode?mode=1&sub_mode=1
- Night (PHOTO):         http://10.5.5.9/gp/gpControl/command/sub_mode?mode=1&sub_mode=2
- 
- Burst (MultiShot):         http://10.5.5.9/gp/gpControl/command/sub_mode?mode=2&sub_mode=0
- Timelapse (MultiShot):     http://10.5.5.9/gp/gpControl/command/sub_mode?mode=2&sub_mode=1
- NightLapse (MultiShot):    http://10.5.5.9/gp/gpControl/command/sub_mode?mode=2&sub_mode=2
- ========
- 
- #pragma mark - RESOLUTION & MP
- VIDEO RESOLUTIONS:
- 
- 4K: http://10.5.5.9/gp/gpControl/setting/2/1
- 4K SuperView: http://10.5.5.9/gp/gpControl/setting/2/2
- 2.7K: http://10.5.5.9/gp/gpControl/setting/2/4
- 2.7K SuperView: http://10.5.5.9/gp/gpControl/setting/2/5
- 2.7K 4:3: http://10.5.5.9/gp/gpControl/setting/2/6
- 1440p: http://10.5.5.9/gp/gpControl/setting/2/7
- 1080p SuperView: http://10.5.5.9/gp/gpControl/setting/2/8
- 1080p: http://10.5.5.9/gp/gpControl/setting/2/9
- 960p: http://10.5.5.9/gp/gpControl/setting/2/10
- 720p SuperView: http://10.5.5.9/gp/gpControl/setting/2/11
- 720p: http://10.5.5.9/gp/gpControl/setting/2/12
- WVGA: http://10.5.5.9/gp/gpControl/setting/2/13
- 
- PHOTO MP:
- 
- 12MP Wide: http://10.5.5.9/gp/gpControl/setting/17/0
- 7MP Wide: http://10.5.5.9/gp/gpControl/setting/17/1
- 7MP Medium: http://10.5.5.9/gp/gpControl/setting/17/2
- 5MP Wide: http://10.5.5.9/gp/gpControl/setting/17/3
- ========
-
- #pragma mark - FRAME RATE
- FRAMERATES:
- 
- 240fps: http://10.5.5.9/gp/gpControl/setting/3/0
- 120fps: http://10.5.5.9/gp/gpControl/setting/3/1
- 100fps: http://10.5.5.9/gp/gpControl/setting/3/2
-    90fps: http://10.5.5.9/gp/gpControl/setting/3/3
- 80fps: http://10.5.5.9/gp/gpControl/setting/3/4
- 60fps: http://10.5.5.9/gp/gpControl/setting/3/5
-    50fps: http://10.5.5.9/gp/gpControl/setting/3/6
- 48fps: http://10.5.5.9/gp/gpControl/setting/3/7
- 30fps: http://10.5.5.9/gp/gpControl/setting/3/8
- 24fps: http://10.5.5.9/gp/gpControl/setting/3/9
- ========
- 
- #pragma mark - INTERVAL & EXPOSURE
- VIDEO TL INTERVALS:
- 0.5: http://10.5.5.9/gp/gpControl/setting/5/0
- 1: http://10.5.5.9/gp/gpControl/setting/5/1
- 2: http://10.5.5.9/gp/gpControl/setting/5/2
- 5: http://10.5.5.9/gp/gpControl/setting/5/3
- 10: http://10.5.5.9/gp/gpControl/setting/5/4
- 30: http://10.5.5.9/gp/gpControl/setting/5/5
- 60: http://10.5.5.9/gp/gpControl/setting/5/6
- 
- PHOTO TL INTERVALS:
- 
- 0.5: http://10.5.5.9/gp/gpControl/setting/30/0
- 1: http://10.5.5.9/gp/gpControl/setting/30/1
- 2: http://10.5.5.9/gp/gpControl/setting/30/2
- 5: http://10.5.5.9/gp/gpControl/setting/30/5
- 10: http://10.5.5.9/gp/gpControl/setting/30/10
- 30: http://10.5.5.9/gp/gpControl/setting/30/30
- 60: http://10.5.5.9/gp/gpControl/setting/30/60
-
- NIGHT PHOTO EXPOSURES:
- 
- Auto: http://10.5.5.9/gp/gpControl/setting/19/0
- 2: http://10.5.5.9/gp/gpControl/setting/19/1
- 5: http://10.5.5.9/gp/gpControl/setting/19/2
- 10: http://10.5.5.9/gp/gpControl/setting/19/3
- 15: http://10.5.5.9/gp/gpControl/setting/19/4
- 20: http://10.5.5.9/gp/gpControl/setting/19/5
- 30: http://10.5.5.9/gp/gpControl/setting/19/6
- 
- NIGHT LAPSE EXPOSURES:
- 
- Auto: http://10.5.5.9/gp/gpControl/setting/31/0
- 2: http://10.5.5.9/gp/gpControl/setting/31/1
- 5: http://10.5.5.9/gp/gpControl/setting/31/2
- 10: http://10.5.5.9/gp/gpControl/setting/31/3
- 15: http://10.5.5.9/gp/gpControl/setting/31/4
- 20: http://10.5.5.9/gp/gpControl/setting/31/5
- 30: http://10.5.5.9/gp/gpControl/setting/31/6
-
-
- ========
- 
- #pragma mark - ???
- FOV:
- SPOT METER:
- PROTUNE
+ streaming 09.17.18
+ created in MM
+ [not initialized, but assumed NO]
+ meant to be in: VC VWA if, set NO : not there yet
  
  */
 
+
+
+
+
+#pragma mark - TEST CODE
+//(Move to startUpApp method)
+
+- (void)assignDeviceManager: (NSString *)device/*(*UIViewController or whatever to pass in right one)*/ {
+    // allocate the public property
+    self.deviceCurrent = [[HeroProtocol alloc]init];
+    //    Hero3 *hero3 = [[Hero3 alloc]init];
+    
+    // set object to correct hero, using "if then" and then from there, use the DAO to your will
+    /*
+     create an instance of H4
+     create an instance of H3, etc.
+     */
+    
+    if ([device isEqual:@"HeroStrings"])
+        [self creationOfHeroStrings];
+    else if ([device isEqual:@"Hero4"])
+        [self creationOfHero4];
+    else
+        NSLog(@"No GoPro was selected");
+    
+    
+    [self.deviceCurrent.heroDAO createHardCodeAvailableSettings]; // sets the values of all available options for given Hero model
+    NSLog(@"Device's modes available %@", self.deviceCurrent.heroDAO.availableModes);
+    [self.deviceCurrent.heroDAO powerOn];
+    
+    // allocated the settingsCurrent, so that it exists
+    self.settingsCurrent = [[Settings alloc]init];
+    self.settingsCurrent.subMode = @"vidTL";
+    self.settingsCurrent.quality = @"4K";
+    
+    // Gather all current settings from GoPro [via DAO?] and assign the values
+    /*
+     [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
+     self.settingsCurrent.mode = @"photo";
+     // this is the line that will need to be duplicated many times over - INCORRECT - CALL JSON ONCE
+     self.settingsCurrent.mode = [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
+     self.settingsCurrent.batteryLevel = [self.deviceCurrent.heroDAO assignCurrentSettings:@"batteryLevel"];
+     self.settingsCurrent.battery = [self.deviceCurrent.heroDAO assignCurrentSettings:@"battery"];
+     */
+    
+    //10.26.18 I think this will replace all of the above
+    self.settingsCurrent = self.deviceCurrent.heroDAO.statusSettings;
+    
+    // allocated the settingsDesired, so that it exists
+    self.settingsDesired = [[Settings alloc]init];
+    
+}
+
+
+- (void) justSomeOfTheCallsThatCanBeMade {
+    //    deviceCurrent.heroDAO = hero3;
+    //     self.deviceCurrent.heroDAO = hero4;
+    [self.deviceCurrent.heroDAO powerOn];
+    [self.deviceCurrent.heroDAO powerOff];
+    
+    [self.deviceCurrent.heroDAO shutterOn];
+    [self.deviceCurrent.heroDAO shutterOff];
+    
+    //     self.deviceCurrent.heroDAO = heroStrings;
+    [self.deviceCurrent.heroDAO powerOn];
+    [self.deviceCurrent.heroDAO powerOff];
+    
+    [self.deviceCurrent.heroDAO shutterOn];
+    [self.deviceCurrent.heroDAO shutterOff];
+    
+    
+    // setting the current device to strings HARD CODE
+    //     self.deviceCurrent.heroDAO = heroStrings;
+    NSLog(@"the hero is currently strings");
+    
+    
+    //    NSLog(@"this device is %@", self.deviceCurrent); // this is to check when using it throughout app, to ensure it is still same object
+    
+    /*
+     NSLog(@"this device's available modes = \n %@", self.deviceCurrent.heroDAO.availableModes);
+     NSLog(@"this device's available subModes = \n %@", self.deviceCurrent.heroDAO.availableSubModes);
+     NSLog(@"this device's available frameRates = \n %@", self.deviceCurrent.heroDAO.availableFrameRates);
+     
+     */
+}
+
+//10.26.18 most likely remove
+#pragma mark - Submitting Values to DAO
+
+
+- (void)SetMode:(NSString *)mode {
+    // here is the check and send to DAO
+    if ([mode isEqualToString:self.settingsCurrent.mode]) {
+        NSLog(@"SAME MODE, PASS");
+        
+    }
+    else {
+        NSLog(@"user chose %@, assign through DAO", mode);
+        NSLog(@"mode: %@", self.settingsCurrent.mode);
+        //        [self.deviceCurrent.heroDAO modeVideo];
+        [self.deviceCurrent.heroDAO changeMode:mode];
+        
+        
+    }
+}
+- (void)SetSubMode:(NSString *)subMode {
+    // here is the check and send to DAO
+    if ([subMode isEqualToString:self.settingsCurrent.subMode]) {
+        NSLog(@"SAME SUBMODE, PASS");
+        
+    }
+    else {
+        NSLog(@"user chose %@, assign through DAO", subMode);
+        NSLog(@"subm: %@", self.settingsCurrent.subMode);
+        
+    }
+    
+}
+
+- (void)SetQuality:(NSString *)quality {
+    // here is the check and send to DAO
+    if ([quality isEqualToString:self.settingsCurrent.quality]) {
+        NSLog(@"SAME QUALITY, PASS");
+        
+    }
+    else {
+        NSLog(@"user chose %@, assign through DAO", quality);
+        NSLog(@"qual: %@", self.settingsCurrent.quality);
+    }
+    
+}
+
+
+#pragma mark - START UP
+
+- (void)startUpApp {
+    /*
+     open app
+     [check wifi]
+     choose gopro
+     [check gopro and assign object]
+     opens view of gopro
+     */
+    
+    
+    //    NSObject *passThrough = [[NSObject alloc]init];
+    //    self.dao = [Hero4 sharedDAO];
+    //    [self.dao shared];
+    
+    
+    //    if (/*device is Hero 4*/true) {
+    /*set DAO to Hero 4*/
+    //        self.dao = [Hero4 sharedDAO];
+    
+    //    }
+    //    else /*device is NOT Hero 4*/{
+    /*set DAO to Hero 3 plus*/
+    //    }
+    
+}
+
+
+#pragma mark - CURRENT SETTINGS ASSIGNMENT
+// the aim is to have a READABLE output here. the string goes in, the meaning comes out
+// @"modeCurrent" >> json >> 43 >> 1 >> @"photo"
+
+
+
+#pragma mark - CALLS
+
+#pragma mark - URL HANDLING
+
+- (void)sendDeviceCall {
+    /*ensure DAO is setup
+     assign currentCall with DAO.'givenCallURL'
+     make the call
+     check the call
+     assign BOOL to success/fail
+     */
+    NSString *urlForCurrentCall;
+    NSURL *url = [[NSURL alloc]initWithString:urlForCurrentCall];
+    //type your URL you can use initWithFormat for placeholders
+    NSURLSession *session = [NSURLSession sharedSession];  //use NSURLSession class
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+    //You then can use NSURLSessionDownloadTask or NSURLSessionUploadTask
+    
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+        //note that your requested data are stored on the disk automatic
+        //if you need to retrieve your data use the location parameter not the response parameter
+        //as it stores the location of ur retrieved data that was saved on the disk
+        //works asynchronously i think
+    }];
+    [task resume]; // to start the download task
+}
+
+#pragma mark - CREATE HERO
+- (void) creationOfHeroStrings {
+    self.HeroStrings = [HeroStrings sharedDAO];
+    //    self.HeroStrings = [[HeroStrings alloc]init];
+    self.deviceCurrent.heroDAO = self.HeroStrings;
+}
+
+- (void) creationOfHero4 {
+    self.Hero4 = [Hero4 sharedDAO];
+    //    self.Hero4 = [[Hero4 alloc]init];
+    self.deviceCurrent.heroDAO = self.Hero4;
+}
+
 #pragma mark - Singleton Methods
-
-
 + (id)sharedManager {
-    static Hero4 *sharedMyHero4 = nil;
+    static MethodManager *sharedMyManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedMyHero4 = [[self alloc] init];
+        sharedMyManager = [[self alloc] init];
     });
-    return sharedMyHero4;
+    return sharedMyManager;
 }
 
 - (id)init {
@@ -305,28 +271,5 @@ NSString *GPShutterStop = @"http://10.5.5.9/gp/gpControl/command/shutter?p=0";
     return self;
 }
 
-+ (instancetype)sharedDAO
-{
-    static Hero4 *sharedDAO = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedDAO = [[Hero4 alloc] init];
-        // Do any other initialisation stuff here
-    });
-    return sharedDAO;
-}
-
-// Synthesize Properties
-@synthesize availableFrameRates;
-@synthesize availableModes;
-@synthesize availableResolutions;
-@synthesize availableSubModes;
-@synthesize availableTLExposure;
-@synthesize availableTLIntervals;
-@synthesize dictionaryHardcode;
-@synthesize dictionarySettingsDefinition;
-@synthesize dictionaryStatusDefinition;
-@synthesize testSettings;
-@synthesize urlForCurrentCall;
 
 @end

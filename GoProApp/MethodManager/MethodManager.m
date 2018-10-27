@@ -73,12 +73,15 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
         NSLog(@"No GoPro was selected");
     
     
-    [self.deviceCurrent.heroDAO createAvailableSettings]; // sets the values of all available options for given Hero model
+    [self.deviceCurrent.heroDAO createHardCodeAvailableSettings]; // sets the values of all available options for given Hero model
     NSLog(@"Device's modes available %@", self.deviceCurrent.heroDAO.availableModes);
     [self.deviceCurrent.heroDAO powerOn];
     
     // allocated the settingsCurrent, so that it exists
     self.settingsCurrent = [[Settings alloc]init];
+    self.settingsCurrent.subMode = @"vidTL";
+    self.settingsCurrent.quality = @"4K";
+    
     // Gather all current settings from GoPro [via DAO?] and assign the values
     /*
      [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
@@ -88,12 +91,13 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
      self.settingsCurrent.batteryLevel = [self.deviceCurrent.heroDAO assignCurrentSettings:@"batteryLevel"];
      self.settingsCurrent.battery = [self.deviceCurrent.heroDAO assignCurrentSettings:@"battery"];
      */
-    self.settingsCurrent.subMode = @"vidTL";
-    self.settingsCurrent.quality = @"4K";
     
-// allocated the settingsDesired, so that it exists
+    //10.26.18 I think this will replace all of the above
+    self.settingsCurrent = self.deviceCurrent.heroDAO.statusSettings;
+    
+    // allocated the settingsDesired, so that it exists
     self.settingsDesired = [[Settings alloc]init];
-
+    
 }
 
 
@@ -129,6 +133,7 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
      */
 }
 
+//10.26.18 most likely remove
 #pragma mark - Submitting Values to DAO
 
 
@@ -136,15 +141,15 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     // here is the check and send to DAO
     if ([mode isEqualToString:self.settingsCurrent.mode]) {
         NSLog(@"SAME MODE, PASS");
-
+        
     }
     else {
         NSLog(@"user chose %@, assign through DAO", mode);
         NSLog(@"mode: %@", self.settingsCurrent.mode);
-//        [self.deviceCurrent.heroDAO modeVideo];
+        //        [self.deviceCurrent.heroDAO modeVideo];
         [self.deviceCurrent.heroDAO changeMode:mode];
         
-
+        
     }
 }
 - (void)SetSubMode:(NSString *)subMode {
@@ -156,11 +161,11 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     else {
         NSLog(@"user chose %@, assign through DAO", subMode);
         NSLog(@"subm: %@", self.settingsCurrent.subMode);
-
+        
     }
     
 }
-    
+
 - (void)SetQuality:(NSString *)quality {
     // here is the check and send to DAO
     if ([quality isEqualToString:self.settingsCurrent.quality]) {
@@ -170,7 +175,7 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     else {
         NSLog(@"user chose %@, assign through DAO", quality);
         NSLog(@"qual: %@", self.settingsCurrent.quality);
-        }
+    }
     
 }
 
@@ -192,14 +197,14 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     //    [self.dao shared];
     
     
-    if (/*device is Hero 4*/true) {
-        /*set DAO to Hero 4*/
-        //        self.dao = [Hero4 sharedDAO];
-        
-    }
-    else /*device is NOT Hero 4*/{
-        /*set DAO to Hero 3 plus*/
-    }
+    //    if (/*device is Hero 4*/true) {
+    /*set DAO to Hero 4*/
+    //        self.dao = [Hero4 sharedDAO];
+    
+    //    }
+    //    else /*device is NOT Hero 4*/{
+    /*set DAO to Hero 3 plus*/
+    //    }
     
 }
 
@@ -208,9 +213,7 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 // the aim is to have a READABLE output here. the string goes in, the meaning comes out
 // @"modeCurrent" >> json >> 43 >> 1 >> @"photo"
 
-- (void)assignGivenValues {
-//    self.settingsCurrent.battery = [self.deviceCurrent.heroDAO readableBatteryLevel:<#(int)#>];
-}
+
 
 #pragma mark - CALLS
 

@@ -64,10 +64,13 @@
 
 
 // get status from call to GoPro - JSON is returned. Assign to dictionary of settings/status
-- (void)assignCurrentSettings;
+- (void)assignCurrentStatusSettings;
+- (void)assignCurrentVideoSettings;
+- (void)assignCurrentPhotoSettings;
+- (void)assignCurrentMultiShotSettings;
 
 // list the available settings for current device
-- (void)createAvailableSettings;
+- (void)createHardCodeAvailableSettings;
 
 // make the comparable dictionary to assign readable value to the JSON
 - (void)createHardCodeDictionary;
@@ -89,9 +92,16 @@
 // hardcoded dictionary to define "keys" for the status/settings
 @property (nonatomic, retain) NSDictionary *dictionaryStatusDefinition;
 @property (nonatomic, retain) NSDictionary *dictionarySettingsDefinition;
-@property (nonatomic, retain) NSDictionary *dictionaryHardcode;
+@property (nonatomic, retain) NSDictionary *dictionaryStatusHardcode;
+@property (nonatomic, retain) NSDictionary *dictionarySettingsHardcode;
 
-@property (nonatomic, retain) Settings *testSettings; // please rename 10.26.18
+// settings for status, other and modes
+@property (nonatomic, retain) Settings *statusSettings;
+@property (nonatomic, retain) Settings *otherSettings;
+@property (nonatomic, retain) Settings *videoSettings;
+@property (nonatomic, retain) Settings *photoSettings;
+@property (nonatomic, retain) Settings *multiShotSettings;
+
 @property (nonatomic, retain) NSString *urlForCurrentCall; // for passing through the HTTP call
 
 
@@ -178,9 +188,9 @@
 
 - (NSString *) readablePhotoEVComp:(int)value;
 
-- (NSString *) readablePhotoISONMin:(int)value;
+- (NSString *) readablePhotoISOMin:(int)value;
 
-- (NSString *) readablePhotoISONMax:(int)value;
+- (NSString *) readablePhotoISOMax:(int)value;
 
 
 
@@ -214,9 +224,9 @@
 
 - (NSString *) readableMSEVComp:(int)value;
 
-- (NSString *) readableMSISONMin:(int)value;
+- (NSString *) readableMSISOMin:(int)value;
 
-- (NSString *) readableMSISONMax:(int)value;
+- (NSString *) readableMSISOMax:(int)value;
 
 #pragma mark - Other Settings
 // Other parameters -- readableOther

@@ -17,43 +17,116 @@
     self.dictionarySettingsDefinition = [[NSDictionary alloc]init];
     self.dictionaryStatusDefinition = [[NSDictionary alloc]init];
     [self createHardCodeDictionary];
-//    self.dictionaryStatusDefinition = @{@"CurrentMode": @"43", @"CurrentSubMode":@"44", @"BatteryLevel": @"2", @"BatteryAvailable": @"1"};
+    //    self.dictionaryStatusDefinition = @{@"CurrentMode": @"43", @"CurrentSubMode":@"44", @"BatteryLevel": @"2", @"BatteryAvailable": @"1"};
     
 }
 
-# pragma mark - DICTIONARIES
+# pragma mark - DICTIONARIES HARDCODE ASSIGN
 
 // this is for comparison to the JSON that comes in. It will make that readable
-//10.25.18 necessary to include SETTINGS as well, since only STATUS is here
 - (void)createHardCodeDictionary {
-    NSDictionary *myDictionary = [[NSDictionary alloc]initWithObjectsAndKeys:
-                                  @"1", @"battery", // function
-                                  @"2", @"batteryLevel", // function
-                                  @"43", @"modeCurrent", // function
-                                  @"44", @"subModeCurrent", // function
-                                  @"13", @"currentVideoDuration",
-                                  @"39", @"capturedMultiShot",
-                                  @"31", @"clientsConnected",
-                                  @"32", @"streamingStatus", // function
-                                  @"33", @"sdCardPresent", // function
-                                  @"34", @"remainingPhotos",
-                                  @"35", @"remainingVideoTime",
-                                  @"36", @"capturedBatchPhotos",
-                                  @"37", @"capturedVideos",
-                                  @"38", @"capturedPhotosAll",
-                                  @"39", @"capturedVideosAll",
-                                  @"8", @"recordingProcessing", //?
-                                  @"54", @"remainingBytes",
-                                  nil];
-    NSLog(@"Hardcoded Dict: %@", myDictionary);
+    // status hardcode dictionary
+    NSDictionary *myStatusDictionary = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                        @"1", @"battery", // function
+                                        @"2", @"batteryLevel", // function
+                                        @"43", @"modeCurrent", // function
+                                        @"44", @"subModeCurrent", // function
+                                        @"13", @"currentVideoDuration",
+                                        @"39", @"capturedMultiShot",
+                                        @"31", @"clientsConnected",
+                                        @"32", @"streamingStatus", // function
+                                        @"33", @"sdCardPresent", // function
+                                        @"34", @"remainingPhotos",
+                                        @"35", @"remainingVideoTime",
+                                        @"36", @"capturedBatchPhotos",
+                                        @"37", @"capturedVideos",
+                                        @"38", @"capturedPhotosAll",
+                                        @"39", @"capturedVideosAll",
+                                        @"8", @"recordingProcessing", //?
+                                        @"54", @"remainingBytes",
+                                        nil];
+    NSLog(@"Hardcoded Status Dict: %@", myStatusDictionary);
     
-    self.dictionaryHardcode = myDictionary;
+    self.dictionaryStatusHardcode = myStatusDictionary;
+    
+    /*============================================== ============================================== ============================================== */
+    // settings hardcode dictionary
+    
+    NSDictionary *mySettingsDictionary = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                          
+                                          // Video Dictionary Portion
+                                          @"68", @"videoSubMode",
+                                          @"2", @"videoResolution",
+                                          @"3", @"videoFrameRate",
+                                          @"4", @"videoFOV",
+                                          @"5", @"videoTLInterval",
+                                          @"6", @"videoLoopingInterval",
+                                          @"7", @"videoPhotoVideoInterval",
+                                          @"8", @"videoLowLight",
+                                          @"9", @"videoSpotMeter",
+                                          @"10", @"videoProtune",
+                                          @"11", @"videoWhiteBalance",
+                                          @"12", @"videoColor",
+                                          @"73", @"videoManualExposure",
+                                          @"74", @"videoISOMode",
+                                          @"13", @"videoISOLimit",
+                                          @"14", @"videoSharpness",
+                                          @"15", @"videoEVComp",
+                                          
+                                          // Photo Dictionary Portion
+                                          @"69", @"photoSubMode",
+                                          @"18", @"photoContinuousRate",
+                                          @"17", @"photoMegapixels",
+                                          @"19", @"photoShutter",
+                                          @"20", @"photoSpotMeter",
+                                          @"21", @"photoProtune",
+                                          @"22", @"photoWhiteBalance",
+                                          @"23", @"photoColor",
+                                          @"25", @"photoSharpness",
+                                          @"26", @"photoEVComp",
+                                          @"75", @"photoISOMin",
+                                          @"24", @"photoISOLimit",
+                                          
+                                          // MultiShot Dictionary Portion
+                                          @"27", @"MSDefaultSubMode",
+                                          @"70", @"MSSubMode",
+                                          @"31", @"MSNightExposure",
+                                          @"29", @"MSBurstRate",
+                                          @"30", @"MSTLInterval",
+                                          @"32", @"MSNLInterval",
+                                          @"28", @"MSMegapixels",
+                                          @"33", @"MSSpotMeter",
+                                          @"34", @"MSProtune",
+                                          @"35", @"MSWhiteBalance",
+                                          @"36", @"MSColor",
+                                          @"38", @"MSSharpness",
+                                          @"39", @"MSEVComp",
+                                          @"76", @"MSISOMin",
+                                          @"37", @"MSISOLimit",
+                                          
+                                          // Other Dictionary Portion
+                                          @"72", @"otherLCD",
+                                          @"49", @"otherLCDBrightness",
+                                          @"50", @"otherLCDLock",
+                                          @"51", @"otherLCDTimeOutsleep",
+                                          @"52", @"otherOrientation",
+                                          @"53", @"otherDefaultBootMode",
+                                          @"54", @"otherQuickCapture",
+                                          @"55", @"otherLED",
+                                          @"56", @"otherVolumeBeeps",
+                                          @"57", @"otherVideoFormat",
+                                          @"58", @"otherOnScreenData",
+                                          @"59", @"otherAutoPowerOff",
+                                          nil];
+    
+    NSLog(@"Hardcoded Settings Dict: %@", mySettingsDictionary);
+    
+    self.dictionaryStatusHardcode = mySettingsDictionary;
 }
 
 /* 03.19.18 09.22.18 currently what we're pulling from to assign*/
-// 10.26.18 rename to createHardCodeAvailableSettings
 
--(void)createAvailableSettings {
+-(void)createHardCodeAvailableSettings {
     self.availableModes = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
     //    NSLog(@"The Modes available for this device %@",self.availableModes);
     
@@ -74,37 +147,68 @@
 
 // function to assign the JSON values to the settings, displayed in VCs
 // this will need to be broken up for given usage of the mode. no need to display video specs, if photo is current.
--(void)assignCurrentSettings{
-    self.testSettings = [[Settings alloc]init];
-
+-(void)assignCurrentStatusSettings{
+    
     // assign to the array of values for given arrays
-    self.testSettings.batteryLevel = [self readableBatteryLevel:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryHardcode valueForKey:@"batteryLevel"]]intValue]];
-    self.testSettings.battery = [self readableBattery:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryHardcode valueForKey:@"battery"]]intValue]];
-    self.testSettings.mode = [self readableModeCurrent:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryHardcode valueForKey:@"modeCurrent"]]intValue]];
-    self.testSettings.subMode = [self readableModeCurrent:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryHardcode valueForKey:@"subModeCurrent"]]intValue]];
-    self.testSettings.sdCardPresent = [self readableSDCard:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryHardcode valueForKey:@"sdCardPresent"]]intValue]];
-    self.testSettings.quality = [self.dictionaryStatusDefinition valueForKey:[self.dictionaryHardcode valueForKey:@"remainingPhotos"]];
-    self.testSettings.quality = [self.dictionaryStatusDefinition valueForKey:[self.dictionaryHardcode valueForKey:@"remainingVideoTime"]];
-    self.testSettings.streamingStatus = [self readableStreamingStatus:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryHardcode valueForKey:@"streamingFeed"]]intValue]];
-//    NSLog(@"BL = %@, B = %@, MC = %@", self.testSettings.batteryLevel, self.testSettings.battery, self.testSettings.mode);
-
-//    self.testSettings.subMode = [self readableSubModeCurrent:[[self.dictionaryHardcode valueForKey:[self.dictionaryStatusDefinition valueForKey:@"subModeCurrent"]]intValue]];
+    self.statusSettings.batteryLevel = [self readableBatteryLevel:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"batteryLevel"]]intValue]];
+    self.statusSettings.battery = [self readableBattery:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"battery"]]intValue]];
+    self.statusSettings.battery = [self readableBattery:[self compareStatusHardcode:@"battery"]];
+    self.statusSettings.mode = [self readableModeCurrent:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"modeCurrent"]]intValue]];
+    self.statusSettings.subMode = [self readableModeCurrent:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"subModeCurrent"]]intValue]];
+    self.statusSettings.sdCardPresent = [self readableSDCard:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"sdCardPresent"]]intValue]];
+    self.statusSettings.quality = [self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"remainingPhotos"]];
+    self.statusSettings.quality = [self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"remainingVideoTime"]];
+    self.statusSettings.streamingStatus = [self readableStreamingStatus:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"streamingFeed"]]intValue]];
+    //    NSLog(@"BL = %@, B = %@, MC = %@", self.StatusSettings.batteryLevel, self.StatusSettings.battery, self.StatusSettings.mode);
+    
+    //    self.StatusSettings.subMode = [self readableSubModeCurrent:[[self.dictionaryHardcode valueForKey:[self.dictionaryStatusDefinition valueForKey:@"subModeCurrent"]]intValue]];
     NSLog(@"settings object created, and now values assigned");
     
-
+    if ([self.statusSettings.mode isEqualToString:@"Video"]) {
+        NSLog(@"User is using %@", self.statusSettings.mode);
+        // testing
+        [self assignCurrentVideoSettings];
+    }
     
 }
+
+
+-(void)assignCurrentVideoSettings{
+    self.videoSettings.subMode = [self readableVideoSubMode:[[self.dictionarySettingsDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"videoSubMode"]]intValue]];
+    NSLog(@"video sub mode 1 - %@", self.videoSettings.subMode);
+
+    self.videoSettings.subMode = [self readableVideoSubMode:[self compareSettingsHardcode:@"videoSubMode"]];
+    NSLog(@"video sub mode 2 - %@", self.videoSettings.subMode);
+
+}
+
+-(void)assignCurrentPhotoSettings{
+    self.photoSettings.subMode = [self readableVideoSubMode:[[self.dictionarySettingsDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"photoSubMode"]]intValue]];
+    self.photoSettings.subMode = [self readableVideoSubMode:[self compareSettingsHardcode:@"photoSubMode"]];
+}
+
+-(void)assignCurrentMultiShotSettings{
+    self.photoSettings.subMode = [self readableVideoSubMode:[[self.dictionarySettingsDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"MSSubMode"]]intValue]];
+    self.photoSettings.subMode = [self readableVideoSubMode:[self compareSettingsHardcode:@"MSSubMode"]];
+}
+
+- (int)compareStatusHardcode:(NSString *)key {
+    return [[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:key]]intValue];
+}
+
+- (int)compareSettingsHardcode:(NSString *)key {
+    return [[self.dictionarySettingsDefinition valueForKey:[self.dictionarySettingsHardcode valueForKey:key]]intValue];
+}
+
+#pragma mark - JSON Handling
+
 
 // once JSON is acquired and parsed, split into settings and status to be used throughout app
 -(void)splitJSON{
     
     // send signal to GoPro to recover current settings, and wait for completion
     [self fetchGoProSettingsAndStatusJSONWithCompletion:^(NSDictionary *myJSONDictionary) {
-        /*
-         NSDictionary *myJSONDictTest = [[NSDictionary alloc]init];
-         myJSONDictTest = myDictionary;
-         
-         */        // split dictionary into status and settings
+        // split dictionary into status and settings
         self.dictionaryStatusDefinition = [myJSONDictionary objectForKey:@"status"];
         self.dictionarySettingsDefinition = [myJSONDictionary objectForKey:@"settings"];
         
@@ -114,9 +218,8 @@
         NSLog(@"statusDict = %@", self.dictionaryStatusDefinition);
         
         // use dictionaries and assign values
-        [self assignCurrentSettings];
+        [self assignCurrentStatusSettings];
     }];
-    
 }
 
 
@@ -143,7 +246,7 @@
  }] resume];
  return self.testDictionary;
  }
-*/
+ */
 
 // send signal to GoPro to receive the JSON - turn that into dictionary - return
 -(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler {
@@ -309,107 +412,148 @@
 // maybe these get rewritten as switch case?
 
 - (NSString *) readableBatteryLevel:(int)value {
-    if (value == 0) {
-        return @"Empty";
+    switch (value) {
+        case 0:
+            return @"Empty";
+            break;
+        case 1:
+            return @"Low";
+            break;
+        case 2:
+            return @"Halfway";
+            break;
+        case 3:
+            return @"Full";
+            break;
+        case 4:
+            return @"Charging";
+            break;
+        default:
+            return NULL;
+            break;
     }
-    else if (value == 1) {
-        return @"Low";
-    }
-    else if (value == 2) {
-        return @"Halfway";
-    }
-    else if (value == 3) {
-        return @"Full";
-    }
-    else if (value == 4) {
-        return @"Charging";
-    }
-    else return NULL;
 }
 
 - (NSString *) readableBattery:(int)value {
-    if (value == 0) {
-        return @"NoBattery";
+    switch (value) {
+        case 0:
+            return @"NoBattery";
+            break;
+        case 1:
+            return @"BatteryAvailable";
+            break;
+        default:
+            return NULL;
+            break;
     }
-    else if (value == 1) {
-        return @"BatteryAvailable";
-    }
-    else return NULL;
 }
 
 - (NSString *) readableModeCurrent:(int)value {
-    if (value == 0) {
-        return @"Video";
+    switch (value) {
+        case 0:
+            return @"Video";
+            break;
+        case 1:
+            return @"Photo";
+            break;
+        case 2:
+            return @"MultiShot";
+            break;
+        case 5:
+            return @"Settings";
+            break;
+        default:
+            return NULL;
+            break;
     }
-    else if (value == 1) {
-        return @"Photo";
-    }
-    else if (value == 2) {
-        return @"MultiShot";
-    }
-    else if (value == 5) {
-        return @"SETTINGS";
-    }
-    else return NULL;
+    
 }
 
 - (NSString *) readableSubModeCurrentVideo:(int)value {
-    if (value == 0) {
-        return @"Video";
+    switch (value) {
+        case 0:
+            return @"Video";
+            break;
+        case 1:
+            return @"TLVideo";
+            break;
+        case 2:
+            return @"Video+Photo";
+            break;
+            
+        default:
+            return NULL;
+            break;
     }
-    else if (value == 1) {
-        return @"TLVideo";
-    }
-    else if (value == 2) {
-        return @"Video+Photo";
-    }
-    else return NULL;
 }
 
 - (NSString *) readableSubModeCurrentPhoto:(int)value {
-    if (value == 0) {
-        return @"SinglePic";
+    switch (value) {
+        case 0:
+            return @"SinglePic";
+            break;
+        case 1:
+            return @"Continuous";
+            break;
+        case 2:
+            return @"NightPhoto";
+            break;
+            
+        default:
+            return NULL;
+            break;
     }
-    else if (value == 1) {
-        return @"Continuous";
-    }
-    else if (value == 2) {
-        return @"NightPhoto";
-    }
-    else return NULL;
+    
 }
 
 - (NSString *) readableSubModeCurrentMultiShot:(int)value {
-    if (value == 0) {
-        return @"Burst";
+    switch (value) {
+        case 0:
+            return @"Burst";
+            break;
+        case 1:
+            return @"TimeLapse";
+            break;
+        case 2:
+            return @"NightLapse";
+            break;
+            
+        default:
+            return NULL;
+            break;
     }
-    else if (value == 1) {
-        return @"TimeLapse";
-    }
-    else if (value == 2) {
-        return @"NightLapse";
-    }
-    else return NULL;
+    
 }
 
 - (NSString *) readableStreamingStatus:(int)value {
-    if (value == 0) {
-        return @"NotStreaming";
+    switch (value) {
+        case 0:
+            return @"NotStreaming";
+            break;
+        case 1:
+            return @"Streaming";
+            break;
+            
+        default:
+            return NULL;
+            break;
     }
-    else if (value == 1) {
-        return @"Streaming";
-    }
-    else return NULL;
+    
 }
 
 - (NSString *) readableSDCard:(int)value {
-    if (value == 0) {
-        return @"SDCardAvailable";
+    switch (value) {
+        case 0:
+            return @"SDCardAvailable";
+            break;
+        case 2:
+            return @"NoSDCard";
+            break;
+            
+        default:
+            return NULL;
+            break;
     }
-    else if (value == 2) {
-        return @"NoSDCard";
-    }
-    else return NULL;
 }
 
 
@@ -1097,7 +1241,7 @@
     }
 }
 
-- (NSString *) readablePhotoISONMin:(int)value {  // (v4.00FW)
+- (NSString *) readablePhotoISOMin:(int)value {  // (v4.00FW)
     switch (value) {
         case 0:
             return @"800";
@@ -1117,7 +1261,7 @@
     }
 }
 
-- (NSString *) readablePhotoISONMax:(int)value {  // (v4.00FW) AKA "Limit"
+- (NSString *) readablePhotoISOMax:(int)value {  // (v4.00FW) AKA "Limit"
     switch (value) {
         case 0:
             return @"800";
@@ -1462,7 +1606,7 @@
     }
 }
 
-- (NSString *) readableMSISONMin:(int)value {  // (v4.00FW)
+- (NSString *) readableMSISOMin:(int)value {  // (v4.00FW)
     switch (value) {
         case 0:
             return @"800";
@@ -1482,7 +1626,7 @@
     }
 }
 
-- (NSString *) readableMSISONMax:(int)value {  // (v4.00FW) AKA "Limit"
+- (NSString *) readableMSISOMax:(int)value {  // (v4.00FW) AKA "Limit"
     switch (value) {
         case 0:
             return @"800";
@@ -1707,7 +1851,7 @@
 
 
 
-#pragma mark - Singleton Methods
+#pragma mark - Singleton Methods & Synthesizing
 
 
 + (id)sharedManager {
@@ -1719,14 +1863,7 @@
     return sharedMyHeroStrings;
 }
 
-- (id)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-+ (instancetype)sharedDAO
-{
++ (instancetype)sharedDAO {
     static HeroStrings *sharedDAO = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -1734,6 +1871,12 @@
         // Do any other initialisation stuff here
     });
     return sharedDAO;
+}
+
+- (id)init {
+    if (self = [super init]) {
+    }
+    return self;
 }
 
 
@@ -1744,11 +1887,15 @@
 @synthesize availableSubModes;
 @synthesize availableTLExposure;
 @synthesize availableTLIntervals;
-@synthesize dictionaryHardcode;
+@synthesize dictionaryStatusHardcode;
+@synthesize dictionarySettingsHardcode;
 @synthesize dictionarySettingsDefinition;
 @synthesize dictionaryStatusDefinition;
-@synthesize testSettings;
+@synthesize statusSettings;
 @synthesize urlForCurrentCall;
-
+@synthesize multiShotSettings;
+@synthesize otherSettings;
+@synthesize photoSettings;
+@synthesize videoSettings;
 
 @end
