@@ -79,8 +79,8 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     
     // allocated the settingsCurrent, so that it exists
     self.settingsCurrent = [[Settings alloc]init];
-    self.settingsCurrent.subMode = @"vidTL";
-    self.settingsCurrent.quality = @"4K";
+//    self.settingsCurrent.subMode = @"vidTL";
+//    self.settingsCurrent.quality = @"4K";
     
     // Gather all current settings from GoPro [via DAO?] and assign the values
     /*
@@ -93,8 +93,10 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
      */
     
     //10.26.18 I think this will replace all of the above
-    self.settingsCurrent = self.deviceCurrent.heroDAO.statusSettings;
-    
+    // below is the updated version after status added, and changed from broken up settings(ie vid, pho, MS)
+    //    self.settingsCurrent = self.deviceCurrent.heroDAO.statusSettings;
+        self.settingsCurrent = self.deviceCurrent.heroDAO.videoSettings;
+
     // allocated the settingsDesired, so that it exists
     self.settingsDesired = [[Settings alloc]init];
     
@@ -139,7 +141,7 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 
 - (void)SetMode:(NSString *)mode {
     // here is the check and send to DAO
-    if ([mode isEqualToString:self.settingsCurrent.mode]) {
+   /* if ([mode isEqualToString:self.settingsCurrent.mode]) {
         NSLog(@"SAME MODE, PASS");
         
     }
@@ -150,8 +152,9 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
         [self.deviceCurrent.heroDAO changeMode:mode];
         
         
-    }
+    }*/
 }
+/*
 - (void)SetSubMode:(NSString *)subMode {
     // here is the check and send to DAO
     if ([subMode isEqualToString:self.settingsCurrent.subMode]) {
@@ -178,7 +181,7 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     }
     
 }
-
+*/
 
 #pragma mark - START UP
 
@@ -250,9 +253,9 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 }
 
 - (void) creationOfHero4 {
-    self.Hero4 = [Hero4 sharedDAO];
+//    self.Hero4 = [Hero4 sharedDAO];
     //    self.Hero4 = [[Hero4 alloc]init];
-    self.deviceCurrent.heroDAO = self.Hero4;
+//    self.deviceCurrent.heroDAO = self.Hero4;
 }
 
 #pragma mark - Singleton Methods

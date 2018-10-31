@@ -158,14 +158,14 @@
     // test code: self.methodManager.settingsCurrent.mode = @"photo";
     //    if the settingsCurrent is set, then submit to change with these values
     
-    self.methodManager.settingsDesired.mode = @"videod";
-    self.methodManager.settingsDesired.subMode = @"vidTL";
-    self.methodManager.settingsDesired.quality = @"1080p";
+//    self.methodManager.settingsDesired.mode = @"videod";
+//    self.methodManager.settingsDesired.subMode = @"vidTL";
+//    self.methodManager.settingsDesired.quality = @"1080p";
     //    to check if it is what is expected: NSLog(@"%@", self.methodManager.settingsCurrent.mode);
     
-    [self.methodManager SetMode:self.methodManager.settingsDesired.mode];
-    [self.methodManager SetSubMode:self.methodManager.settingsDesired.subMode];
-    [self.methodManager SetQuality:self.methodManager.settingsDesired.quality];
+//    [self.methodManager SetMode:self.methodManager.settingsDesired.mode];
+//    [self.methodManager SetSubMode:self.methodManager.settingsDesired.subMode];
+//    [self.methodManager SetQuality:self.methodManager.settingsDesired.quality];
     
 }
 

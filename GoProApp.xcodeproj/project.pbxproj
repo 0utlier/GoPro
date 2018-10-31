@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		312BC85B204E312100D4CDC6 /* TLSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312BC85A204E312100D4CDC6 /* TLSettingsViewController.m */; };
-		3156679B1FB68B660006C2FA /* Hero4.m in Sources */ = {isa = PBXBuildFile; fileRef = 3156679A1FB68B660006C2FA /* Hero4.m */; };
 		31718BAD1FFE55CC00ED5F69 /* PreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31718BAC1FFE55CC00ED5F69 /* PreviewViewController.m */; };
 		317384991FE36FF500C2B6CE /* OptionsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 317384981FE36FF500C2B6CE /* OptionsCollectionViewController.m */; };
 		3173849C1FE3702100C2B6CE /* OptionsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3173849B1FE3702100C2B6CE /* OptionsCollectionViewCell.m */; };
@@ -24,10 +23,11 @@
 		31C2871D20EB13DB00259049 /* StreamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C2871C20EB13DB00259049 /* StreamViewController.m */; };
 		31C82C141FBA6E0C007799F9 /* HeroProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C82C131FBA6E0C007799F9 /* HeroProtocol.m */; };
 		31EB9C9C1FBFDD5C00B1D07D /* HeroStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */; };
-		431C671E215B27C20046D9EC /* Hero4.h in Sources */ = {isa = PBXBuildFile; fileRef = 315667991FB68B660006C2FA /* Hero4.h */; };
-		431C671F215B27C20046D9EC /* HeroProtocol.h in Sources */ = {isa = PBXBuildFile; fileRef = 31C82C121FBA6E0C007799F9 /* HeroProtocol.h */; };
-		431C6720215B27C20046D9EC /* HeroStrings.h in Sources */ = {isa = PBXBuildFile; fileRef = 31EB9C9A1FBFDD5C00B1D07D /* HeroStrings.h */; };
-		4368216F2159CDE30024F6CF /* Settings.h in Sources */ = {isa = PBXBuildFile; fileRef = 43DBCB282156DEB400DBDD42 /* Settings.h */; };
+		4336216D21852ABF00CDA236 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4336216C21852ABF00CDA236 /* UIKit.framework */; };
+		4336216F21852B0200CDA236 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4336216E21852B0100CDA236 /* Foundation.framework */; };
+		4336217221852CA900CDA236 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4336217121852CA600CDA236 /* CoreData.framework */; };
+		4336217421852D0C00CDA236 /* Hero4.m in Sources */ = {isa = PBXBuildFile; fileRef = 3156679A1FB68B660006C2FA /* Hero4.m */; };
+		436A4350218539020006480F /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 436A434F218539020006480F /* Status.m */; };
 		43DBCB2A2156DEB400DBDD42 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DBCB292156DEB400DBDD42 /* Settings.m */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +64,11 @@
 		31C82C131FBA6E0C007799F9 /* HeroProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeroProtocol.m; path = DAODevices/HeroProtocol.m; sourceTree = "<group>"; };
 		31EB9C9A1FBFDD5C00B1D07D /* HeroStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeroStrings.h; path = DAODevices/HeroStrings.h; sourceTree = "<group>"; };
 		31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeroStrings.m; path = DAODevices/HeroStrings.m; sourceTree = "<group>"; };
+		4336216C21852ABF00CDA236 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4336216E21852B0100CDA236 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4336217121852CA600CDA236 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		436A434E218539020006480F /* Status.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
+		436A434F218539020006480F /* Status.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		43DBCB282156DEB400DBDD42 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = GoProApp/Settings.h; sourceTree = SOURCE_ROOT; };
 		43DBCB292156DEB400DBDD42 /* Settings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Settings.m; path = GoProApp/Settings.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -73,6 +78,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4336217221852CA900CDA236 /* CoreData.framework in Frameworks */,
+				4336216F21852B0200CDA236 /* Foundation.framework in Frameworks */,
+				4336216D21852ABF00CDA236 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +119,7 @@
 			children = (
 				31A13C501FA6B5860012EC68 /* GoProApp */,
 				31A13C4F1FA6B5860012EC68 /* Products */,
+				431AC0D2218528E4005BE902 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,11 +223,23 @@
 			name = StreamVC;
 			sourceTree = "<group>";
 		};
+		431AC0D2218528E4005BE902 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4336217121852CA600CDA236 /* CoreData.framework */,
+				4336216E21852B0100CDA236 /* Foundation.framework */,
+				4336216C21852ABF00CDA236 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		43DBCB272156DE3E00DBDD42 /* SettingsObject */ = {
 			isa = PBXGroup;
 			children = (
 				43DBCB282156DEB400DBDD42 /* Settings.h */,
 				43DBCB292156DEB400DBDD42 /* Settings.m */,
+				436A434E218539020006480F /* Status.h */,
+				436A434F218539020006480F /* Status.m */,
 			);
 			name = SettingsObject;
 			sourceTree = "<group>";
@@ -295,18 +316,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				431C671E215B27C20046D9EC /* Hero4.h in Sources */,
-				431C671F215B27C20046D9EC /* HeroProtocol.h in Sources */,
-				431C6720215B27C20046D9EC /* HeroStrings.h in Sources */,
-				4368216F2159CDE30024F6CF /* Settings.h in Sources */,
+				4336217421852D0C00CDA236 /* Hero4.m in Sources */,
 				312BC85B204E312100D4CDC6 /* TLSettingsViewController.m in Sources */,
 				31A13C591FA6B5860012EC68 /* ViewController.m in Sources */,
 				43DBCB2A2156DEB400DBDD42 /* Settings.m in Sources */,
 				31EB9C9C1FBFDD5C00B1D07D /* HeroStrings.m in Sources */,
 				3173849C1FE3702100C2B6CE /* OptionsCollectionViewCell.m in Sources */,
 				31C82C141FBA6E0C007799F9 /* HeroProtocol.m in Sources */,
+				436A4350218539020006480F /* Status.m in Sources */,
 				31A13C561FA6B5860012EC68 /* AppDelegate.m in Sources */,
-				3156679B1FB68B660006C2FA /* Hero4.m in Sources */,
 				31A13C531FA6B5860012EC68 /* main.m in Sources */,
 				31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */,
 				31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */,
@@ -388,7 +406,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -439,7 +457,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -451,12 +469,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J8S4TEK739;
+				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = GoProApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Outlier.GoProApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -464,12 +486,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J8S4TEK739;
+				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = GoProApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Outlier.GoProApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

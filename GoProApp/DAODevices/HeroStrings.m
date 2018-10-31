@@ -12,12 +12,11 @@
 
 
 -(void)objectDidLoad {
-    
+    /*10.30.18 removed since synthesization is at bottom [may depend on order, if not already assigned from JSON]*/
     // create the hardcoded dictionary to define "keys" for the status/settings
-    self.dictionarySettingsDefinition = [[NSDictionary alloc]init];
-    self.dictionaryStatusDefinition = [[NSDictionary alloc]init];
+    //    self.dictionarySettingsDefinition = [[NSDictionary alloc]init];
+    //    self.dictionaryStatusDefinition = [[NSDictionary alloc]init];
     [self createHardCodeDictionary];
-    //    self.dictionaryStatusDefinition = @{@"CurrentMode": @"43", @"CurrentSubMode":@"44", @"BatteryLevel": @"2", @"BatteryAvailable": @"1"};
     
 }
 
@@ -27,8 +26,8 @@
 - (void)createHardCodeDictionary {
     // status hardcode dictionary
     NSDictionary *myStatusDictionary = [[NSDictionary alloc]initWithObjectsAndKeys:
-                                        @"1", @"battery", // function
-                                        @"2", @"batteryLevel", // function
+                                        @"1",  @"battery", // function
+                                        @"2",  @"batteryLevel", // function
                                         @"43", @"modeCurrent", // function
                                         @"44", @"subModeCurrent", // function
                                         @"13", @"currentVideoDuration",
@@ -42,7 +41,7 @@
                                         @"37", @"capturedVideos",
                                         @"38", @"capturedPhotosAll",
                                         @"39", @"capturedVideosAll",
-                                        @"8", @"recordingProcessing", //?
+                                        @"8",  @"recordingProcessing", //?
                                         @"54", @"remainingBytes",
                                         nil];
     NSLog(@"Hardcoded Status Dict: %@", myStatusDictionary);
@@ -56,14 +55,14 @@
                                           
                                           // Video Dictionary Portion
                                           @"68", @"videoSubMode",
-                                          @"2", @"videoResolution",
-                                          @"3", @"videoFrameRate",
-                                          @"4", @"videoFOV",
-                                          @"5", @"videoTLInterval",
-                                          @"6", @"videoLoopingInterval",
-                                          @"7", @"videoPhotoVideoInterval",
-                                          @"8", @"videoLowLight",
-                                          @"9", @"videoSpotMeter",
+                                          @"2",  @"videoResolution",
+                                          @"3",  @"videoFrameRate",
+                                          @"4",  @"videoFOV",
+                                          @"5",  @"videoTLInterval",
+                                          @"6",  @"videoLoopingInterval",
+                                          @"7",  @"videoPhotoVideoInterval",
+                                          @"8",  @"videoLowLight",
+                                          @"9",  @"videoSpotMeter",
                                           @"10", @"videoProtune",
                                           @"11", @"videoWhiteBalance",
                                           @"12", @"videoColor",
@@ -77,7 +76,7 @@
                                           @"69", @"photoSubMode",
                                           @"18", @"photoContinuousRate",
                                           @"17", @"photoMegapixels",
-                                          @"19", @"photoShutter",
+                                          @"19", @"photoNightExposure",
                                           @"20", @"photoSpotMeter",
                                           @"21", @"photoProtune",
                                           @"22", @"photoWhiteBalance",
@@ -121,7 +120,7 @@
     
     NSLog(@"Hardcoded Settings Dict: %@", mySettingsDictionary);
     
-    self.dictionaryStatusHardcode = mySettingsDictionary;
+    self.dictionarySettingsHardcode = mySettingsDictionary;
 }
 
 /* 03.19.18 09.22.18 currently what we're pulling from to assign*/
@@ -144,53 +143,7 @@
     //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
 }
 
-
-// function to assign the JSON values to the settings, displayed in VCs
-// this will need to be broken up for given usage of the mode. no need to display video specs, if photo is current.
--(void)assignCurrentStatusSettings{
-    
-    // assign to the array of values for given arrays
-    self.statusSettings.batteryLevel = [self readableBatteryLevel:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"batteryLevel"]]intValue]];
-    self.statusSettings.battery = [self readableBattery:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"battery"]]intValue]];
-    self.statusSettings.battery = [self readableBattery:[self compareStatusHardcode:@"battery"]];
-    self.statusSettings.mode = [self readableModeCurrent:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"modeCurrent"]]intValue]];
-    self.statusSettings.subMode = [self readableModeCurrent:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"subModeCurrent"]]intValue]];
-    self.statusSettings.sdCardPresent = [self readableSDCard:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"sdCardPresent"]]intValue]];
-    self.statusSettings.quality = [self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"remainingPhotos"]];
-    self.statusSettings.quality = [self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"remainingVideoTime"]];
-    self.statusSettings.streamingStatus = [self readableStreamingStatus:[[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"streamingFeed"]]intValue]];
-    //    NSLog(@"BL = %@, B = %@, MC = %@", self.StatusSettings.batteryLevel, self.StatusSettings.battery, self.StatusSettings.mode);
-    
-    //    self.StatusSettings.subMode = [self readableSubModeCurrent:[[self.dictionaryHardcode valueForKey:[self.dictionaryStatusDefinition valueForKey:@"subModeCurrent"]]intValue]];
-    NSLog(@"settings object created, and now values assigned");
-    
-    if ([self.statusSettings.mode isEqualToString:@"Video"]) {
-        NSLog(@"User is using %@", self.statusSettings.mode);
-        // testing
-        [self assignCurrentVideoSettings];
-    }
-    
-}
-
-
--(void)assignCurrentVideoSettings{
-    self.videoSettings.subMode = [self readableVideoSubMode:[[self.dictionarySettingsDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"videoSubMode"]]intValue]];
-    NSLog(@"video sub mode 1 - %@", self.videoSettings.subMode);
-
-    self.videoSettings.subMode = [self readableVideoSubMode:[self compareSettingsHardcode:@"videoSubMode"]];
-    NSLog(@"video sub mode 2 - %@", self.videoSettings.subMode);
-
-}
-
--(void)assignCurrentPhotoSettings{
-    self.photoSettings.subMode = [self readableVideoSubMode:[[self.dictionarySettingsDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"photoSubMode"]]intValue]];
-    self.photoSettings.subMode = [self readableVideoSubMode:[self compareSettingsHardcode:@"photoSubMode"]];
-}
-
--(void)assignCurrentMultiShotSettings{
-    self.photoSettings.subMode = [self readableVideoSubMode:[[self.dictionarySettingsDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"MSSubMode"]]intValue]];
-    self.photoSettings.subMode = [self readableVideoSubMode:[self compareSettingsHardcode:@"MSSubMode"]];
-}
+// method for comparing hardcode dictionaries
 
 - (int)compareStatusHardcode:(NSString *)key {
     return [[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:key]]intValue];
@@ -199,6 +152,111 @@
 - (int)compareSettingsHardcode:(NSString *)key {
     return [[self.dictionarySettingsDefinition valueForKey:[self.dictionarySettingsHardcode valueForKey:key]]intValue];
 }
+
+// function to assign the JSON values to the settings, displayed in VCs
+// this will need to be broken up for given usage of the mode. no need to display video specs, if photo is current.
+-(void)assignCurrentStatusSettings{
+    self.statusSettings = [[Status alloc]init];
+    // assign to the array of values for given arrays
+    self.statusSettings.battery = @"no";
+    self.statusSettings.batteryLevel = [self readableBatteryLevel:[self compareStatusHardcode:@"batteryLevel"]];
+    self.statusSettings.battery = [self readableBattery:[self compareStatusHardcode:@"battery"]];
+    self.statusSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"modeCurrent"]];
+    self.statusSettings.sdCardPresent = [self readableSDCard:[self compareStatusHardcode:@"sdCardPresent"]];
+    self.statusSettings.streamingStatus = [self readableStreamingStatus:[self compareStatusHardcode:@"streamingStatus"]];
+    
+    NSLog(@"remain photos = %d", [self compareStatusHardcode:@"remainingPhotos"]);
+    
+    NSLog(@"settings object created, and now values assigned");
+    
+    // check which mode, to assign proper settings to the given mode
+    if ([self.statusSettings.mode isEqualToString:@"Video"]) {
+        NSLog(@"User is using %@", self.statusSettings.mode);
+        [self assignCurrentVideoSettings];
+    }
+    else if ([self.statusSettings.mode isEqualToString:@"Photo"]) {
+        NSLog(@"User is using %@", self.statusSettings.mode);
+        [self assignCurrentPhotoSettings];
+    }
+    else if ([self.statusSettings.mode isEqualToString:@"MultiShot"]) {
+        NSLog(@"User is using %@", self.statusSettings.mode);
+        [self assignCurrentMultiShotSettings];
+    }
+    else if ([self.statusSettings.mode isEqualToString:@"Settings"]) {
+        NSLog(@"User is in the %@", self.statusSettings.mode);
+        [self assignCurrentVideoSettings];
+        [self assignCurrentPhotoSettings];
+        [self assignCurrentMultiShotSettings];
+    }
+    else
+        NSLog(@"No current mode found, cannot assign current settings");
+}
+
+
+-(void)assignCurrentVideoSettings{
+    self.videoSettings = [[Settings alloc]init];
+    self.videoSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
+    self.videoSettings.videoSubMode = [self readableVideoSubMode:[self compareSettingsHardcode:@"videoSubMode"]];
+    self.videoSettings.videoResolution = [self readableVideoResolution:[self compareSettingsHardcode:@"videoResolution"]];
+    self.videoSettings.videoFrameRate = [self readableVideoFrameRate:[self compareSettingsHardcode:@"videoFrameRate"]];
+    self.videoSettings.videoFOV = [self readableVideoFOV:[self compareSettingsHardcode:@"videoFOV"]];
+    self.videoSettings.videoTLInterval = [self readableVideoTLInterval:[self compareSettingsHardcode:@"videoTLInterval"]];
+    self.videoSettings.videoLoopingInterval = [self readableVideoLoopingInterval:[self compareSettingsHardcode:@"videoLoopingInterval"]];
+    self.videoSettings.videoPhotoVideoInterval = [self readableVideoPhotoVideoInterval:[self compareSettingsHardcode:@"videoPhotoVideoInterval"]];
+    self.videoSettings.videoLowLight = [self readableVideoLowLight:[self compareSettingsHardcode:@"videoLowLight"]];
+    self.videoSettings.videoSpotMeter = [self readableVideoSpotMeter:[self compareSettingsHardcode:@"videoSpotMeter"]];
+    self.videoSettings.videoProtune = [self readableVideoProtune:[self compareSettingsHardcode:@"videoProtune"]];
+    self.videoSettings.videoWhiteBalance = [self readableVideoWhiteBalance:[self compareSettingsHardcode:@"videoWhiteBalance"]];
+    self.videoSettings.videoColor = [self readableVideoColor:[self compareSettingsHardcode:@"videoColor"]];
+    self.videoSettings.videoManualExposure = [self readableVideoManualExposure:[self compareSettingsHardcode:@"videoManualExposure"]];
+    self.videoSettings.videoISOMode = [self readableVideoISOMode:[self compareSettingsHardcode:@"videoISOMode"]];
+    self.videoSettings.videoISOLimit = [self readableVideoISOLimit:[self compareSettingsHardcode:@"videoISOLimit"]];
+    self.videoSettings.videoSharpness = [self readableVideoSharpness:[self compareSettingsHardcode:@"videoSharpness"]];
+    self.videoSettings.videoEVComp = [self readableVideoEVComp:[self compareSettingsHardcode:@"videoEVComp"]];
+    NSLog(@"video sub mode - %@", self.videoSettings.videoSubMode);
+    
+}
+
+-(void)assignCurrentPhotoSettings{
+    self.photoSettings = [[Settings alloc]init];
+    self.photoSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
+    self.photoSettings.photoSubMode = [self readablePhotoSubMode:[self compareSettingsHardcode:@"photoSubMode"]];
+    self.photoSettings.photoContinuousRate = [self readablePhotoContinuousRate:[self compareSettingsHardcode:@"photoContinuousRate"]];
+    self.photoSettings.photoMegapixels = [self readablePhotoMegaPixels:[self compareSettingsHardcode:@"photoMegapixels"]];
+    self.photoSettings.photoNightExposure = [self readablePhotoNightExposure:[self compareSettingsHardcode:@"photoNightExposure"]];
+    self.photoSettings.photoSpotMeter = [self readablePhotoSpotMeter:[self compareSettingsHardcode:@"photoSpotMeter"]];
+    self.photoSettings.photoProtune = [self readablePhotoProtune:[self compareSettingsHardcode:@"photoProtune"]];
+    self.photoSettings.photoWhiteBalance = [self readablePhotoWhiteBalance:[self compareSettingsHardcode:@"photoWhiteBalance"]];
+    self.photoSettings.photoColor = [self readablePhotoColor:[self compareSettingsHardcode:@"photoColor"]];
+    self.photoSettings.photoSharpness = [self readablePhotoSharpness:[self compareSettingsHardcode:@"photoSharpness"]];
+    self.photoSettings.photoEVComp = [self readablePhotoEVComp:[self compareSettingsHardcode:@"photoEVComp"]];
+    self.photoSettings.photoISOMin = [self readablePhotoISOMin:[self compareSettingsHardcode:@"photoISOMin"]];
+    self.photoSettings.photoISOLimit = [self readablephotoISOLimit:[self compareSettingsHardcode:@"photoISOLimit"]];
+    NSLog(@"photo sub mode - %@", self.photoSettings.photoSubMode);
+    
+}
+
+-(void)assignCurrentMultiShotSettings{
+    self.multiShotSettings = [[Settings alloc]init];
+//        self.photoSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
+    self.multiShotSettings.MSDefaultSubMode = [self readableMSDefaultSubMode:[self compareSettingsHardcode:@"MSDefaultSubMode"]];
+    self.multiShotSettings.MSSubMode = [self readableMSSubMode:[self compareSettingsHardcode:@"MSSubMode"]];
+    self.multiShotSettings.MSNightExposure = [self readableMSNightExposure:[self compareSettingsHardcode:@"MSNightExposure"]];
+    self.multiShotSettings.MSBurstRate = [self readableMSBurstRate:[self compareSettingsHardcode:@"MSBurstRate"]];
+    self.multiShotSettings.MSTLInterval = [self readableMSTLInterval:[self compareSettingsHardcode:@"MSTLInterval"]];
+    self.multiShotSettings.MSNLInterval = [self readableMSNLInterval:[self compareSettingsHardcode:@"MSNLInterval"]];
+    self.multiShotSettings.MSMegapixels = [self readableMSMegaPixels:[self compareSettingsHardcode:@"MSMegapixels"]];
+    self.multiShotSettings.MSSpotMeter = [self readableMSSpotMeter:[self compareSettingsHardcode:@"MSSpotMeter"]];
+    self.multiShotSettings.MSProtune = [self readableMSProtune:[self compareSettingsHardcode:@"MSProtune"]];
+    self.multiShotSettings.MSWhiteBalance = [self readableMSWhiteBalance:[self compareSettingsHardcode:@"MSWhiteBalance"]];
+    self.multiShotSettings.MSColor = [self readableMSColor:[self compareSettingsHardcode:@"MSColor"]];
+    self.multiShotSettings.MSSharpness = [self readableMSSharpness:[self compareSettingsHardcode:@"MSSharpness"]];
+    self.multiShotSettings.MSEVComp = [self readableMSEVComp:[self compareSettingsHardcode:@"MSEVComp"]];
+    self.multiShotSettings.MSISOMin = [self readableMSISOMin:[self compareSettingsHardcode:@"MSISOMin"]];
+    self.multiShotSettings.MSISOLimit = [self readableMSISOLimit:[self compareSettingsHardcode:@"MSISOLimit"]];
+    NSLog(@"ms sub mode - %@", self.multiShotSettings.MSSubMode);
+}
+
 
 #pragma mark - JSON Handling
 
@@ -856,6 +914,9 @@
 
 - (NSString *) readableVideoManualExposure:(int)value { // 1/%@
     switch (value) {
+        case 0:
+            return @"Auto";
+            break;
         case 3:
             return @"24";
             break;
@@ -1084,7 +1145,7 @@
     }
 }
 
-- (NSString *) readablePhotoShutter:(int)value {
+- (NSString *) readablePhotoNightExposure:(int)value {
     switch (value) {
         case 0:
             return @"Auto";
@@ -1261,7 +1322,7 @@
     }
 }
 
-- (NSString *) readablePhotoISOMax:(int)value {  // (v4.00FW) AKA "Limit"
+- (NSString *) readablephotoISOLimit:(int)value {  // (v4.00FW) AKA "Limit"
     switch (value) {
         case 0:
             return @"800";
@@ -1626,7 +1687,7 @@
     }
 }
 
-- (NSString *) readableMSISOMax:(int)value {  // (v4.00FW) AKA "Limit"
+- (NSString *) readableMSISOLimit:(int)value {  // (v4.00FW) AKA "Limit"
     switch (value) {
         case 0:
             return @"800";

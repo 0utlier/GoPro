@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Settings.h"
+#import "Status.h"
 /*This is the Device Manager for the GoPro Hero
  All of the
  Calls
@@ -60,7 +61,7 @@
 //types of qualities [too many to have all different calls]
 - (void)changeQuality:(NSString *)quality;
 
-#pragma mark - SETTINGS
+#pragma mark - SETTINGS / STATUS
 
 
 // get status from call to GoPro - JSON is returned. Assign to dictionary of settings/status
@@ -96,7 +97,7 @@
 @property (nonatomic, retain) NSDictionary *dictionarySettingsHardcode;
 
 // settings for status, other and modes
-@property (nonatomic, retain) Settings *statusSettings;
+@property (nonatomic, retain) Status *statusSettings;
 @property (nonatomic, retain) Settings *otherSettings;
 @property (nonatomic, retain) Settings *videoSettings;
 @property (nonatomic, retain) Settings *photoSettings;
@@ -174,7 +175,7 @@
 
 - (NSString *) readablePhotoMegaPixels:(int)value;
 
-- (NSString *) readablePhotoShutter:(int)value;
+- (NSString *) readablePhotoNightExposure:(int)value;
 
 - (NSString *) readablePhotoSpotMeter:(int)value;
 
@@ -190,7 +191,7 @@
 
 - (NSString *) readablePhotoISOMin:(int)value;
 
-- (NSString *) readablePhotoISOMax:(int)value;
+- (NSString *) readablephotoISOLimit:(int)value;
 
 
 
@@ -226,7 +227,7 @@
 
 - (NSString *) readableMSISOMin:(int)value;
 
-- (NSString *) readableMSISOMax:(int)value;
+- (NSString *) readableMSISOLimit:(int)value;
 
 #pragma mark - Other Settings
 // Other parameters -- readableOther

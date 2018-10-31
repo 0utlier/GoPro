@@ -23,32 +23,152 @@
 #pragma mark - SETTINGS
 
 // types of settings [dependent on one another]
-    // mode = video, photo, multi-shot
-@property (nonatomic, retain) NSString *mode;
-    // subMode = vidVideo, vidTL, vidAndPhoto, vidLooping ...
-@property (nonatomic, retain) NSString *subMode;
-    // quality = 4K, 2.7K, 1080p, 720p ...
-@property (nonatomic, retain) NSString *quality;
-
 // types of settings with interger values [QUESTION: what is best to transfer these values? NSNumber, NSInteger, int, float]
-    // frameRate = 24,30,48,60,80,120,240
-//@property (nonatomic) int frameRate;
-@property (nonatomic, retain) NSString *frameRate;
+// GENERAL SETTINGS for cross mode
+@property (nonatomic, retain) NSString *mode; /*this is still in the status and should remain there - this may not be used 10.30.18*/
+
+#pragma mark - VIDEO
+//  17
+
+// subMode = vidVideo, vidTL, vidAndPhoto, vidLooping ...
+@property (nonatomic, retain) NSString *videoSubMode;
+
+// quality = 4K, 2.7K, 1080p, 720p ...
+@property (nonatomic, retain) NSString *videoResolution;
+
+// frameRate = 24,30,48,60,80,120,240
+@property (nonatomic, retain) NSString *videoFrameRate;
+
+//
+@property (nonatomic, retain) NSString *videoFOV;
+
 // interval = 1,2,5,... [QUESTION: how to represent .5? - maybe using 11?]
-//@property (nonatomic) int interval;
-@property (nonatomic, retain) NSString *interval;
+@property (nonatomic, retain) NSString *videoTLInterval;
+
+//
+@property (nonatomic, retain) NSString *videoLoopingInterval;
+
+//
+@property (nonatomic, retain) NSString *videoPhotoVideoInterval;
+
+//
+@property (nonatomic, retain) NSString *videoLowLight;
+
+//
+@property (nonatomic, retain) NSString *videoSpotMeter;
+
+//
+@property (nonatomic, retain) NSString *videoProtune;
+
+//
+@property (nonatomic, retain) NSString *videoWhiteBalance;
+
+//
+@property (nonatomic, retain) NSString *videoColor;
+
+//
+@property (nonatomic, retain) NSString *videoManualExposure;
+
+//
+@property (nonatomic, retain) NSString *videoISOMode;
+
+//
+@property (nonatomic, retain) NSString *videoISOLimit;
+
+//
+@property (nonatomic, retain) NSString *videoSharpness;
+
+//
+@property (nonatomic, retain) NSString *videoEVComp;
+
+
+#pragma mark - PHOTO
+//  12
+
+// subMode = vidVideo, vidTL, vidAndPhoto, vidLooping ...
+@property (nonatomic, retain) NSString *photoSubMode;
+
+//
+@property (nonatomic, retain) NSString *photoContinuousRate;
+
+//
+@property (nonatomic, retain) NSString *photoMegapixels;
+
 // Exposure = 1,2,5,... [QUESTION: how to represent AUTO? - maybe using 99?]
-//@property (nonatomic) int exposure;
-@property (nonatomic, retain) NSString *exposure;
+@property (nonatomic, retain) NSString *photoNightExposure;
 
-#pragma mark - STATUS
+//
+@property (nonatomic, retain) NSString *photoSpotMeter;
 
-// the few portions of STATUS dictionary
-@property (nonatomic, retain) NSString *battery;
-@property (nonatomic, retain) NSString *batteryLevel;
-@property (nonatomic, retain) NSString *streamingStatus;
-@property (nonatomic, retain) NSString *sdCardPresent;
+//
+@property (nonatomic, retain) NSString *photoProtune;
 
+//
+@property (nonatomic, retain) NSString *photoWhiteBalance;
+
+//
+@property (nonatomic, retain) NSString *photoColor;
+
+//
+@property (nonatomic, retain) NSString *photoSharpness;
+
+//
+@property (nonatomic, retain) NSString *photoEVComp;
+
+//
+@property (nonatomic, retain) NSString *photoISOMin;
+
+//
+@property (nonatomic, retain) NSString *photoISOLimit;
+
+
+#pragma mark - MULTISHOT
+//  15
+
+//
+@property (nonatomic, retain) NSString *MSDefaultSubMode;
+
+// subMode = msBurst, msTL, msNL ...
+@property (nonatomic, retain) NSString *MSSubMode;
+
+//
+@property (nonatomic, retain) NSString *MSNightExposure;
+
+//
+@property (nonatomic, retain) NSString *MSBurstRate;
+
+//
+@property (nonatomic, retain) NSString *MSTLInterval;
+
+//
+@property (nonatomic, retain) NSString *MSNLInterval;
+
+//
+@property (nonatomic, retain) NSString *MSMegapixels;
+
+//
+@property (nonatomic, retain) NSString *MSSpotMeter;
+
+//
+@property (nonatomic, retain) NSString *MSProtune;
+
+//
+@property (nonatomic, retain) NSString *MSWhiteBalance;
+
+//
+@property (nonatomic, retain) NSString *MSColor;
+
+//
+@property (nonatomic, retain) NSString *MSSharpness;
+
+//
+@property (nonatomic, retain) NSString *MSEVComp;
+
+//
+@property (nonatomic, retain) NSString *MSISOMin;
+
+//
+@property (nonatomic, retain) NSString *MSISOLimit;
 
 
 

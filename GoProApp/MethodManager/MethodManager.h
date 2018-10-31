@@ -13,7 +13,7 @@
 
 //@class MethodManager; // do I need this? 11.18.17
 
-#import "HeroProtocol.h"
+//#import "HeroProtocol.h"
     // DEVICES IMPORT
 #import "Hero4.h"
 #import "HeroStrings.h"
@@ -51,7 +51,7 @@
 
 // objects at the ready for assignment - all have "sharedDAO" function
 @property (strong, nonatomic) HeroStrings *HeroStrings;
-@property (strong, nonatomic) Hero4 *Hero4;
+//@property (strong, nonatomic) Hero4 *Hero4;
 //@property (strong, nonatomic) Hero3 *Hero3;
 
 // create a settings property for current and desired, accesible anywhere in the app
@@ -64,9 +64,9 @@
 + (id)sharedManager;
 
 - (void)assignDeviceManager: (NSObject *)device;
-- (void)SetMode: (NSString *)mode;
-- (void)SetSubMode: (NSString *)subMode;
-- (void)SetQuality: (NSString *)quality;
+//- (void)SetMode: (NSString *)mode;
+//- (void)SetSubMode: (NSString *)subMode;
+//- (void)SetQuality: (NSString *)quality;
 
 
 
