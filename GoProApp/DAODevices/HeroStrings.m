@@ -155,6 +155,65 @@
 
 // function to assign the JSON values to the settings, displayed in VCs
 // this will need to be broken up for given usage of the mode. no need to display video specs, if photo is current.
+-(void)assignCurrentStatusSettingsArray {
+    SettingsObject *battery = [[SettingsObject alloc]init];
+    battery.title = @"Battery";
+    battery.value = [self readableBattery:[self compareStatusHardcode:@"battery"]];
+    battery.paramType = @"typeSystemSettings";
+    SettingsObject *batteryLevel = [[SettingsObject alloc]init];
+    batteryLevel.title = @"Battery Level";
+    batteryLevel.value = [self readableBatteryLevel:[self compareStatusHardcode:@"batteryLevel"]];
+    batteryLevel.paramType = @"typeSystemSettings";
+    SettingsObject *mode = [[SettingsObject alloc]init];
+    mode.title = @"Mode";
+    mode.value = [self readableModeCurrent:[self compareStatusHardcode:@"modeCurrent"]];
+    mode.paramType = @"typeSystemSettings";
+    SettingsObject *sdCardPresent = [[SettingsObject alloc]init];
+    sdCardPresent.title = @"SD Card";
+    sdCardPresent.value = [self readableSDCard:[self compareStatusHardcode:@"sdCardPresent"]];
+    sdCardPresent.paramType = @"typeSystemSettings";
+//    sdCardPresent.switchStatus = [self binaryAssignment:sdCardPresent];
+    SettingsObject *streamingStatus = [[SettingsObject alloc]init];
+    streamingStatus.title = @"Streaming";
+    streamingStatus.value = [self readableStreamingStatus:[self compareStatusHardcode:@"streamingStatus"]];
+    streamingStatus.paramType = @"typeSystemSettings";
+//    streamingStatus.switchStatus = [self binaryAssignment:streamingStatus];
+    
+    NSMutableArray *statusSettingsArray = [[NSMutableArray alloc]initWithObjects:battery, batteryLevel, mode, sdCardPresent, streamingStatus, nil];
+    [self printMyArray:statusSettingsArray];
+    
+    NSLog(@"remain photos = %d", [self compareStatusHardcode:@"remainingPhotos"]);
+    
+    NSLog(@"settings object created, and now values assigned");
+    
+    // check which mode, to assign proper settings to the given mode
+    if ([mode.value isEqualToString:@"Video"]) {
+        NSLog(@"User is using %@", mode.value);
+        //        [self assignCurrentVideoSettings];
+        [self assignCurrentVideoSettingsArray];
+    }
+    else if ([mode.value isEqualToString:@"Photo"]) {
+        NSLog(@"User is using %@", mode.value);
+        //        [self assignCurrentPhotoSettings];
+        [self assignCurrentPhotoSettingsArray];
+    }
+    else if ([mode.value isEqualToString:@"MultiShot"]) {
+        NSLog(@"User is using %@", mode.value);
+        //        [self assignCurrentMultiShotSettings];
+        [self assignCurrentMultiShotSettingsArray];
+    }
+    else if ([mode.value isEqualToString:@"Settings"]) {
+        NSLog(@"User is in the %@", mode.value);
+        [self assignCurrentVideoSettingsArray];
+        [self assignCurrentPhotoSettingsArray];
+        [self assignCurrentMultiShotSettingsArray];
+    }
+    else
+        NSLog(@"No current mode found, cannot assign current settings");
+
+
+}
+/*
 -(void)assignCurrentStatusSettings{
     self.statusSettings = [[Status alloc]init];
     // assign to the array of values for given arrays
@@ -172,27 +231,30 @@
     // check which mode, to assign proper settings to the given mode
     if ([self.statusSettings.mode isEqualToString:@"Video"]) {
         NSLog(@"User is using %@", self.statusSettings.mode);
-        [self assignCurrentVideoSettings];
+//        [self assignCurrentVideoSettings];
+        [self assignCurrentVideoSettingsArray];
     }
     else if ([self.statusSettings.mode isEqualToString:@"Photo"]) {
         NSLog(@"User is using %@", self.statusSettings.mode);
-        [self assignCurrentPhotoSettings];
+//        [self assignCurrentPhotoSettings];
+        [self assignCurrentPhotoSettingsArray];
     }
     else if ([self.statusSettings.mode isEqualToString:@"MultiShot"]) {
         NSLog(@"User is using %@", self.statusSettings.mode);
-        [self assignCurrentMultiShotSettings];
+//        [self assignCurrentMultiShotSettings];
+        [self assignCurrentMultiShotSettingsArray];
     }
     else if ([self.statusSettings.mode isEqualToString:@"Settings"]) {
         NSLog(@"User is in the %@", self.statusSettings.mode);
-        [self assignCurrentVideoSettings];
-        [self assignCurrentPhotoSettings];
-        [self assignCurrentMultiShotSettings];
+        [self assignCurrentVideoSettingsArray];
+        [self assignCurrentPhotoSettingsArray];
+        [self assignCurrentMultiShotSettingsArray];
     }
     else
         NSLog(@"No current mode found, cannot assign current settings");
-}
+}*/
 
-
+/*
 -(void)assignCurrentVideoSettings{
     self.videoSettings = [[Settings alloc]init];
     self.videoSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
@@ -214,10 +276,270 @@
     self.videoSettings.videoSharpness = [self readableVideoSharpness:[self compareSettingsHardcode:@"videoSharpness"]];
     self.videoSettings.videoEVComp = [self readableVideoEVComp:[self compareSettingsHardcode:@"videoEVComp"]];
     NSLog(@"video sub mode - %@", self.videoSettings.videoSubMode);
+    [self assignCurrentVideoSettingsArray];
+}
+ */
+
+-(void)assignCurrentVideoSettingsArray {
+    SettingsObject *mode = [[SettingsObject alloc] init];
+    mode.title = @"Mode";
+    mode.value = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
+    mode.paramType = @"typeVideo";
+    SettingsObject *videoSubMode = [[SettingsObject alloc] init];
+    videoSubMode.title = @"Sub Mode";
+    videoSubMode.value = [self readableVideoSubMode:[self compareSettingsHardcode:@"videoSubMode"]];
+    videoSubMode.paramType = @"typeVideo";
+    SettingsObject *videoResolution = [[SettingsObject alloc] init];
+    videoResolution.title = @"Resolution";
+    videoResolution.value = [self readableVideoResolution:[self compareSettingsHardcode:@"videoResolution"]];
+    videoResolution.paramType = @"typeVideo";
+    SettingsObject *videoFrameRate = [[SettingsObject alloc] init];
+    videoFrameRate.title = @"Frame Rate";
+    videoFrameRate.value = [self readableVideoFrameRate:[self compareSettingsHardcode:@"videoFrameRate"]];
+    videoFrameRate.paramType = @"typeVideo";
+    SettingsObject *videoFOV = [[SettingsObject alloc] init];
+    videoFOV.title = @"FOV";
+    videoFOV.value = [self readableVideoFOV:[self compareSettingsHardcode:@"videoFOV"]];
+    videoFOV.paramType = @"typeVideo";
+    SettingsObject *videoTLInterval = [[SettingsObject alloc] init];
+    videoTLInterval.title = @"Time Lapse Interval";
+    videoTLInterval.value = [self readableVideoTLInterval:[self compareSettingsHardcode:@"videoTLInterval"]];
+    videoTLInterval.paramType = @"typeVideo";
+    SettingsObject *videoLoopingInterval = [[SettingsObject alloc] init];
+    videoLoopingInterval.title = @"Looping Interval";
+    videoLoopingInterval.value = [self readableVideoLoopingInterval:[self compareSettingsHardcode:@"videoLoopingInterval"]];
+    videoLoopingInterval.paramType = @"typeVideo";
+    SettingsObject *videoPhotoVideoInterval = [[SettingsObject alloc] init];
+    videoPhotoVideoInterval.title = @"Photo Video Interval";
+    videoPhotoVideoInterval.value = [self readableVideoPhotoVideoInterval:[self compareSettingsHardcode:@"videoPhotoVideoInterval"]];
+    videoPhotoVideoInterval.paramType = @"typeVideo";
+    SettingsObject *videoLowLight = [[SettingsObject alloc] init];
+    videoLowLight.title = @"Low Light";
+    videoLowLight.value = [self readableVideoLowLight:[self compareSettingsHardcode:@"videoLowLight"]];
+    videoLowLight.paramType = @"typeVideoBinary";
+    videoLowLight.switchStatus = [self binaryAssignment:videoLowLight];
+    SettingsObject *videoSpotMeter = [[SettingsObject alloc] init];
+    videoSpotMeter.title = @"Spot Meter";
+    videoSpotMeter.value = [self readableVideoSpotMeter:[self compareSettingsHardcode:@"videoSpotMeter"]];
+    videoSpotMeter.paramType = @"typeVideoBinary";
+    videoSpotMeter.switchStatus = [self binaryAssignment:videoSpotMeter];
+    SettingsObject *videoProtune = [[SettingsObject alloc] init];
+    videoProtune.title = @"Protune";
+    videoProtune.value = [self readableVideoProtune:[self compareSettingsHardcode:@"videoProtune"]];
+    videoProtune.paramType = @"typeVideoBinary";
+    videoProtune.switchStatus = [self binaryAssignment:videoProtune];
+    SettingsObject *videoWhiteBalance = [[SettingsObject alloc] init];
+    videoWhiteBalance.title = @"White Balance";
+    videoWhiteBalance.value = [self readableVideoWhiteBalance:[self compareSettingsHardcode:@"videoWhiteBalance"]];
+    videoWhiteBalance.paramType = @"typeVideo";
+    SettingsObject *videoColor = [[SettingsObject alloc] init];
+    videoColor.title = @"Color";
+    videoColor.value = [self readableVideoColor:[self compareSettingsHardcode:@"videoColor"]];
+    videoColor.paramType = @"typeVideo";
+    SettingsObject *videoManualExposure = [[SettingsObject alloc] init];
+    videoManualExposure.title = @"Manual Exposure";
+    videoManualExposure.value = [self readableVideoManualExposure:[self compareSettingsHardcode:@"videoManualExposure"]];
+    videoManualExposure.paramType = @"typeVideo";
+    SettingsObject *videoISOMode = [[SettingsObject alloc] init];
+    videoISOMode.title = @"ISO Mode";
+    videoISOMode.value = [self readableVideoISOMode:[self compareSettingsHardcode:@"videoISOMode"]];
+    videoISOMode.paramType = @"typeVideo";
+    SettingsObject *videoISOLimit = [[SettingsObject alloc] init];
+    videoISOLimit.title = @"ISO Limit";
+    videoISOLimit.value = [self readableVideoISOLimit:[self compareSettingsHardcode:@"videoISOLimit"]];
+    videoISOLimit.paramType = @"typeVideo";
+    SettingsObject *videoSharpness = [[SettingsObject alloc] init];
+    videoSharpness.title = @"Sharpness";
+    videoSharpness.value = [self readableVideoSharpness:[self compareSettingsHardcode:@"videoSharpness"]];
+    videoSharpness.paramType = @"typeVideo";
+    SettingsObject *videoEVComp = [[SettingsObject alloc] init];
+    videoEVComp.title = @"EV Comp";
+    videoEVComp.value = [self readableVideoEVComp:[self compareSettingsHardcode:@"videoEVComp"]];
+    videoEVComp.paramType = @"typeVideo";
+    
+    // make the array and add the objects
+    NSMutableArray *settingsArray = [[NSMutableArray alloc]initWithObjects:mode, videoSubMode, videoResolution, videoFrameRate, videoFOV, videoTLInterval, videoLoopingInterval, videoPhotoVideoInterval, videoLowLight, videoSpotMeter, videoProtune, videoWhiteBalance, videoColor, videoManualExposure, videoISOMode, videoISOLimit, videoSharpness, videoEVComp, nil];
+    
+    [self printMyArray:settingsArray];
+    
+
+}
+
+-(void)assignCurrentMultiShotSettingsArray {
+    // MultiShot param type
+    SettingsObject *mode = [[SettingsObject alloc] init];
+    mode.title = @"Mode";
+    mode.value = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
+    mode.paramType = @"typeMS";
+    SettingsObject *MSSubMode = [[SettingsObject alloc] init];
+    MSSubMode.title = @"Sub Mode";
+    MSSubMode.value = [self readableMSSubMode:[self compareSettingsHardcode:@"MSSubMode"]];
+    MSSubMode.paramType = @"typeMS";
+    SettingsObject *MSDefaultSubMode = [[SettingsObject alloc] init];
+    MSDefaultSubMode.title = @"Default Sub Mode";
+    MSDefaultSubMode.value = [self readableMSDefaultSubMode:[self compareSettingsHardcode:@"MSDefaultSubMode"]];
+    MSDefaultSubMode.paramType = @"typeMS";
+    SettingsObject *MSNightExposure = [[SettingsObject alloc] init];
+    MSNightExposure.title = @"Night Exposure Interval";
+    MSNightExposure.value = [self readableMSNightExposure:[self compareSettingsHardcode:@"MSNightExposure"]];
+    MSNightExposure.paramType = @"typeMS";
+    SettingsObject *MSBurstRate = [[SettingsObject alloc] init];
+    MSBurstRate.title = @"Burst Rate";
+    MSBurstRate.value = [self readableMSBurstRate:[self compareSettingsHardcode:@"MSBurstRate"]];
+    MSBurstRate.paramType = @"typeMS";
+    SettingsObject *MSTLInterval = [[SettingsObject alloc] init];
+    MSTLInterval.title = @"Time Lapse Interval";
+    MSTLInterval.value = [self readableMSTLInterval:[self compareSettingsHardcode:@"MSTLInterval"]];
+    MSTLInterval.paramType = @"typeMS";
+    SettingsObject *MSNLInterval = [[SettingsObject alloc] init];
+    MSNLInterval.title = @"Night Lapse Interval";
+    MSNLInterval.value = [self readableMSNLInterval:[self compareSettingsHardcode:@"MSNLInterval"]];
+    MSNLInterval.paramType = @"typeMS";
+    SettingsObject *MSMegapixels = [[SettingsObject alloc] init];
+    MSMegapixels.title = @"Megapixels";
+    MSMegapixels.value = [self readableMSMegaPixels:[self compareSettingsHardcode:@"MSMegapixels"]];
+    MSMegapixels.paramType = @"typeMS";
+    SettingsObject *MSSpotMeter = [[SettingsObject alloc] init];
+    MSSpotMeter.title = @"Spot Meter";
+    MSSpotMeter.value = [self readableMSSpotMeter:[self compareSettingsHardcode:@"MSSpotMeter"]];
+    MSSpotMeter.paramType = @"typeMSBinary";
+    MSSpotMeter.switchStatus = [self binaryAssignment:MSSpotMeter];
+    SettingsObject *MSProtune = [[SettingsObject alloc] init];
+    MSProtune.title = @"Protune";
+    MSProtune.value = [self readableMSProtune:[self compareSettingsHardcode:@"MSProtune"]];
+    MSProtune.paramType = @"typeMSBinary";
+    MSProtune.switchStatus = [self binaryAssignment:MSProtune];
+    SettingsObject *MSWhiteBalance = [[SettingsObject alloc] init];
+    MSWhiteBalance.title = @"White Balance";
+    MSWhiteBalance.value = [self readableMSWhiteBalance:[self compareSettingsHardcode:@"MSWhiteBalance"]];
+    MSWhiteBalance.paramType = @"typeMS";
+    SettingsObject *MSColor = [[SettingsObject alloc] init];
+    MSColor.title = @"Color";
+    MSColor.value = [self readableMSColor:[self compareSettingsHardcode:@"MSColor"]];
+    MSColor.paramType = @"typeMS";
+    SettingsObject *MSSharpness = [[SettingsObject alloc] init];
+    MSSharpness.title = @"Sharpness";
+    MSSharpness.value = [self readableMSSharpness:[self compareSettingsHardcode:@"MSSharpness"]];
+    MSSharpness.paramType = @"typeMS";
+    SettingsObject *MSEVComp = [[SettingsObject alloc] init];
+    MSEVComp.title = @"EV Comp";
+    MSEVComp.value = [self readableMSEVComp:[self compareSettingsHardcode:@"MSEVComp"]];
+    MSEVComp.paramType = @"typeMS";
+    SettingsObject *MSISOMin = [[SettingsObject alloc] init];
+    MSISOMin.title = @"ISO Min";
+    MSISOMin.value = [self readableMSISOMin:[self compareSettingsHardcode:@"MSISOMin"]];
+    MSISOMin.paramType = @"typeMS";
+    SettingsObject *MSISOLimit = [[SettingsObject alloc] init];
+    MSISOLimit.title = @"ISO Limit";
+    MSISOLimit.value = [self readableMSISOLimit:[self compareSettingsHardcode:@"MSISOLimit"]];
+    MSISOLimit.paramType = @"typeMS";
+    
+    // make the array and add the objects
+    NSMutableArray *settingsArray = [[NSMutableArray alloc]initWithObjects:mode,MSSubMode,MSDefaultSubMode, MSNightExposure, MSBurstRate, MSTLInterval, MSNLInterval, MSMegapixels, MSSpotMeter, MSProtune, MSWhiteBalance, MSColor, MSSharpness, MSEVComp, MSISOMin, MSISOLimit, nil];
+    NSLog(@"my array of objects: %@", settingsArray);
+    
+    /*for (SettingsObject *test in settingsArray) {
+        NSLog(@"%@, %@, %@, %d", test.title, test.value, test.paramType, test.switchStatus);
+        
+    }*/
+    [self printMyArray:settingsArray];
     
 }
 
--(void)assignCurrentPhotoSettings{
+-(void)assignCurrentPhotoSettingsArray {
+    // photo param type
+    SettingsObject *mode = [[SettingsObject alloc] init];
+    mode.title = @"Mode";
+    mode.value = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
+    mode.paramType = @"typePhoto";
+    SettingsObject *photoSubMode = [[SettingsObject alloc] init];
+    photoSubMode.title = @"Sub Mode";
+    photoSubMode.value = [self readablePhotoSubMode:[self compareSettingsHardcode:@"photoSubMode"]];
+    photoSubMode.paramType = @"typePhoto";
+    SettingsObject *photoContinuousRate = [[SettingsObject alloc] init];
+    photoContinuousRate.title = @"Continuous Rate";
+    photoContinuousRate.value = [self readablePhotoContinuousRate:[self compareSettingsHardcode:@"photoContinuousRate"]];
+    photoContinuousRate.paramType = @"typePhoto";
+    SettingsObject *photoMegapixels = [[SettingsObject alloc] init];
+    photoMegapixels.title = @"Megapixels";
+    photoMegapixels.value = [self readablePhotoMegaPixels:[self compareSettingsHardcode:@"photoMegapixels"]];
+    photoMegapixels.paramType = @"typePhoto";
+    SettingsObject *photoNightExposure = [[SettingsObject alloc] init];
+    photoNightExposure.title = @"Night Exposure";
+    photoNightExposure.value = [self readablePhotoNightExposure:[self compareSettingsHardcode:@"photoNightExposure"]];
+    photoNightExposure.paramType = @"typePhoto";
+    
+    // instead of value, it is a binary
+    SettingsObject *photoSpotMeter = [[SettingsObject alloc] init];
+    photoSpotMeter.title = @"SpotMeter";
+    photoSpotMeter.value = [self readablePhotoSpotMeter:[self compareSettingsHardcode:@"photoSpotMeter"]];
+    photoSpotMeter.paramType = @"typePhotoBinary";
+    photoSpotMeter.switchStatus = [self binaryAssignment:photoSpotMeter];
+    SettingsObject *photoProtune = [[SettingsObject alloc] init];
+    photoProtune.title = @"Protune";
+    photoProtune.value = [self readablePhotoProtune:[self compareSettingsHardcode:@"photoProtune"]];
+    photoProtune.paramType = @"typePhotoBinary";
+    photoProtune.switchStatus = [self binaryAssignment:photoProtune];
+    
+    SettingsObject *photoWhiteBalance = [[SettingsObject alloc] init];
+    photoWhiteBalance.title = @"White Balance";
+    photoWhiteBalance.value = [self readablePhotoWhiteBalance:[self compareSettingsHardcode:@"photoWhiteBalance"]];
+    photoWhiteBalance.paramType = @"typePhoto";
+    SettingsObject *photoColor = [[SettingsObject alloc] init];
+    photoColor.title = @"Color";
+    photoColor.value = [self readablePhotoColor:[self compareSettingsHardcode:@"photoColor"]];
+    photoColor.paramType = @"typePhoto";
+    SettingsObject *photoSharpness = [[SettingsObject alloc] init];
+    photoSharpness.title = @"Sharpness";
+    photoSharpness.value = [self readablePhotoSharpness:[self compareSettingsHardcode:@"photoSharpness"]];
+    photoSharpness.paramType = @"typePhoto";
+    SettingsObject *photoEVComp = [[SettingsObject alloc] init];
+    photoEVComp.title = @"EV Comp";
+    photoEVComp.value = [self readablePhotoEVComp:[self compareSettingsHardcode:@"photoEVComp"]];
+    photoEVComp.paramType = @"typePhoto";
+    SettingsObject *photoISOMin = [[SettingsObject alloc] init];
+    photoISOMin.title = @"ISO Min";
+    photoISOMin.value = [self readablePhotoISOMin:[self compareSettingsHardcode:@"photoISOMin"]];
+    photoISOMin.paramType = @"typePhoto";
+    SettingsObject *photoISOLimit = [[SettingsObject alloc] init];
+    photoISOLimit.title = @"ISO Limit";
+    photoISOLimit.value = [self readablephotoISOLimit:[self compareSettingsHardcode:@"photoISOLimit"]];
+    photoISOLimit.paramType = @"typePhoto";
+    
+    // make the array and add the objects
+    NSMutableArray *settingsArray = [[NSMutableArray alloc]initWithObjects:mode,photoSubMode,photoContinuousRate, photoMegapixels, photoNightExposure, photoSpotMeter, photoProtune, photoWhiteBalance, photoColor, photoSharpness, photoEVComp, photoISOMin, photoISOLimit, nil];
+    NSLog(@"my array of objects: %@", settingsArray);
+    [self printMyArray:settingsArray];
+    
+}
+
+// prints out all properties of the settings object within the array
+-(void)printMyArray:(NSMutableArray *)array {
+    for (SettingsObject *test in array) {
+        if ([test.paramType containsString:@"Binary"]) {
+            NSLog(@"%@, %@, %@, %d", test.title, test.value, test.paramType, test.switchStatus);
+        }
+        else
+        NSLog(@"%@, %@, %@", test.title, test.value, test.paramType);
+        
+    }
+}
+
+-(BOOL)binaryAssignment:(SettingsObject *)setting {
+    if ([setting.value isEqualToString:@"On"]) {
+        NSLog(@"%@ switch is TRUE for ON", setting.title);
+        return TRUE;
+    }
+    
+    else {
+        NSLog(@"%@ switch is FALSE for OFF", setting.title);
+        return FALSE;
+    }
+    
+}
+
+/*
+ -(void)assignCurrentPhotoSettings{
     self.photoSettings = [[Settings alloc]init];
     self.photoSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
     self.photoSettings.photoSubMode = [self readablePhotoSubMode:[self compareSettingsHardcode:@"photoSubMode"]];
@@ -233,12 +555,14 @@
     self.photoSettings.photoISOMin = [self readablePhotoISOMin:[self compareSettingsHardcode:@"photoISOMin"]];
     self.photoSettings.photoISOLimit = [self readablephotoISOLimit:[self compareSettingsHardcode:@"photoISOLimit"]];
     NSLog(@"photo sub mode - %@", self.photoSettings.photoSubMode);
+    [self assignCurrentPhotoSettingsArray];
     
-}
+}*/
 
+/*
 -(void)assignCurrentMultiShotSettings{
     self.multiShotSettings = [[Settings alloc]init];
-//        self.photoSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
+    //        self.photoSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
     self.multiShotSettings.MSDefaultSubMode = [self readableMSDefaultSubMode:[self compareSettingsHardcode:@"MSDefaultSubMode"]];
     self.multiShotSettings.MSSubMode = [self readableMSSubMode:[self compareSettingsHardcode:@"MSSubMode"]];
     self.multiShotSettings.MSNightExposure = [self readableMSNightExposure:[self compareSettingsHardcode:@"MSNightExposure"]];
@@ -255,7 +579,8 @@
     self.multiShotSettings.MSISOMin = [self readableMSISOMin:[self compareSettingsHardcode:@"MSISOMin"]];
     self.multiShotSettings.MSISOLimit = [self readableMSISOLimit:[self compareSettingsHardcode:@"MSISOLimit"]];
     NSLog(@"ms sub mode - %@", self.multiShotSettings.MSSubMode);
-}
+    [self assignCurrentMultiShotSettingsArray];
+}*/
 
 
 #pragma mark - JSON Handling
@@ -276,7 +601,7 @@
         NSLog(@"statusDict = %@", self.dictionaryStatusDefinition);
         
         // use dictionaries and assign values
-        [self assignCurrentStatusSettings];
+        [self assignCurrentStatusSettingsArray];
     }];
 }
 
@@ -461,6 +786,7 @@
 
 -(void)printCurrentURL {
     NSLog(@"The DevCall %@",self.urlForCurrentCall);
+    [self splitJSON];
 }
 
 #pragma mark - READABLE FUNCTIONS
@@ -586,7 +912,7 @@
 - (NSString *) readableStreamingStatus:(int)value {
     switch (value) {
         case 0:
-            return @"NotStreaming";
+            return @"Not Streaming";
             break;
         case 1:
             return @"Streaming";

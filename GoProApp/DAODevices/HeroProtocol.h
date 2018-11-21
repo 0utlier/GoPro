@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Settings.h"
+#import "SettingsObject.h"
 #import "Status.h"
 /*This is the Device Manager for the GoPro Hero
  All of the
@@ -65,10 +66,16 @@
 
 
 // get status from call to GoPro - JSON is returned. Assign to dictionary of settings/status
-- (void)assignCurrentStatusSettings;
+/*
+ - (void)assignCurrentStatusSettings;
 - (void)assignCurrentVideoSettings;
 - (void)assignCurrentPhotoSettings;
-- (void)assignCurrentMultiShotSettings;
+- (void)assignCurrentMultiShotSettings;*/
+
+- (void)assignCurrentStatusSettingsArray;
+- (void)assignCurrentVideoSettingsArray;
+- (void)assignCurrentPhotoSettingsArray;
+- (void)assignCurrentMultiShotSettingsArray;
 
 // list the available settings for current device
 - (void)createHardCodeAvailableSettings;

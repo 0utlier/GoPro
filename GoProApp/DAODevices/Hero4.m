@@ -275,7 +275,8 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 //}
 
 // Synthesize Properties 10.26.18 [unsure if this is best, or include properties in h file?]
-@synthesize availableFrameRates;
+/*
+ @synthesize availableFrameRates;
 @synthesize availableModes;
 @synthesize availableResolutions;
 @synthesize availableSubModes;
@@ -291,6 +292,6 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 @synthesize otherSettings;
 @synthesize photoSettings;
 @synthesize videoSettings;
-
+*/
 
 @end

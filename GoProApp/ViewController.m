@@ -132,12 +132,12 @@
     [self.methodManager.deviceCurrent.heroDAO objectDidLoad];
     [self.methodManager.deviceCurrent.heroDAO splitJSON];
     
-    /* // testing to change to different gopro
+     // testing to change to different gopro
      self.methodManager.gpCurrent = @"Hero4";
      [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
      self.methodManager.gpCurrent = @"NothingTestFail";
      [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
-     */
+     
 }
 
 // this is a test button to set the desired settings for the GoPro 09.25.18
