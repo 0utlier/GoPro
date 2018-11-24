@@ -26,17 +26,23 @@ static NSString * const reuseIdentifier = @"Cell";
     
     /*create a methodManager - use sharedDAO*/
     self.methodManager = [MethodManager sharedManager];
-    [self.methodManager assignDeviceManager:NULL];
+//    [self.methodManager assignDeviceManager:NULL];
     /*check if it exists, and did not return empty/null*/
     NSLog(@"device is object %@", self.methodManager.deviceCurrent);
     
     /**Please remove this ASAP, as it is HARDCODE**/
+    self.optionsAvailableForDevice = [[NSMutableArray alloc]init];
     /*This is where the assignment comes in*/
     self.optionsAvailableForDevice = self.methodManager.deviceCurrent.heroDAO.availableFrameRates;
-//    self.optionsAvailableForDevice = self.methodManager.deviceCurrent.heroDAO.availableModes;
+//    self.optionsAvailableForDevice = [self.methodManager.deviceCurrent.heroDAO assignCurrentStatusSettingsArray];
+    self.optionsAvailableForDevice = self.methodManager.deviceCurrent.heroDAO.currentSettingsArray;
     
     /*set which options Type is being requested*/
     NSLog(@"Options Page Loading for %@", self.optionsAvailableForDevice);
+    for (SettingsObject *settings in self.optionsAvailableForDevice) {
+        NSLog(@"%@", settings.title);
+
+    }
 //    NSLog(@"Options Page Loading for %@", self.optionsAvailableForDevice);
     
     /*assign buttons to correct OPTION (i.e. modes,subModes,FR, Res) */
@@ -162,6 +168,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSUInteger arrayLength = self.optionsAvailableForDevice.count;
+//    NSUInteger arrayLength = self.optionsAvailableForDevice.count;
 //    arrayLength -= 30;
     NSLog(@"Length of the array = %lu", (unsigned long)arrayLength);
     return arrayLength;
@@ -176,7 +183,9 @@ static NSString * const reuseIdentifier = @"Cell";
 // assign the string by the current option being edited (eg frameRates, Modes)
     // use string to be textlabel for cell
     // assign the title as per the number of index AND frameRate array
-    NSString *myString = [NSString stringWithFormat:@"%@", [self.optionsAvailableForDevice objectAtIndex:indexPath.row]];
+    SettingsObject *mySettingsObject = [self.optionsAvailableForDevice objectAtIndex:indexPath.row];
+//    NSString *myString = [NSString stringWithFormat:@"%@", [self.optionsAvailableForDevice objectAtIndex:indexPath.row]];
+    NSString *myString = mySettingsObject.title;
     cell.textLabel.text = myString;
     
 
@@ -188,7 +197,8 @@ static NSString * const reuseIdentifier = @"Cell";
 //    OptionsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
 
     /*print the quality selected*/
-    NSString* printMe = [self.optionsAvailableForDevice objectAtIndex:indexPath.row];
+    SettingsObject *mySettingsObject = [self.optionsAvailableForDevice objectAtIndex:indexPath.row];
+    NSString* printMe = mySettingsObject.title;
     NSLog(@"The user has chosen %@", printMe);
 }
 #pragma mark <UICollectionViewDelegate>

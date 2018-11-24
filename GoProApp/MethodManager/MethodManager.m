@@ -95,7 +95,7 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     //10.26.18 I think this will replace all of the above
     // below is the updated version after status added, and changed from broken up settings(ie vid, pho, MS)
     //    self.settingsCurrent = self.deviceCurrent.heroDAO.statusSettings;
-        self.settingsCurrent = self.deviceCurrent.heroDAO.videoSettings;
+//        self.settingsCurrent = self.deviceCurrent.heroDAO.videoSettings;
 
     // allocated the settingsDesired, so that it exists
     self.settingsDesired = [[Settings alloc]init];

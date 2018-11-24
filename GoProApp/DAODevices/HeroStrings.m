@@ -155,7 +155,7 @@
 
 // function to assign the JSON values to the settings, displayed in VCs
 // this will need to be broken up for given usage of the mode. no need to display video specs, if photo is current.
--(void)assignCurrentStatusSettingsArray {
+-(NSMutableArray *)assignCurrentStatusSettingsArray {
     SettingsObject *battery = [[SettingsObject alloc]init];
     battery.title = @"Battery";
     battery.value = [self readableBattery:[self compareStatusHardcode:@"battery"]];
@@ -180,27 +180,29 @@
 //    streamingStatus.switchStatus = [self binaryAssignment:streamingStatus];
     
     NSMutableArray *statusSettingsArray = [[NSMutableArray alloc]initWithObjects:battery, batteryLevel, mode, sdCardPresent, streamingStatus, nil];
-    [self printMyArray:statusSettingsArray];
+    [self printMyArray:statusSettingsArray]; 
     
     NSLog(@"remain photos = %d", [self compareStatusHardcode:@"remainingPhotos"]);
     
     NSLog(@"settings object created, and now values assigned");
     
+    NSMutableArray *currentSettingArray = [[NSMutableArray alloc]init];
+    
     // check which mode, to assign proper settings to the given mode
     if ([mode.value isEqualToString:@"Video"]) {
         NSLog(@"User is using %@", mode.value);
         //        [self assignCurrentVideoSettings];
-        [self assignCurrentVideoSettingsArray];
+        currentSettingArray = [self assignCurrentVideoSettingsArray];
     }
     else if ([mode.value isEqualToString:@"Photo"]) {
         NSLog(@"User is using %@", mode.value);
         //        [self assignCurrentPhotoSettings];
-        [self assignCurrentPhotoSettingsArray];
+        currentSettingArray = [self assignCurrentPhotoSettingsArray];
     }
     else if ([mode.value isEqualToString:@"MultiShot"]) {
         NSLog(@"User is using %@", mode.value);
         //        [self assignCurrentMultiShotSettings];
-        [self assignCurrentMultiShotSettingsArray];
+        currentSettingArray = [self assignCurrentMultiShotSettingsArray];
     }
     else if ([mode.value isEqualToString:@"Settings"]) {
         NSLog(@"User is in the %@", mode.value);
@@ -210,8 +212,8 @@
     }
     else
         NSLog(@"No current mode found, cannot assign current settings");
-
-
+    self.currentSettingsArray = currentSettingArray;
+    return currentSettingArray;
 }
 /*
 -(void)assignCurrentStatusSettings{
@@ -280,7 +282,7 @@
 }
  */
 
--(void)assignCurrentVideoSettingsArray {
+-(NSMutableArray *)assignCurrentVideoSettingsArray {
     SettingsObject *mode = [[SettingsObject alloc] init];
     mode.title = @"Mode";
     mode.value = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
@@ -362,10 +364,12 @@
     
     [self printMyArray:settingsArray];
     
+    return settingsArray;
+    
 
 }
 
--(void)assignCurrentMultiShotSettingsArray {
+-(NSMutableArray *)assignCurrentMultiShotSettingsArray {
     // MultiShot param type
     SettingsObject *mode = [[SettingsObject alloc] init];
     mode.title = @"Mode";
@@ -436,17 +440,17 @@
     
     // make the array and add the objects
     NSMutableArray *settingsArray = [[NSMutableArray alloc]initWithObjects:mode,MSSubMode,MSDefaultSubMode, MSNightExposure, MSBurstRate, MSTLInterval, MSNLInterval, MSMegapixels, MSSpotMeter, MSProtune, MSWhiteBalance, MSColor, MSSharpness, MSEVComp, MSISOMin, MSISOLimit, nil];
-    NSLog(@"my array of objects: %@", settingsArray);
+//    NSLog(@"my array of objects: %@", settingsArray);
     
     /*for (SettingsObject *test in settingsArray) {
         NSLog(@"%@, %@, %@, %d", test.title, test.value, test.paramType, test.switchStatus);
         
     }*/
     [self printMyArray:settingsArray];
-    
+    return settingsArray;
 }
 
--(void)assignCurrentPhotoSettingsArray {
+-(NSMutableArray *)assignCurrentPhotoSettingsArray {
     // photo param type
     SettingsObject *mode = [[SettingsObject alloc] init];
     mode.title = @"Mode";
@@ -508,13 +512,16 @@
     
     // make the array and add the objects
     NSMutableArray *settingsArray = [[NSMutableArray alloc]initWithObjects:mode,photoSubMode,photoContinuousRate, photoMegapixels, photoNightExposure, photoSpotMeter, photoProtune, photoWhiteBalance, photoColor, photoSharpness, photoEVComp, photoISOMin, photoISOLimit, nil];
-    NSLog(@"my array of objects: %@", settingsArray);
+//    NSLog(@"my array of objects: %@", settingsArray);
     [self printMyArray:settingsArray];
     
+    return settingsArray;
 }
 
 // prints out all properties of the settings object within the array
 -(void)printMyArray:(NSMutableArray *)array {
+    NSLog(@"SETTINGS, VALUE, TYPE:");
+
     for (SettingsObject *test in array) {
         if ([test.paramType containsString:@"Binary"]) {
             NSLog(@"%@, %@, %@, %d", test.title, test.value, test.paramType, test.switchStatus);
@@ -2278,11 +2285,12 @@
 @synthesize dictionarySettingsHardcode;
 @synthesize dictionarySettingsDefinition;
 @synthesize dictionaryStatusDefinition;
-@synthesize statusSettings;
+//@synthesize statusSettings;
 @synthesize urlForCurrentCall;
-@synthesize multiShotSettings;
-@synthesize otherSettings;
-@synthesize photoSettings;
-@synthesize videoSettings;
+//@synthesize multiShotSettings;
+//@synthesize otherSettings;
+//@synthesize photoSettings;
+//@synthesize videoSettings;
+@synthesize currentSettingsArray;
 
 @end

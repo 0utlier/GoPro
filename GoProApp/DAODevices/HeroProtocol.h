@@ -64,6 +64,12 @@
 
 #pragma mark - SETTINGS / STATUS
 
+// split up JSON after FETCH complete
+- (void)splitJSON;
+
+// obtain the JSON and return the dictionary, with use of CompletionHandler
+-(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler;
+
 
 // get status from call to GoPro - JSON is returned. Assign to dictionary of settings/status
 /*
@@ -72,22 +78,16 @@
 - (void)assignCurrentPhotoSettings;
 - (void)assignCurrentMultiShotSettings;*/
 
-- (void)assignCurrentStatusSettingsArray;
-- (void)assignCurrentVideoSettingsArray;
-- (void)assignCurrentPhotoSettingsArray;
-- (void)assignCurrentMultiShotSettingsArray;
+- (NSMutableArray *)assignCurrentStatusSettingsArray;
+- (NSMutableArray *)assignCurrentVideoSettingsArray;
+- (NSMutableArray *)assignCurrentPhotoSettingsArray;
+- (NSMutableArray *)assignCurrentMultiShotSettingsArray;
 
 // list the available settings for current device
 - (void)createHardCodeAvailableSettings;
 
 // make the comparable dictionary to assign readable value to the JSON
 - (void)createHardCodeDictionary;
-
-// split up JSON after FETCH complete
-- (void)splitJSON;
-
-// obtain the JSON and return the dictionary, with use of CompletionHandler
--(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler;
 
 #pragma mark - AVAILABLE Properties
 @property (nonatomic, retain) NSMutableArray *availableModes;
@@ -103,12 +103,16 @@
 @property (nonatomic, retain) NSDictionary *dictionaryStatusHardcode;
 @property (nonatomic, retain) NSDictionary *dictionarySettingsHardcode;
 
+/*
 // settings for status, other and modes
 @property (nonatomic, retain) Status *statusSettings;
 @property (nonatomic, retain) Settings *otherSettings;
 @property (nonatomic, retain) Settings *videoSettings;
 @property (nonatomic, retain) Settings *photoSettings;
 @property (nonatomic, retain) Settings *multiShotSettings;
+*/
+
+@property (nonatomic, retain) NSMutableArray *currentSettingsArray;
 
 @property (nonatomic, retain) NSString *urlForCurrentCall; // for passing through the HTTP call
 
@@ -199,7 +203,6 @@
 - (NSString *) readablePhotoISOMin:(int)value;
 
 - (NSString *) readablephotoISOLimit:(int)value;
-
 
 
 
