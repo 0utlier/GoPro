@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G1408" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,163 +27,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-        </scene>
-        <!--Settings View Controller-->
-        <scene sceneID="BLV-fp-aRr">
-            <objects>
-                <viewController storyboardIdentifier="SettingsViewController" id="kdM-SS-GFQ" customClass="SettingsViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="8D9-QM-Pyk"/>
-                        <viewControllerLayoutGuide type="bottom" id="WJ6-rK-WKY"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="h51-rt-Psi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iS2-wh-hLv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="795" y="128"/>
-        </scene>
-        <!--Option Assign View Controller2-->
-        <scene sceneID="HJ7-aJ-EdK">
-            <objects>
-                <viewController storyboardIdentifier="OptionAssignViewController2" id="h7U-u4-5G5" customClass="OptionAssignViewController2" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ZRY-4f-c6s"/>
-                        <viewControllerLayoutGuide type="bottom" id="X7t-fu-AGo"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ITP-er-Ugd">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GCC-hr-OOB">
-                                <rect key="frame" x="46" y="40" width="33" height="30"/>
-                                <state key="normal" title="Opt1"/>
-                                <connections>
-                                    <action selector="option1:" destination="h7U-u4-5G5" eventType="touchUpInside" id="bGc-8C-h55"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZM-wU-cOI">
-                                <rect key="frame" x="295" y="40" width="35" height="30"/>
-                                <state key="normal" title="Opt2"/>
-                                <connections>
-                                    <action selector="option1:" destination="h7U-u4-5G5" eventType="touchUpInside" id="dX8-1S-U1o"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I5s-8m-ZXB">
-                                <rect key="frame" x="46" y="115" width="35" height="30"/>
-                                <state key="normal" title="Opt3"/>
-                                <connections>
-                                    <action selector="option1:" destination="h7U-u4-5G5" eventType="touchUpInside" id="43t-cp-zWY"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bf-4B-hqW">
-                                <rect key="frame" x="295" y="115" width="35" height="30"/>
-                                <state key="normal" title="Opt4"/>
-                                <connections>
-                                    <action selector="option1:" destination="h7U-u4-5G5" eventType="touchUpInside" id="75v-6O-T3g"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dxq-Z2-8qR">
-                                <rect key="frame" x="46" y="190" width="35" height="30"/>
-                                <state key="normal" title="Opt5"/>
-                                <connections>
-                                    <action selector="option1:" destination="h7U-u4-5G5" eventType="touchUpInside" id="Uue-81-lEI"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Thx-nd-1Jr">
-                                <rect key="frame" x="295" y="190" width="35" height="30"/>
-                                <state key="normal" title="Opt6"/>
-                                <connections>
-                                    <action selector="option1:" destination="h7U-u4-5G5" eventType="touchUpInside" id="nKI-7C-ezk"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9lN-PX-s5m">
-                                <rect key="frame" x="46" y="265" width="34" height="30"/>
-                                <state key="normal" title="Opt7"/>
-                                <connections>
-                                    <action selector="option1:" destination="h7U-u4-5G5" eventType="touchUpInside" id="qch-8p-cx0"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tfV-Cu-SjA">
-                                <rect key="frame" x="295" y="265" width="35" height="30"/>
-                                <state key="normal" title="Opt8"/>
-                                <connections>
-                                    <action selector="option1:" destination="h7U-u4-5G5" eventType="touchUpInside" id="TqZ-ac-U4n"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="9lN-PX-s5m" firstAttribute="leading" secondItem="ITP-er-Ugd" secondAttribute="leadingMargin" constant="30" id="42i-BJ-cdd"/>
-                            <constraint firstItem="9lN-PX-s5m" firstAttribute="top" secondItem="Dxq-Z2-8qR" secondAttribute="bottom" constant="45" id="6w4-Iz-crS"/>
-                            <constraint firstAttribute="trailing" secondItem="tfV-Cu-SjA" secondAttribute="trailing" constant="45" id="E5l-Q4-gUT"/>
-                            <constraint firstItem="GCC-hr-OOB" firstAttribute="top" secondItem="ZRY-4f-c6s" secondAttribute="bottom" constant="20" id="EyY-xq-JQy"/>
-                            <constraint firstItem="I5s-8m-ZXB" firstAttribute="leading" secondItem="ITP-er-Ugd" secondAttribute="leadingMargin" constant="30" id="GMw-tc-Zo6"/>
-                            <constraint firstAttribute="trailing" secondItem="5bf-4B-hqW" secondAttribute="trailing" constant="45" id="Roa-Ai-LXC"/>
-                            <constraint firstItem="GCC-hr-OOB" firstAttribute="leading" secondItem="ITP-er-Ugd" secondAttribute="leadingMargin" constant="30" id="VGF-Mh-9cX"/>
-                            <constraint firstItem="FZM-wU-cOI" firstAttribute="top" secondItem="ZRY-4f-c6s" secondAttribute="bottom" constant="20" id="WiX-Ko-5fQ"/>
-                            <constraint firstItem="5bf-4B-hqW" firstAttribute="top" secondItem="FZM-wU-cOI" secondAttribute="bottom" constant="45" id="YZf-tc-53L"/>
-                            <constraint firstItem="Dxq-Z2-8qR" firstAttribute="leading" secondItem="ITP-er-Ugd" secondAttribute="leadingMargin" constant="30" id="na1-J4-8ec"/>
-                            <constraint firstAttribute="trailing" secondItem="FZM-wU-cOI" secondAttribute="trailing" constant="45" id="oJS-Xr-LIj"/>
-                            <constraint firstItem="tfV-Cu-SjA" firstAttribute="top" secondItem="Thx-nd-1Jr" secondAttribute="bottom" constant="45" id="q5a-Gt-zqx"/>
-                            <constraint firstItem="I5s-8m-ZXB" firstAttribute="top" secondItem="GCC-hr-OOB" secondAttribute="bottom" constant="45" id="rrs-FY-wIk"/>
-                            <constraint firstAttribute="trailing" secondItem="Thx-nd-1Jr" secondAttribute="trailing" constant="45" id="sfP-KX-tlS"/>
-                            <constraint firstItem="Thx-nd-1Jr" firstAttribute="top" secondItem="5bf-4B-hqW" secondAttribute="bottom" constant="45" id="x6A-mJ-05w"/>
-                            <constraint firstItem="Dxq-Z2-8qR" firstAttribute="top" secondItem="I5s-8m-ZXB" secondAttribute="bottom" constant="45" id="xs7-Qh-WPQ"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mrq-HO-LHE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1484" y="127"/>
-        </scene>
-        <!--Options Collection View Controller-->
-        <scene sceneID="5Me-s0-zs0">
-            <objects>
-                <collectionViewController storyboardIdentifier="OptionAssignViewController" id="fnM-LS-dtO" customClass="OptionsCollectionViewController" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="R4p-ra-HDI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="e9C-Ap-x2p">
-                            <size key="itemSize" width="134" height="128"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="uLg-I4-HqR" customClass="OptionsCollectionViewCell">
-                                <rect key="frame" x="0.0" y="0.0" width="134" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="134" height="128"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNK-Ug-Mc1">
-                                            <rect key="frame" x="29" y="40" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </view>
-                                <connections>
-                                    <outlet property="textLabel" destination="wNK-Ug-Mc1" id="7Tq-ou-6Wa"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="fnM-LS-dtO" id="Rhq-t7-fqk"/>
-                            <outlet property="delegate" destination="fnM-LS-dtO" id="1g5-Dg-VKe"/>
-                        </connections>
-                    </collectionView>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bA8-Qw-QX4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2200.8000000000002" y="113.79310344827587"/>
+            <point key="canvasLocation" x="-788" y="229"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="hbd-E5-viz">
@@ -259,7 +103,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dds-Kw-L53" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2954" y="114"/>
+            <point key="canvasLocation" x="31" y="229"/>
         </scene>
         <!--Stream View Controller-->
         <scene sceneID="OPh-Sk-bqk">
@@ -277,7 +121,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="29t-d2-Jgl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3678" y="112"/>
+            <point key="canvasLocation" x="809" y="229"/>
         </scene>
     </scenes>
 </document>

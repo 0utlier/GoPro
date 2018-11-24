@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		312BC85B204E312100D4CDC6 /* TLSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 312BC85A204E312100D4CDC6 /* TLSettingsViewController.m */; };
 		31718BAD1FFE55CC00ED5F69 /* PreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31718BAC1FFE55CC00ED5F69 /* PreviewViewController.m */; };
-		317384991FE36FF500C2B6CE /* OptionsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 317384981FE36FF500C2B6CE /* OptionsCollectionViewController.m */; };
-		3173849C1FE3702100C2B6CE /* OptionsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3173849B1FE3702100C2B6CE /* OptionsCollectionViewCell.m */; };
 		31A13C531FA6B5860012EC68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C521FA6B5860012EC68 /* main.m */; };
 		31A13C561FA6B5860012EC68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C551FA6B5860012EC68 /* AppDelegate.m */; };
 		31A13C591FA6B5860012EC68 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C581FA6B5860012EC68 /* ViewController.m */; };
@@ -18,18 +16,16 @@
 		31A13C5E1FA6B5860012EC68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31A13C5D1FA6B5860012EC68 /* Assets.xcassets */; };
 		31A13C611FA6B5860012EC68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31A13C5F1FA6B5860012EC68 /* LaunchScreen.storyboard */; };
 		31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C691FA6BFCC0012EC68 /* SettingsViewController.m */; };
-		31A13C701FA6C91C0012EC68 /* OptionAssignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C6F1FA6C91C0012EC68 /* OptionAssignViewController.m */; };
 		31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 31A13C771FA6CFCF0012EC68 /* MethodManager.m */; };
 		31C2871D20EB13DB00259049 /* StreamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C2871C20EB13DB00259049 /* StreamViewController.m */; };
 		4336216D21852ABF00CDA236 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4336216C21852ABF00CDA236 /* UIKit.framework */; };
 		4336216F21852B0200CDA236 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4336216E21852B0100CDA236 /* Foundation.framework */; };
 		4336217221852CA900CDA236 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4336217121852CA600CDA236 /* CoreData.framework */; };
 		4336217421852D0C00CDA236 /* Hero4.m in Sources */ = {isa = PBXBuildFile; fileRef = 3156679A1FB68B660006C2FA /* Hero4.m */; };
-		436A4350218539020006480F /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 436A434F218539020006480F /* Status.m */; };
 		43AE1DE721A50C3300A68F6B /* HeroStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */; };
 		43AE1DE821A50C5600A68F6B /* HeroProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C82C131FBA6E0C007799F9 /* HeroProtocol.m */; };
 		43B045F0219BC30700284F34 /* SettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B045EF219BC30700284F34 /* SettingsObject.m */; };
-		43DBCB2A2156DEB400DBDD42 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DBCB292156DEB400DBDD42 /* Settings.m */; };
+		43B9A10C21A9461A00C0468E /* OptionsCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B9A10B21A9461A00C0468E /* OptionsCVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,10 +35,6 @@
 		3156679A1FB68B660006C2FA /* Hero4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hero4.m; path = DAODevices/Hero4.m; sourceTree = "<group>"; };
 		31718BAB1FFE55CC00ED5F69 /* PreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewViewController.h; sourceTree = "<group>"; };
 		31718BAC1FFE55CC00ED5F69 /* PreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewViewController.m; sourceTree = "<group>"; };
-		317384971FE36FF500C2B6CE /* OptionsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsCollectionViewController.h; sourceTree = "<group>"; };
-		317384981FE36FF500C2B6CE /* OptionsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsCollectionViewController.m; sourceTree = "<group>"; };
-		3173849A1FE3702100C2B6CE /* OptionsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsCollectionViewCell.h; sourceTree = "<group>"; };
-		3173849B1FE3702100C2B6CE /* OptionsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsCollectionViewCell.m; sourceTree = "<group>"; };
 		31A13C4E1FA6B5860012EC68 /* GoProApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoProApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31A13C521FA6B5860012EC68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		31A13C541FA6B5860012EC68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -55,8 +47,6 @@
 		31A13C621FA6B5860012EC68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		31A13C681FA6BFCC0012EC68 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		31A13C691FA6BFCC0012EC68 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		31A13C6E1FA6C91C0012EC68 /* OptionAssignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionAssignViewController.h; sourceTree = "<group>"; };
-		31A13C6F1FA6C91C0012EC68 /* OptionAssignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionAssignViewController.m; sourceTree = "<group>"; };
 		31A13C761FA6CFCF0012EC68 /* MethodManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MethodManager.h; path = GoProApp/MethodManager/MethodManager.h; sourceTree = SOURCE_ROOT; };
 		31A13C771FA6CFCF0012EC68 /* MethodManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodManager.m; sourceTree = "<group>"; };
 		31C2871B20EB13DB00259049 /* StreamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamViewController.h; sourceTree = "<group>"; };
@@ -68,12 +58,10 @@
 		4336216C21852ABF00CDA236 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4336216E21852B0100CDA236 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4336217121852CA600CDA236 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		436A434E218539020006480F /* Status.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
-		436A434F218539020006480F /* Status.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		43B045EE219BC30700284F34 /* SettingsObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsObject.h; sourceTree = "<group>"; };
 		43B045EF219BC30700284F34 /* SettingsObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsObject.m; sourceTree = "<group>"; };
-		43DBCB282156DEB400DBDD42 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = GoProApp/Settings.h; sourceTree = SOURCE_ROOT; };
-		43DBCB292156DEB400DBDD42 /* Settings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Settings.m; path = GoProApp/Settings.m; sourceTree = SOURCE_ROOT; };
+		43B9A10A21A9461A00C0468E /* OptionsCVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionsCVC.h; sourceTree = "<group>"; };
+		43B9A10B21A9461A00C0468E /* OptionsCVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptionsCVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,12 +182,8 @@
 		31A13C711FA6C9220012EC68 /* OptionAssignVC */ = {
 			isa = PBXGroup;
 			children = (
-				31A13C6E1FA6C91C0012EC68 /* OptionAssignViewController.h */,
-				31A13C6F1FA6C91C0012EC68 /* OptionAssignViewController.m */,
-				317384971FE36FF500C2B6CE /* OptionsCollectionViewController.h */,
-				317384981FE36FF500C2B6CE /* OptionsCollectionViewController.m */,
-				3173849A1FE3702100C2B6CE /* OptionsCollectionViewCell.h */,
-				3173849B1FE3702100C2B6CE /* OptionsCollectionViewCell.m */,
+				43B9A10A21A9461A00C0468E /* OptionsCVC.h */,
+				43B9A10B21A9461A00C0468E /* OptionsCVC.m */,
 			);
 			name = OptionAssignVC;
 			sourceTree = "<group>";
@@ -241,10 +225,6 @@
 			children = (
 				43B045EE219BC30700284F34 /* SettingsObject.h */,
 				43B045EF219BC30700284F34 /* SettingsObject.m */,
-				43DBCB282156DEB400DBDD42 /* Settings.h */,
-				43DBCB292156DEB400DBDD42 /* Settings.m */,
-				436A434E218539020006480F /* Status.h */,
-				436A434F218539020006480F /* Status.m */,
 			);
 			name = SettingsObject;
 			sourceTree = "<group>";
@@ -323,20 +303,16 @@
 			files = (
 				4336217421852D0C00CDA236 /* Hero4.m in Sources */,
 				43B045F0219BC30700284F34 /* SettingsObject.m in Sources */,
+				43B9A10C21A9461A00C0468E /* OptionsCVC.m in Sources */,
 				312BC85B204E312100D4CDC6 /* TLSettingsViewController.m in Sources */,
 				31A13C591FA6B5860012EC68 /* ViewController.m in Sources */,
-				43DBCB2A2156DEB400DBDD42 /* Settings.m in Sources */,
 				43AE1DE721A50C3300A68F6B /* HeroStrings.m in Sources */,
-				3173849C1FE3702100C2B6CE /* OptionsCollectionViewCell.m in Sources */,
-				436A4350218539020006480F /* Status.m in Sources */,
 				43AE1DE821A50C5600A68F6B /* HeroProtocol.m in Sources */,
 				31A13C561FA6B5860012EC68 /* AppDelegate.m in Sources */,
 				31A13C531FA6B5860012EC68 /* main.m in Sources */,
 				31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */,
 				31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */,
 				31C2871D20EB13DB00259049 /* StreamViewController.m in Sources */,
-				31A13C701FA6C91C0012EC68 /* OptionAssignViewController.m in Sources */,
-				317384991FE36FF500C2B6CE /* OptionsCollectionViewController.m in Sources */,
 				31718BAD1FFE55CC00ED5F69 /* PreviewViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
