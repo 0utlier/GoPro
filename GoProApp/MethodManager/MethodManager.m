@@ -73,12 +73,12 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
         NSLog(@"No GoPro was selected");
     
     
-    [self.deviceCurrent.heroDAO createHardCodeAvailableSettings]; // sets the values of all available options for given Hero model
+//    [self.deviceCurrent.heroDAO createHardCodeAvailableSettings]; // sets the values of all available options for given Hero model
     NSLog(@"Device's modes available %@", self.deviceCurrent.heroDAO.availableModes);
     [self.deviceCurrent.heroDAO powerOn];
     
     // allocated the settingsCurrent, so that it exists
-    self.settingsCurrent = [[Settings alloc]init];
+//    self.settingsCurrent = [[Settings alloc]init];
 //    self.settingsCurrent.subMode = @"vidTL";
 //    self.settingsCurrent.quality = @"4K";
     
@@ -98,7 +98,7 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 //        self.settingsCurrent = self.deviceCurrent.heroDAO.videoSettings;
 
     // allocated the settingsDesired, so that it exists
-    self.settingsDesired = [[Settings alloc]init];
+//    self.settingsDesired = [[Settings alloc]init];
     
 }
 

@@ -22,10 +22,14 @@
 		4336216F21852B0200CDA236 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4336216E21852B0100CDA236 /* Foundation.framework */; };
 		4336217221852CA900CDA236 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4336217121852CA600CDA236 /* CoreData.framework */; };
 		4336217421852D0C00CDA236 /* Hero4.m in Sources */ = {isa = PBXBuildFile; fileRef = 3156679A1FB68B660006C2FA /* Hero4.m */; };
+		4354FF9E21AA361600C2F3D8 /* OptionsTVVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4354FF9D21AA361600C2F3D8 /* OptionsTVVC.m */; };
+		4354FFA121AA400F00C2F3D8 /* OptionsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4354FFA021AA400F00C2F3D8 /* OptionsTVC.m */; };
+		4354FFA421AA44C200C2F3D8 /* CommandPathObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4354FFA321AA44C200C2F3D8 /* CommandPathObject.m */; };
 		43AE1DE721A50C3300A68F6B /* HeroStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */; };
 		43AE1DE821A50C5600A68F6B /* HeroProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C82C131FBA6E0C007799F9 /* HeroProtocol.m */; };
 		43B045F0219BC30700284F34 /* SettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B045EF219BC30700284F34 /* SettingsObject.m */; };
 		43B9A10C21A9461A00C0468E /* OptionsCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B9A10B21A9461A00C0468E /* OptionsCVC.m */; };
+		43B9A11821A9AC3E00C0468E /* OptionsCVCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B9A11721A9AC3E00C0468E /* OptionsCVCCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,10 +62,18 @@
 		4336216C21852ABF00CDA236 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4336216E21852B0100CDA236 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4336217121852CA600CDA236 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4354FF9C21AA361600C2F3D8 /* OptionsTVVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionsTVVC.h; sourceTree = "<group>"; };
+		4354FF9D21AA361600C2F3D8 /* OptionsTVVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptionsTVVC.m; sourceTree = "<group>"; };
+		4354FF9F21AA400F00C2F3D8 /* OptionsTVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionsTVC.h; sourceTree = "<group>"; };
+		4354FFA021AA400F00C2F3D8 /* OptionsTVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptionsTVC.m; sourceTree = "<group>"; };
+		4354FFA221AA44C200C2F3D8 /* CommandPathObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommandPathObject.h; sourceTree = "<group>"; };
+		4354FFA321AA44C200C2F3D8 /* CommandPathObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommandPathObject.m; sourceTree = "<group>"; };
 		43B045EE219BC30700284F34 /* SettingsObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsObject.h; sourceTree = "<group>"; };
 		43B045EF219BC30700284F34 /* SettingsObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsObject.m; sourceTree = "<group>"; };
 		43B9A10A21A9461A00C0468E /* OptionsCVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionsCVC.h; sourceTree = "<group>"; };
 		43B9A10B21A9461A00C0468E /* OptionsCVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptionsCVC.m; sourceTree = "<group>"; };
+		43B9A11621A9AC3E00C0468E /* OptionsCVCCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionsCVCCell.h; sourceTree = "<group>"; };
+		43B9A11721A9AC3E00C0468E /* OptionsCVCCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptionsCVCCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +137,7 @@
 		31A13C501FA6B5860012EC68 /* GoProApp */ = {
 			isa = PBXGroup;
 			children = (
+				4354FF9B21AA35C500C2F3D8 /* OptionsTV */,
 				31A13C6D1FA6C60D0012EC68 /* AppDelegate */,
 				31A13C721FA6CD560012EC68 /* DAODevices */,
 				319E4FA81FA815CC00A50F57 /* MethodManager */,
@@ -184,6 +197,8 @@
 			children = (
 				43B9A10A21A9461A00C0468E /* OptionsCVC.h */,
 				43B9A10B21A9461A00C0468E /* OptionsCVC.m */,
+				43B9A11621A9AC3E00C0468E /* OptionsCVCCell.h */,
+				43B9A11721A9AC3E00C0468E /* OptionsCVCCell.m */,
 			);
 			name = OptionAssignVC;
 			sourceTree = "<group>";
@@ -220,11 +235,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4354FF9B21AA35C500C2F3D8 /* OptionsTV */ = {
+			isa = PBXGroup;
+			children = (
+				4354FF9C21AA361600C2F3D8 /* OptionsTVVC.h */,
+				4354FF9D21AA361600C2F3D8 /* OptionsTVVC.m */,
+				4354FF9F21AA400F00C2F3D8 /* OptionsTVC.h */,
+				4354FFA021AA400F00C2F3D8 /* OptionsTVC.m */,
+			);
+			path = OptionsTV;
+			sourceTree = "<group>";
+		};
 		43DBCB272156DE3E00DBDD42 /* SettingsObject */ = {
 			isa = PBXGroup;
 			children = (
 				43B045EE219BC30700284F34 /* SettingsObject.h */,
 				43B045EF219BC30700284F34 /* SettingsObject.m */,
+				4354FFA221AA44C200C2F3D8 /* CommandPathObject.h */,
+				4354FFA321AA44C200C2F3D8 /* CommandPathObject.m */,
 			);
 			name = SettingsObject;
 			sourceTree = "<group>";
@@ -301,15 +329,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4354FFA121AA400F00C2F3D8 /* OptionsTVC.m in Sources */,
 				4336217421852D0C00CDA236 /* Hero4.m in Sources */,
+				4354FF9E21AA361600C2F3D8 /* OptionsTVVC.m in Sources */,
 				43B045F0219BC30700284F34 /* SettingsObject.m in Sources */,
 				43B9A10C21A9461A00C0468E /* OptionsCVC.m in Sources */,
 				312BC85B204E312100D4CDC6 /* TLSettingsViewController.m in Sources */,
 				31A13C591FA6B5860012EC68 /* ViewController.m in Sources */,
+				4354FFA421AA44C200C2F3D8 /* CommandPathObject.m in Sources */,
 				43AE1DE721A50C3300A68F6B /* HeroStrings.m in Sources */,
 				43AE1DE821A50C5600A68F6B /* HeroProtocol.m in Sources */,
 				31A13C561FA6B5860012EC68 /* AppDelegate.m in Sources */,
 				31A13C531FA6B5860012EC68 /* main.m in Sources */,
+				43B9A11821A9AC3E00C0468E /* OptionsCVCCell.m in Sources */,
 				31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */,
 				31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */,
 				31C2871D20EB13DB00259049 /* StreamViewController.m in Sources */,

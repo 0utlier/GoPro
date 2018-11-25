@@ -69,9 +69,9 @@
     
 
 -(void) assignAvailable {
-    self.availableFPS = self.methodManager.deviceCurrent.heroDAO.availableFrameRates;
-    self.availableQuality = self.methodManager.deviceCurrent.heroDAO.availableResolutions;
-    self.availableInterval = self.methodManager.deviceCurrent.heroDAO.availableTLIntervals;
+    self.availableFPS = self.methodManager.deviceCurrent.heroDAO.availableVideoFrameRate;
+    self.availableQuality = self.methodManager.deviceCurrent.heroDAO.availableVideoResolution;
+    self.availableInterval = self.methodManager.deviceCurrent.heroDAO.availableVideoTLInterval;
     
 // hard code these two, as it is up to user and NOT determined by the GoPro
     self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // available to shoot

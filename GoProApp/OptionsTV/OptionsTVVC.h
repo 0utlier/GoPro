@@ -1,5 +1,5 @@
 //
-//  OptionsCVC.h
+//  OptionsTVVC.h
 //  GoProApp
 //
 //  Created by JDSL on 11/24/18.
@@ -10,6 +10,6 @@
 #import "MethodManager.h"
 #import "SettingsObject.h"
 
-@interface OptionsCVC : UICollectionViewController
+@interface OptionsTVVC : UITableViewController
 
 @end

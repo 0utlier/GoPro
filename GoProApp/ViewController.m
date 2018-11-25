@@ -61,15 +61,18 @@
     [openToSettings addTarget:self
                        action:@selector(settingsButtonPressed:)
              forControlEvents:UIControlEventTouchUpInside];
-    [openToSettings setTitle:@"Show View" forState:UIControlStateNormal];
+    [openToSettings setTitle:@"Show Settings" forState:UIControlStateNormal];
     openToSettings.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
     openToSettings.backgroundColor = [UIColor blueColor];
     [self.view addSubview:openToSettings];
 }
 
 - (void)settingsButtonPressed:(UIButton *)openToSettings {
+    [self connectButtonPressed:nil];
+    sleep(3); // PLEASE REPLACE TEMPORARY [sleep function] with listener to when it is done. maybe create a new function for JSON call with COMPLETION 11.24.18
     NSLog(@"works, opening settings page");
-    UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"OptionAssignViewController"];
+    UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"OptionsTVVC"];
+//    UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"OptionsCVC"];
     [self presentViewController:settingsController animated:YES completion:nil];
     
 }
@@ -108,7 +111,7 @@
     
 }
 
-// this is a test button to currently connect GoPro STRINGS to 09.22.18
+// this is a test button to currently connect GoPro STRINGS to 09.22.18 to pull JSON 11.24.18
 - (void)createConnectButton {
     UIButton *connectStrings = [UIButton buttonWithType:UIButtonTypeCustom];
     [connectStrings addTarget:self

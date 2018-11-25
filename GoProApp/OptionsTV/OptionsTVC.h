@@ -1,5 +1,5 @@
 //
-//  OptionsCVC.h
+//  OptionsTVC.h
 //  GoProApp
 //
 //  Created by JDSL on 11/24/18.
@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MethodManager.h"
-#import "SettingsObject.h"
 
-@interface OptionsCVC : UICollectionViewController
+@interface OptionsTVC : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *customLabel;
 
 @end

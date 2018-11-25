@@ -12,10 +12,8 @@
 
 
 -(void)objectDidLoad {
-    /*10.30.18 removed since synthesization is at bottom [may depend on order, if not already assigned from JSON]*/
-    // create the hardcoded dictionary to define "keys" for the status/settings
-    //    self.dictionarySettingsDefinition = [[NSDictionary alloc]init];
-    //    self.dictionaryStatusDefinition = [[NSDictionary alloc]init];
+
+    [self createHardCodeAvailableSettings];
     [self createHardCodeDictionary];
     
 }
@@ -121,26 +119,61 @@
     NSLog(@"Hardcoded Settings Dict: %@", mySettingsDictionary);
     
     self.dictionarySettingsHardcode = mySettingsDictionary;
+    
+    /*============================================== ============================================== ============================================== */
+    // available arrays hardcode dictionary
+    NSDictionary *titleToArray = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                  self.availableModes, @"Mode",
+//                                  self.availableSubModes, @"Sub Mode",
+                                  self.availableVideoResolution, @"Resolution",
+                                  self.availableVideoFrameRate, @"Frame Rate",
+                                  self.availableVideoFOV, @"FOV",
+                                  self.availableVideoTLInterval, @"Time Lapse Interval",
+                                  self.availableVideoLoopingInterval, @"Looping Interval",
+                                  self.availableVideoPhotoVideoInterval, @"Photo Video Interval",
+                                  self.availableVideoWhiteBalance, @"",
+                                  self.availableVideoColor, @"",
+                                  self.availableVideoManualExposure, @"",
+                                  self.availableVideoISOMode, @"",
+                                  self.availableVideoISOLimit, @"",
+                                  self.availableVideoSharpness, @"",
+                                  self.availableVideoEVComp, @"",
+                                  nil];
+    
+    self.dictionaryAvailableArrays = titleToArray;
+
 }
 
 /* 03.19.18 09.22.18 currently what we're pulling from to assign*/
 
 -(void)createHardCodeAvailableSettings {
     self.availableModes = [[NSMutableArray alloc]initWithObjects:@"video", @"photo", @"multi", nil];
-    //    NSLog(@"The Modes available for this device %@",self.availableModes);
     
-    self.availableSubModes = [[NSMutableArray alloc]initWithObjects:@"vidVideo", @"vidTimeLapse", @"vidAndPhoto", @"vidLooping", nil];
-    //    NSLog(@"The subModes available for this device %@",self.availableSubModes);
+    // this has to be moved to "showAvailableArray", since subModes are shared between modes
+    self.availableVideoSubMode = [[NSMutableArray alloc]initWithObjects:@"Video", @"Time Lapse Video", @"Video And Photo", @"Looping", nil];
+    self.availableVideoResolution = [[NSMutableArray alloc]initWithObjects:@"4K", @"2.7K", @"1080", @"720", nil];
+    self.availableVideoFrameRate = [[NSMutableArray alloc]initWithObjects:@"240", @"120", @"100", @"90", @"80", @"60", @"50", @"48", @"30", @"24", nil];
+    self.availableVideoFOV = [[NSMutableArray alloc]initWithObjects: @"", nil];
+    self.availableVideoTLInterval = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"4", @"80", nil];
+    self.availableVideoLoopingInterval = [[NSMutableArray alloc]initWithObjects: @"", nil];
+    self.availableVideoPhotoVideoInterval = [[NSMutableArray alloc]initWithObjects: @"", nil];
+    // commented out for being binaries and not needing an array
+//    self.availableVideoLowLight = [[NSMutableArray alloc]initWithObjects: @"", nil];
+//    self.availableVideoSpotMeter = [[NSMutableArray alloc]initWithObjects: @"", nil];
+//    self.availableVideoProtune = [[NSMutableArray alloc]initWithObjects: @"", nil];
+    self.availableVideoWhiteBalance = [[NSMutableArray alloc]initWithObjects: @"", nil];
+    self.availableVideoColor = [[NSMutableArray alloc]initWithObjects: @"", nil];
+    self.availableVideoManualExposure = [[NSMutableArray alloc]initWithObjects: @"", nil];
+    self.availableVideoISOMode = [[NSMutableArray alloc]initWithObjects: @"", nil];
+    self.availableVideoISOLimit = [[NSMutableArray alloc]initWithObjects: @"", nil];
+    self.availableVideoSharpness = [[NSMutableArray alloc]initWithObjects: @"", nil];
+    self.availableVideoEVComp = [[NSMutableArray alloc]initWithObjects: @"", nil];
     
     
-    self.availableFrameRates = [[NSMutableArray alloc]initWithObjects:@"240", @"120", @"100", @"90", @"80", @"60", @"50", @"48", @"30", @"24", nil];
-    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
     
-    self.availableTLIntervals = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"4", @"80", nil];
-    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
     
-    self.availableResolutions = [[NSMutableArray alloc]initWithObjects:@"4K", @"2.7K", @"1080", nil];
-    //    NSLog(@"The frameRates available for this device %@",self.availableFrameRates);
+    
+    
 }
 
 // method for comparing hardcode dictionaries
@@ -168,6 +201,8 @@
     mode.title = @"Mode";
     mode.value = [self readableModeCurrent:[self compareStatusHardcode:@"modeCurrent"]];
     mode.paramType = @"typeSystemSettings";
+    // assign the property to base if-then's on
+    self.currentMode = mode.value;
     SettingsObject *sdCardPresent = [[SettingsObject alloc]init];
     sdCardPresent.title = @"SD Card";
     sdCardPresent.value = [self readableSDCard:[self compareStatusHardcode:@"sdCardPresent"]];
@@ -666,6 +701,23 @@
     //    return self.testDictionary;
 }
 
+#pragma mark - Return Values
+// return readable values
+- (NSMutableArray *)showAvailableArray:(NSString *)title {
+
+    if ([title isEqualToString:@"Sub Mode"]) {
+        if ([self.currentMode isEqualToString:@"Video"]) {
+            return self.availableVideoSubMode;
+        }
+        else if ([self.currentMode isEqualToString:@"Photo"])
+            return self.availablePhotoSubMode;
+        else if ([self.currentMode isEqualToString:@"MultiShot"])
+            return self.availableMSSubMode;
+    }
+//    NSLog(@"The array seeking = %@", [titleToArray objectForKey:title]);
+    return [self.dictionaryAvailableArrays objectForKey:title];
+}
+
 #pragma mark - HTTP CALLS
 // return readable values
 
@@ -785,10 +837,6 @@
     // if statement
 }
 
-- (void)changeQuality:(NSString *)quality {
-    // if statement
-}
-
 #pragma mark - PRINTING
 
 -(void)printCurrentURL {
@@ -859,7 +907,7 @@
     }
     
 }
-
+/*
 - (NSString *) readableSubModeCurrentVideo:(int)value {
     switch (value) {
         case 0:
@@ -869,7 +917,7 @@
             return @"TLVideo";
             break;
         case 2:
-            return @"Video+Photo";
+            return @"Video And Photo";
             break;
             
         default:
@@ -903,10 +951,10 @@
             return @"Burst";
             break;
         case 1:
-            return @"TimeLapse";
+            return @"Time Lapse";
             break;
         case 2:
-            return @"NightLapse";
+            return @"Night Lapse";
             break;
             
         default:
@@ -914,7 +962,7 @@
             break;
     }
     
-}
+}*/
 
 - (NSString *) readableStreamingStatus:(int)value {
     switch (value) {
@@ -957,10 +1005,10 @@
             return @"Video";
             break;
         case 1:
-            return @"TimeLapseVideo";
+            return @"Time Lapse Video";
             break;
         case 2:
-            return @"Video+Photo";
+            return @"Video And Photo";
             break;
         case 3:
             return @"Looping";
@@ -2275,22 +2323,58 @@
 
 
 // Synthesize Properties 10.26.18 [unsure if this is best, or include properties in h file?]
-@synthesize availableFrameRates;
 @synthesize availableModes;
-@synthesize availableResolutions;
-@synthesize availableSubModes;
-@synthesize availableTLExposure;
-@synthesize availableTLIntervals;
 @synthesize dictionaryStatusHardcode;
 @synthesize dictionarySettingsHardcode;
 @synthesize dictionarySettingsDefinition;
 @synthesize dictionaryStatusDefinition;
-//@synthesize statusSettings;
+@synthesize dictionaryAvailableArrays;
 @synthesize urlForCurrentCall;
-//@synthesize multiShotSettings;
-//@synthesize otherSettings;
-//@synthesize photoSettings;
-//@synthesize videoSettings;
 @synthesize currentSettingsArray;
+@synthesize currentMode;
+@synthesize availableMSBurstRate;
+@synthesize availableMSColor;
+@synthesize availableMSDefaultSubMode;
+@synthesize availableMSEVComp;
+@synthesize availableMSISOLimit;
+@synthesize availableMSISOMin;
+@synthesize availableMSMegaPixels;
+@synthesize availableMSNightExposure;
+@synthesize availableMSNLInterval;
+@synthesize availableMSProtune;
+@synthesize availableMSSharpness;
+@synthesize availableMSSpotMeter;
+@synthesize availableMSSubMode;
+@synthesize availableMSTLInterval;
+@synthesize availableMSWhiteBalance;
+@synthesize availablePhotoColor;
+@synthesize availablePhotoContinuousRate;
+@synthesize availablePhotoEVComp;
+@synthesize availablephotoISOLimit;
+@synthesize availablePhotoISOMin;
+@synthesize availablePhotoMegaPixels;
+@synthesize availablePhotoNightExposure;
+@synthesize availablePhotoProtune;
+@synthesize availablePhotoSharpness;
+@synthesize availablePhotoSpotMeter;
+@synthesize availablePhotoSubMode;
+@synthesize availablePhotoWhiteBalance;
+@synthesize availableVideoColor;
+@synthesize availableVideoEVComp;
+@synthesize availableVideoFOV;
+@synthesize availableVideoFrameRate;
+@synthesize availableVideoISOLimit;
+@synthesize availableVideoISOMode;
+@synthesize availableVideoLoopingInterval;
+@synthesize availableVideoLowLight;
+@synthesize availableVideoManualExposure;
+@synthesize availableVideoPhotoVideoInterval;
+@synthesize availableVideoProtune;
+@synthesize availableVideoResolution;
+@synthesize availableVideoSharpness;
+@synthesize availableVideoSpotMeter;
+@synthesize availableVideoSubMode;
+@synthesize availableVideoTLInterval;
+@synthesize availableVideoWhiteBalance;
 
 @end

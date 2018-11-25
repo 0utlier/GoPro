@@ -18,8 +18,6 @@
 #import "Hero4.h"
 #import "HeroStrings.h"
 
-#import "Settings.h"
-
 @interface MethodManager : NSObject
 
 
@@ -55,8 +53,8 @@
 //@property (strong, nonatomic) Hero3 *Hero3;
 
 // create a settings property for current and desired, accesible anywhere in the app
-@property (strong, nonatomic) Settings *settingsCurrent;
-@property (strong, nonatomic) Settings *settingsDesired;
+//@property (strong, nonatomic) Settings *settingsCurrent;
+//@property (strong, nonatomic) Settings *settingsDesired;
 
 //calls
 

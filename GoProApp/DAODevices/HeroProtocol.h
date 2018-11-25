@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Settings.h"
 #import "SettingsObject.h"
-#import "Status.h"
+#import "CommandPathObject.h"
+
 /*This is the Device Manager for the GoPro Hero
  All of the
  Calls
@@ -58,9 +58,6 @@
 - (void)subMulTimeLapse;
 - (void)subMulNightLapse;
 
-#pragma mark - QUALITY
-//types of qualities [too many to have all different calls]
-- (void)changeQuality:(NSString *)quality;
 
 #pragma mark - SETTINGS / STATUS
 
@@ -89,19 +86,81 @@
 // make the comparable dictionary to assign readable value to the JSON
 - (void)createHardCodeDictionary;
 
-#pragma mark - AVAILABLE Properties
+- (NSMutableArray *)showAvailableArray:(NSString *)title;
+
+#pragma mark - AVAILABLE PROPERTIES
 @property (nonatomic, retain) NSMutableArray *availableModes;
-@property (nonatomic, retain) NSMutableArray *availableSubModes;
+
+#pragma mark - Video Available
+// Available VIDEO
+
+@property (nonatomic, retain) NSMutableArray *availableVideoSubMode;
+@property (nonatomic, retain) NSMutableArray *availableVideoResolution;
+@property (nonatomic, retain) NSMutableArray *availableVideoFrameRate;
+@property (nonatomic, retain) NSMutableArray *availableVideoFOV;
+@property (nonatomic, retain) NSMutableArray *availableVideoTLInterval;
+@property (nonatomic, retain) NSMutableArray *availableVideoLoopingInterval;
+@property (nonatomic, retain) NSMutableArray *availableVideoPhotoVideoInterval;
+@property (nonatomic, retain) NSMutableArray *availableVideoLowLight;
+@property (nonatomic, retain) NSMutableArray *availableVideoSpotMeter;
+@property (nonatomic, retain) NSMutableArray *availableVideoProtune;
+@property (nonatomic, retain) NSMutableArray *availableVideoWhiteBalance;
+@property (nonatomic, retain) NSMutableArray *availableVideoColor;
+@property (nonatomic, retain) NSMutableArray *availableVideoManualExposure;
+@property (nonatomic, retain) NSMutableArray *availableVideoISOMode;
+@property (nonatomic, retain) NSMutableArray *availableVideoISOLimit;
+@property (nonatomic, retain) NSMutableArray *availableVideoSharpness;
+@property (nonatomic, retain) NSMutableArray *availableVideoEVComp;
+
+/*
+@property (nonatomic, retain) NSMutableArray *availableVideoSubModes;
 @property (nonatomic, retain) NSMutableArray *availableResolutions;
 @property (nonatomic, retain) NSMutableArray *availableFrameRates;
 @property (nonatomic, retain) NSMutableArray *availableTLIntervals;
 @property (nonatomic, retain) NSMutableArray *availableTLExposure;
+*/
+
+#pragma mark - Photo Available
+// Available PHOTO
+
+@property (nonatomic, retain) NSMutableArray *availablePhotoSubMode;
+@property (nonatomic, retain) NSMutableArray *availablePhotoContinuousRate;
+@property (nonatomic, retain) NSMutableArray *availablePhotoMegaPixels;
+@property (nonatomic, retain) NSMutableArray *availablePhotoNightExposure;
+@property (nonatomic, retain) NSMutableArray *availablePhotoSpotMeter;
+@property (nonatomic, retain) NSMutableArray *availablePhotoProtune;
+@property (nonatomic, retain) NSMutableArray *availablePhotoWhiteBalance;
+@property (nonatomic, retain) NSMutableArray *availablePhotoColor;
+@property (nonatomic, retain) NSMutableArray *availablePhotoSharpness;
+@property (nonatomic, retain) NSMutableArray *availablePhotoEVComp;
+@property (nonatomic, retain) NSMutableArray *availablePhotoISOMin;
+@property (nonatomic, retain) NSMutableArray *availablephotoISOLimit;
+
+#pragma mark - MultiShot Available
+// Available MULTISHOT
+
+@property (nonatomic, retain) NSMutableArray *availableMSDefaultSubMode;
+@property (nonatomic, retain) NSMutableArray *availableMSSubMode;
+@property (nonatomic, retain) NSMutableArray *availableMSNightExposure;
+@property (nonatomic, retain) NSMutableArray *availableMSBurstRate;
+@property (nonatomic, retain) NSMutableArray *availableMSTLInterval;
+@property (nonatomic, retain) NSMutableArray *availableMSNLInterval;
+@property (nonatomic, retain) NSMutableArray *availableMSMegaPixels;
+@property (nonatomic, retain) NSMutableArray *availableMSSpotMeter;
+@property (nonatomic, retain) NSMutableArray *availableMSProtune;
+@property (nonatomic, retain) NSMutableArray *availableMSWhiteBalance;
+@property (nonatomic, retain) NSMutableArray *availableMSColor;
+@property (nonatomic, retain) NSMutableArray *availableMSSharpness;
+@property (nonatomic, retain) NSMutableArray *availableMSEVComp;
+@property (nonatomic, retain) NSMutableArray *availableMSISOMin;
+@property (nonatomic, retain) NSMutableArray *availableMSISOLimit;
 
 // hardcoded dictionary to define "keys" for the status/settings
 @property (nonatomic, retain) NSDictionary *dictionaryStatusDefinition;
 @property (nonatomic, retain) NSDictionary *dictionarySettingsDefinition;
 @property (nonatomic, retain) NSDictionary *dictionaryStatusHardcode;
 @property (nonatomic, retain) NSDictionary *dictionarySettingsHardcode;
+@property (nonatomic, retain) NSDictionary *dictionaryAvailableArrays;
 
 /*
 // settings for status, other and modes
@@ -112,6 +171,7 @@
 @property (nonatomic, retain) Settings *multiShotSettings;
 */
 
+@property (nonatomic, retain) NSString *currentMode;
 @property (nonatomic, retain) NSMutableArray *currentSettingsArray;
 
 @property (nonatomic, retain) NSString *urlForCurrentCall; // for passing through the HTTP call
@@ -128,11 +188,11 @@
 
 - (NSString *) readableModeCurrent:(int)value;
 
-- (NSString *) readableSubModeCurrentVideo:(int)value;
+//- (NSString *) readableSubModeCurrentVideo:(int)value;
 
-- (NSString *) readableSubModeCurrentPhoto:(int)value;
+//- (NSString *) readableSubModeCurrentPhoto:(int)value;
 
-- (NSString *) readableSubModeCurrentMultiShot:(int)value;
+//- (NSString *) readableSubModeCurrentMultiShot:(int)value;
 
 - (NSString *) readableStreamingStatus:(int)value;
 
