@@ -86,6 +86,9 @@
 // make the comparable dictionary to assign readable value to the JSON
 - (void)createHardCodeDictionary;
 
+// list all HTTP calls for given setting request [without the front part - just the tail]
+- (void)createHardCodeCommandPaths;
+
 - (NSMutableArray *)showAvailableArray:(NSString *)title;
 
 #pragma mark - AVAILABLE PROPERTIES
