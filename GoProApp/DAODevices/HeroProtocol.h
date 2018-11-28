@@ -68,12 +68,6 @@
 -(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler;
 
 
-// get status from call to GoPro - JSON is returned. Assign to dictionary of settings/status
-/*
- - (void)assignCurrentStatusSettings;
-- (void)assignCurrentVideoSettings;
-- (void)assignCurrentPhotoSettings;
-- (void)assignCurrentMultiShotSettings;*/
 
 - (NSMutableArray *)assignCurrentStatusSettingsArray;
 - (NSMutableArray *)assignCurrentVideoSettingsArray;
@@ -115,13 +109,6 @@
 @property (nonatomic, retain) NSMutableArray *availableVideoSharpness;
 @property (nonatomic, retain) NSMutableArray *availableVideoEVComp;
 
-/*
-@property (nonatomic, retain) NSMutableArray *availableVideoSubModes;
-@property (nonatomic, retain) NSMutableArray *availableResolutions;
-@property (nonatomic, retain) NSMutableArray *availableFrameRates;
-@property (nonatomic, retain) NSMutableArray *availableTLIntervals;
-@property (nonatomic, retain) NSMutableArray *availableTLExposure;
-*/
 
 #pragma mark - Photo Available
 // Available PHOTO

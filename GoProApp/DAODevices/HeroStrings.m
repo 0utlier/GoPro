@@ -250,72 +250,7 @@
     self.currentSettingsArray = currentSettingArray;
     return currentSettingArray;
 }
-/*
- -(void)assignCurrentStatusSettings{
- self.statusSettings = [[Status alloc]init];
- // assign to the array of values for given arrays
- self.statusSettings.battery = @"no";
- self.statusSettings.batteryLevel = [self readableBatteryLevel:[self compareStatusHardcode:@"batteryLevel"]];
- self.statusSettings.battery = [self readableBattery:[self compareStatusHardcode:@"battery"]];
- self.statusSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"modeCurrent"]];
- self.statusSettings.sdCardPresent = [self readableSDCard:[self compareStatusHardcode:@"sdCardPresent"]];
- self.statusSettings.streamingStatus = [self readableStreamingStatus:[self compareStatusHardcode:@"streamingStatus"]];
- 
- NSLog(@"remain photos = %d", [self compareStatusHardcode:@"remainingPhotos"]);
- 
- NSLog(@"settings object created, and now values assigned");
- 
- // check which mode, to assign proper settings to the given mode
- if ([self.statusSettings.mode isEqualToString:@"Video"]) {
- NSLog(@"User is using %@", self.statusSettings.mode);
- //        [self assignCurrentVideoSettings];
- [self assignCurrentVideoSettingsArray];
- }
- else if ([self.statusSettings.mode isEqualToString:@"Photo"]) {
- NSLog(@"User is using %@", self.statusSettings.mode);
- //        [self assignCurrentPhotoSettings];
- [self assignCurrentPhotoSettingsArray];
- }
- else if ([self.statusSettings.mode isEqualToString:@"MultiShot"]) {
- NSLog(@"User is using %@", self.statusSettings.mode);
- //        [self assignCurrentMultiShotSettings];
- [self assignCurrentMultiShotSettingsArray];
- }
- else if ([self.statusSettings.mode isEqualToString:@"Settings"]) {
- NSLog(@"User is in the %@", self.statusSettings.mode);
- [self assignCurrentVideoSettingsArray];
- [self assignCurrentPhotoSettingsArray];
- [self assignCurrentMultiShotSettingsArray];
- }
- else
- NSLog(@"No current mode found, cannot assign current settings");
- }*/
 
-/*
- -(void)assignCurrentVideoSettings{
- self.videoSettings = [[Settings alloc]init];
- self.videoSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
- self.videoSettings.videoSubMode = [self readableVideoSubMode:[self compareSettingsHardcode:@"videoSubMode"]];
- self.videoSettings.videoResolution = [self readableVideoResolution:[self compareSettingsHardcode:@"videoResolution"]];
- self.videoSettings.videoFrameRate = [self readableVideoFrameRate:[self compareSettingsHardcode:@"videoFrameRate"]];
- self.videoSettings.videoFOV = [self readableVideoFOV:[self compareSettingsHardcode:@"videoFOV"]];
- self.videoSettings.videoTLInterval = [self readableVideoTLInterval:[self compareSettingsHardcode:@"videoTLInterval"]];
- self.videoSettings.videoLoopingInterval = [self readableVideoLoopingInterval:[self compareSettingsHardcode:@"videoLoopingInterval"]];
- self.videoSettings.videoPhotoVideoInterval = [self readableVideoPhotoVideoInterval:[self compareSettingsHardcode:@"videoPhotoVideoInterval"]];
- self.videoSettings.videoLowLight = [self readableVideoLowLight:[self compareSettingsHardcode:@"videoLowLight"]];
- self.videoSettings.videoSpotMeter = [self readableVideoSpotMeter:[self compareSettingsHardcode:@"videoSpotMeter"]];
- self.videoSettings.videoProtune = [self readableVideoProtune:[self compareSettingsHardcode:@"videoProtune"]];
- self.videoSettings.videoWhiteBalance = [self readableVideoWhiteBalance:[self compareSettingsHardcode:@"videoWhiteBalance"]];
- self.videoSettings.videoColor = [self readableVideoColor:[self compareSettingsHardcode:@"videoColor"]];
- self.videoSettings.videoManualExposure = [self readableVideoManualExposure:[self compareSettingsHardcode:@"videoManualExposure"]];
- self.videoSettings.videoISOMode = [self readableVideoISOMode:[self compareSettingsHardcode:@"videoISOMode"]];
- self.videoSettings.videoISOLimit = [self readableVideoISOLimit:[self compareSettingsHardcode:@"videoISOLimit"]];
- self.videoSettings.videoSharpness = [self readableVideoSharpness:[self compareSettingsHardcode:@"videoSharpness"]];
- self.videoSettings.videoEVComp = [self readableVideoEVComp:[self compareSettingsHardcode:@"videoEVComp"]];
- NSLog(@"video sub mode - %@", self.videoSettings.videoSubMode);
- [self assignCurrentVideoSettingsArray];
- }
- */
 
 -(NSMutableArray *)assignCurrentVideoSettingsArray {
     SettingsObject *mode = [[SettingsObject alloc] init];
@@ -580,49 +515,6 @@
     
 }
 
-/*
- -(void)assignCurrentPhotoSettings{
- self.photoSettings = [[Settings alloc]init];
- self.photoSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
- self.photoSettings.photoSubMode = [self readablePhotoSubMode:[self compareSettingsHardcode:@"photoSubMode"]];
- self.photoSettings.photoContinuousRate = [self readablePhotoContinuousRate:[self compareSettingsHardcode:@"photoContinuousRate"]];
- self.photoSettings.photoMegapixels = [self readablePhotoMegaPixels:[self compareSettingsHardcode:@"photoMegapixels"]];
- self.photoSettings.photoNightExposure = [self readablePhotoNightExposure:[self compareSettingsHardcode:@"photoNightExposure"]];
- self.photoSettings.photoSpotMeter = [self readablePhotoSpotMeter:[self compareSettingsHardcode:@"photoSpotMeter"]];
- self.photoSettings.photoProtune = [self readablePhotoProtune:[self compareSettingsHardcode:@"photoProtune"]];
- self.photoSettings.photoWhiteBalance = [self readablePhotoWhiteBalance:[self compareSettingsHardcode:@"photoWhiteBalance"]];
- self.photoSettings.photoColor = [self readablePhotoColor:[self compareSettingsHardcode:@"photoColor"]];
- self.photoSettings.photoSharpness = [self readablePhotoSharpness:[self compareSettingsHardcode:@"photoSharpness"]];
- self.photoSettings.photoEVComp = [self readablePhotoEVComp:[self compareSettingsHardcode:@"photoEVComp"]];
- self.photoSettings.photoISOMin = [self readablePhotoISOMin:[self compareSettingsHardcode:@"photoISOMin"]];
- self.photoSettings.photoISOLimit = [self readablephotoISOLimit:[self compareSettingsHardcode:@"photoISOLimit"]];
- NSLog(@"photo sub mode - %@", self.photoSettings.photoSubMode);
- [self assignCurrentPhotoSettingsArray];
- 
- }*/
-
-/*
- -(void)assignCurrentMultiShotSettings{
- self.multiShotSettings = [[Settings alloc]init];
- //        self.photoSettings.mode = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
- self.multiShotSettings.MSDefaultSubMode = [self readableMSDefaultSubMode:[self compareSettingsHardcode:@"MSDefaultSubMode"]];
- self.multiShotSettings.MSSubMode = [self readableMSSubMode:[self compareSettingsHardcode:@"MSSubMode"]];
- self.multiShotSettings.MSNightExposure = [self readableMSNightExposure:[self compareSettingsHardcode:@"MSNightExposure"]];
- self.multiShotSettings.MSBurstRate = [self readableMSBurstRate:[self compareSettingsHardcode:@"MSBurstRate"]];
- self.multiShotSettings.MSTLInterval = [self readableMSTLInterval:[self compareSettingsHardcode:@"MSTLInterval"]];
- self.multiShotSettings.MSNLInterval = [self readableMSNLInterval:[self compareSettingsHardcode:@"MSNLInterval"]];
- self.multiShotSettings.MSMegapixels = [self readableMSMegaPixels:[self compareSettingsHardcode:@"MSMegapixels"]];
- self.multiShotSettings.MSSpotMeter = [self readableMSSpotMeter:[self compareSettingsHardcode:@"MSSpotMeter"]];
- self.multiShotSettings.MSProtune = [self readableMSProtune:[self compareSettingsHardcode:@"MSProtune"]];
- self.multiShotSettings.MSWhiteBalance = [self readableMSWhiteBalance:[self compareSettingsHardcode:@"MSWhiteBalance"]];
- self.multiShotSettings.MSColor = [self readableMSColor:[self compareSettingsHardcode:@"MSColor"]];
- self.multiShotSettings.MSSharpness = [self readableMSSharpness:[self compareSettingsHardcode:@"MSSharpness"]];
- self.multiShotSettings.MSEVComp = [self readableMSEVComp:[self compareSettingsHardcode:@"MSEVComp"]];
- self.multiShotSettings.MSISOMin = [self readableMSISOMin:[self compareSettingsHardcode:@"MSISOMin"]];
- self.multiShotSettings.MSISOLimit = [self readableMSISOLimit:[self compareSettingsHardcode:@"MSISOLimit"]];
- NSLog(@"ms sub mode - %@", self.multiShotSettings.MSSubMode);
- [self assignCurrentMultiShotSettingsArray];
- }*/
 
 
 #pragma mark - JSON Handling
@@ -648,30 +540,7 @@
 }
 
 
-/*
- // send signal to GoPro to receive the JSON - turn that into dictionary - return
- -(NSDictionary *)fetchGoProSettingsAndStatusJSON {
- // create string and fetch status/settings from JSON
- NSString *urlString = @"http://10.5.5.9/gp/gpControl/status";
- NSURL *url = [NSURL URLWithString:urlString];
- [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
- NSLog(@"finished fetching data");
- 
- // create the dictionary from the DATA received
- NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
- //        NSLog(@"my dictionary: %@", jsonDictionary);
- 
- self.testDictionary = jsonDictionary;
- 
- NSError *err;
- if (err) {
- NSLog(@"failed to fetch");
- return;
- }
- }] resume];
- return self.testDictionary;
- }
- */
+
 
 // send signal to GoPro to receive the JSON - turn that into dictionary - return
 -(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler {
@@ -718,131 +587,7 @@
     return [self.dictionaryAvailableArrays objectForKey:title];
 }
 
-#pragma mark - HTTP CALLS
-// return readable values
 
-
-#pragma mark - POWER & SHUTTER
-//power
--(void)powerOn {
-    self.urlForCurrentCall =@"Hero Power On";
-    [self printCurrentURL];
-}
--(void)powerOff {
-    self.urlForCurrentCall =@"Hero Power Off";
-    [self printCurrentURL];
-}
-
-//shutter
-- (void)shutterOn{
-    self.urlForCurrentCall =@"Hero Shutter On";
-    [self printCurrentURL];
-}
-- (void)shutterOff{
-    self.urlForCurrentCall =@"Hero Shutter Off";
-    [self printCurrentURL];
-}
-
-
-#pragma mark - MODES
-- (void)modeVideo{
-    self.urlForCurrentCall =@"Hero Mode Video";
-    [self printCurrentURL];
-}
-- (void)modePhoto{
-    self.urlForCurrentCall =@"Hero Mode Photo";
-    [self printCurrentURL];
-}
-- (void)modeMulti{
-    self.urlForCurrentCall =@"Hero Mode Multi";
-    [self printCurrentURL];
-}
-
-
-#pragma mark - SUB MODES
-//video
-- (void)subVidVideo{
-    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode Video";
-    [self printCurrentURL];
-}
-
-- (void)subVidTimeLapse{
-    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode TimeLapse";
-    [self printCurrentURL];
-}
-
-- (void)subVidAndPhoto{
-    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode Video & Photo";
-    [self printCurrentURL];
-}
-
-- (void)subVidLooping{
-    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode Looping";
-    [self printCurrentURL];
-}
-
-//photo
-- (void)subPhoPhoto{
-    self.urlForCurrentCall =@"Hero Mode Photo - Sub Mode Photo";
-    [self printCurrentURL];
-}
-
-- (void)subPhoContin{
-    self.urlForCurrentCall =@"Hero Mode Photo - Sub Mode Continuous";
-    [self printCurrentURL];
-}
-
-- (void)subPhoNight{
-    self.urlForCurrentCall =@"Hero Mode Photo - Sub Mode Night";
-    [self printCurrentURL];
-}
-
-//multi
-- (void)subMulBurst{
-    self.urlForCurrentCall =@"Hero Mode Multi - Sub Mode Burst";
-    [self printCurrentURL];
-}
-
-- (void)subMulTimeLapse{
-    self.urlForCurrentCall =@"Hero Mode Multi - Sub Mode Time Lapse";
-    [self printCurrentURL];
-}
-
-- (void)subMulNightLapse{
-    self.urlForCurrentCall =@"Hero Mode Multi - Sub Mode Night Lapse";
-    [self printCurrentURL];
-}
-
-- (void)changeMode:(NSString *)mode {
-    if ([mode isEqual:@"video"]) {
-        //        NSLog(@"change to video");
-        [self modeVideo];
-    }
-    else if ([mode isEqual:@"photo"]) {
-        //        NSLog(@"change to photo");
-        [self modePhoto];
-        
-    }
-    else if ([mode isEqual:@"multi"]) {
-        //        NSLog(@"change to multi");
-        [self modeMulti];
-        
-    }
-    else
-        NSLog(@"Uh oh, user chose something unavaialable");
-    
-}
-
-- (void)changeSubMode:(NSString *)subMode {
-    // if statement
-}
-
-#pragma mark - PRINTING
-
--(void)printCurrentURL {
-    NSLog(@"The DevCall %@",self.urlForCurrentCall);
-    [self splitJSON];
-}
 
 #pragma mark - READABLE FUNCTIONS
 // return readable values
@@ -2309,6 +2054,134 @@
     
 }
 
+// most likely DELETE 11.26.18
+#pragma mark - HTTP CALLS
+// return readable values
+
+
+#pragma mark - POWER & SHUTTER
+//power
+-(void)powerOn {
+    self.urlForCurrentCall =@"Hero Power On";
+    [self printCurrentURL];
+}
+-(void)powerOff {
+    self.urlForCurrentCall =@"Hero Power Off";
+    [self printCurrentURL];
+}
+
+//shutter
+- (void)shutterOn{
+    self.urlForCurrentCall =@"Hero Shutter On";
+    [self printCurrentURL];
+}
+- (void)shutterOff{
+    self.urlForCurrentCall =@"Hero Shutter Off";
+    [self printCurrentURL];
+}
+
+
+#pragma mark - MODES
+- (void)modeVideo{
+    self.urlForCurrentCall =@"Hero Mode Video";
+    [self printCurrentURL];
+}
+- (void)modePhoto{
+    self.urlForCurrentCall =@"Hero Mode Photo";
+    [self printCurrentURL];
+}
+- (void)modeMulti{
+    self.urlForCurrentCall =@"Hero Mode Multi";
+    [self printCurrentURL];
+}
+
+
+#pragma mark - SUB MODES
+//video
+- (void)subVidVideo{
+    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode Video";
+    [self printCurrentURL];
+}
+
+- (void)subVidTimeLapse{
+    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode TimeLapse";
+    [self printCurrentURL];
+}
+
+- (void)subVidAndPhoto{
+    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode Video & Photo";
+    [self printCurrentURL];
+}
+
+- (void)subVidLooping{
+    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode Looping";
+    [self printCurrentURL];
+}
+
+//photo
+- (void)subPhoPhoto{
+    self.urlForCurrentCall =@"Hero Mode Photo - Sub Mode Photo";
+    [self printCurrentURL];
+}
+
+- (void)subPhoContin{
+    self.urlForCurrentCall =@"Hero Mode Photo - Sub Mode Continuous";
+    [self printCurrentURL];
+}
+
+- (void)subPhoNight{
+    self.urlForCurrentCall =@"Hero Mode Photo - Sub Mode Night";
+    [self printCurrentURL];
+}
+
+//multi
+- (void)subMulBurst{
+    self.urlForCurrentCall =@"Hero Mode Multi - Sub Mode Burst";
+    [self printCurrentURL];
+}
+
+- (void)subMulTimeLapse{
+    self.urlForCurrentCall =@"Hero Mode Multi - Sub Mode Time Lapse";
+    [self printCurrentURL];
+}
+
+- (void)subMulNightLapse{
+    self.urlForCurrentCall =@"Hero Mode Multi - Sub Mode Night Lapse";
+    [self printCurrentURL];
+}
+
+- (void)changeMode:(NSString *)mode {
+    if ([mode isEqual:@"video"]) {
+        //        NSLog(@"change to video");
+        [self modeVideo];
+    }
+    else if ([mode isEqual:@"photo"]) {
+        //        NSLog(@"change to photo");
+        [self modePhoto];
+        
+    }
+    else if ([mode isEqual:@"multi"]) {
+        //        NSLog(@"change to multi");
+        [self modeMulti];
+        
+    }
+    else
+        NSLog(@"Uh oh, user chose something unavaialable");
+    
+}
+
+- (void)changeSubMode:(NSString *)subMode {
+    // if statement
+}
+
+#pragma mark - PRINTING
+
+-(void)printCurrentURL {
+    NSLog(@"The DevCall %@",self.urlForCurrentCall);
+    [self splitJSON];
+}
+
+//==============================================//
 
 
 #pragma mark - Singleton Methods & Synthesizing

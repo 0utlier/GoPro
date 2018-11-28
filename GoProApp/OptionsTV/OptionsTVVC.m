@@ -72,6 +72,16 @@
     
     [cell addSubview:lbl];
     
+    if ([objectAtIndex.paramType containsString:@"Binary"]) {
+        UILabel *lbl = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
+        [lbl setTextColor:[UIColor blueColor]];
+        [lbl setTextAlignment:NSTextAlignmentLeft];
+        SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
+        [lbl setText:[NSString stringWithFormat:@"%d", objectAtIndex.switchStatus]];
+        
+        [cell addSubview:lbl];
+    }
+    
     return cell;
 }
 
