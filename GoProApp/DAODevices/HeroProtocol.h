@@ -59,6 +59,63 @@
 - (void)subMulNightLapse;
 
 
+#pragma mark - COMMAND PATHS
+
+#pragma mark - Video Available
+// Available VIDEO
+
+- (NSMutableArray *)getVideoSubMode;
+- (NSMutableArray *)getVideoResolution;
+- (NSMutableArray *)getVideoFrameRate;
+- (NSMutableArray *)getVideoFOV;
+- (NSMutableArray *)getVideoTLInterval;
+- (NSMutableArray *)getVideoLoopingInterval;
+- (NSMutableArray *)getVideoPhotoVideoInterval;
+- (NSMutableArray *)getVideoWhiteBalance;
+- (NSMutableArray *)getVideoColor;
+- (NSMutableArray *)getVideoManualExposure;
+- (NSMutableArray *)getVideoISOMode;
+- (NSMutableArray *)getVideoISOLimit;
+- (NSMutableArray *)getVideoSharpness;
+- (NSMutableArray *)getVideoEVComp;
+
+
+#pragma mark - Photo Available
+// Available PHOTO
+
+- (NSMutableArray *)getPhotoSubMode;
+- (NSMutableArray *)getPhotoContinuousRate;
+- (NSMutableArray *)getPhotoMegaPixels;
+- (NSMutableArray *)getPhotoNightExposure;
+- (NSMutableArray *)getPhotoSpotMeter;
+- (NSMutableArray *)getPhotoProtune;
+- (NSMutableArray *)getPhotoWhiteBalance;
+- (NSMutableArray *)getPhotoColor;
+- (NSMutableArray *)getPhotoSharpness;
+- (NSMutableArray *)getPhotoEVComp;
+- (NSMutableArray *)getPhotoISOMin;
+- (NSMutableArray *)getphotoISOLimit;
+
+#pragma mark - MultiShot Available
+// Available MULTISHOT
+
+- (NSMutableArray *)getMSDefaultSubMode;
+- (NSMutableArray *)getMSSubMode;
+- (NSMutableArray *)getMSNightExposure;
+- (NSMutableArray *)getMSBurstRate;
+- (NSMutableArray *)getMSTLInterval;
+- (NSMutableArray *)getMSNLInterval;
+- (NSMutableArray *)getMSMegaPixels;
+- (NSMutableArray *)getMSSpotMeter;
+- (NSMutableArray *)getMSProtune;
+- (NSMutableArray *)getMSWhiteBalance;
+- (NSMutableArray *)getMSColor;
+- (NSMutableArray *)getMSSharpness;
+- (NSMutableArray *)getMSEVComp;
+- (NSMutableArray *)getMSISOMin;
+- (NSMutableArray *)getMSISOLimit;
+
+
 #pragma mark - SETTINGS / STATUS
 
 // split up JSON after FETCH complete

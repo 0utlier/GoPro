@@ -169,12 +169,27 @@
     self.availableVideoSharpness = [[NSMutableArray alloc]initWithObjects: @"High", @"Medium", @"Low", nil];
     self.availableVideoEVComp = [[NSMutableArray alloc]initWithObjects: @"2.0", @"1.5", @"1.0", @"0.5", @"0.0", @"-0.5", @"-1.0", @"-1.5", @"-2.0", nil];
     
+    for (NSString *string in self.availableVideoColor) {
+        NSLog(@"\nCommandPathObject *color%@ = [[CommandPathObject alloc] init];\ncolor%@.value = @\"%@\";\ncolor%@.commandPath = @\"\";", string, string, string, string); }
     
+    for (NSString *string in self.availableVideoManualExposure) {
+        NSLog(@"\nCommandPathObject *manualExposure%@ = [[CommandPathObject alloc] init];\nmanualExposure%@.value = @\"%@\";\nmanualExposure%@.commandPath = @\"\";", string, string, string, string); }
     
+    for (NSString *string in self.availableVideoISOMode) {
+        NSLog(@"\nCommandPathObject *isoMode%@ = [[CommandPathObject alloc] init];\nisoMode%@.value = @\"%@\";\nisoMode%@.commandPath = @\"\";", string, string, string, string); }
     
+    for (NSString *string in self.availableVideoISOLimit) {
+        NSLog(@"\nCommandPathObject *isoLimit%@ = [[CommandPathObject alloc] init];\nisoLimit%@.value = @\"%@\";\nisoLimit%@.commandPath = @\"\";", string, string, string, string); }
     
+    for (NSString *string in self.availableVideoSharpness) {
+        NSLog(@"\nCommandPathObject *sharpness%@ = [[CommandPathObject alloc] init];\nsharpness%@.value = @\"%@\";\nsharpness%@.commandPath = @\"\";", string, string, string, string); }
     
+    for (NSString *string in self.availableVideoEVComp) {
+        NSLog(@"\nCommandPathObject *evComp%@ = [[CommandPathObject alloc] init];\nevComp%@.value = @\"%@\";\nevComp%@.commandPath = @\"\";", string, string, string, string); }
+    
+
 }
+
 
 // method for comparing hardcode dictionaries
 
@@ -515,6 +530,435 @@
     
 }
 
+#pragma mark - CommandPath Creation
+
+- (NSMutableArray *)getVideoResolution {
+    CommandPathObject *qual4KSV = [[CommandPathObject alloc] init];
+    qual4KSV.value = @"4K SuperView";
+    qual4KSV.commandPath = @"";
+    CommandPathObject *qual4K = [[CommandPathObject alloc] init];
+    qual4K.value = @"4K";
+    qual4K.commandPath = @"";
+    CommandPathObject *qual27KSV = [[CommandPathObject alloc] init];
+    qual27KSV.value = @"2.7K SuperView";
+    qual27KSV.commandPath = @"";
+    CommandPathObject *qual27K = [[CommandPathObject alloc] init];
+    qual27K.value = @"2.7K";
+    qual27K.commandPath = @"";
+    CommandPathObject *qual27K_4_3 = [[CommandPathObject alloc] init];
+    qual27K_4_3.value = @"2.7K 4:3";
+    qual27K_4_3.commandPath = @"";
+    CommandPathObject *qual1440 = [[CommandPathObject alloc] init];
+    qual1440.value = @"1440";
+    qual1440.commandPath = @"";
+    CommandPathObject *qual1080SV = [[CommandPathObject alloc] init];
+    qual1080SV.value = @"1080 SuperView";
+    qual1080SV.commandPath = @"";
+    CommandPathObject *qual1080 = [[CommandPathObject alloc] init];
+    qual1080.value = @"1080";
+    qual1080.commandPath = @"";
+    CommandPathObject *qual960 = [[CommandPathObject alloc] init];
+    qual960.value = @"960";
+    qual960.commandPath = @"";
+    CommandPathObject *qual720SV = [[CommandPathObject alloc] init];
+    qual720SV.value = @"720 SuperView";
+    qual720SV.commandPath = @"";
+    CommandPathObject *qual720 = [[CommandPathObject alloc] init];
+    qual720.value = @"720";
+    qual720.commandPath = @"";
+    CommandPathObject *qualWVGA = [[CommandPathObject alloc] init];
+    qualWVGA.value = @"WVGA";
+    qualWVGA.commandPath = @"";
+    
+    
+    
+    NSMutableArray *myResolutions = [[NSMutableArray alloc]initWithObjects:qual4KSV, qual4K, qual27KSV, qual27K, qual27K_4_3, qual1440, qual1080SV, qual1080, qual960, qual720SV, qual720, qualWVGA, nil ];
+    
+    self.availableVideoResolution = myResolutions; // necessary for access later? or just return the array
+    return myResolutions;
+    
+}
+-(NSMutableArray *)getVideoFrameRate {
+    CommandPathObject *fps240 = [[CommandPathObject alloc] init];
+    fps240.value = @"240";
+    fps240.commandPath = @"";
+    CommandPathObject *fps120 = [[CommandPathObject alloc] init];
+    fps120.value = @"120";
+    fps120.commandPath = @"";
+    CommandPathObject *fps100 = [[CommandPathObject alloc] init];
+    fps100.value = @"100";
+    fps100.commandPath = @"";
+    CommandPathObject *fps90 = [[CommandPathObject alloc] init];
+    fps90.value = @"90";
+    fps90.commandPath = @"";
+    CommandPathObject *fps80 = [[CommandPathObject alloc] init];
+    fps80.value = @"80";
+    fps80.commandPath = @"";
+    CommandPathObject *fps60 = [[CommandPathObject alloc] init];
+    fps60.value = @"60";
+    fps60.commandPath = @"";
+    CommandPathObject *fps50 = [[CommandPathObject alloc] init];
+    fps50.value = @"50";
+    fps50.commandPath = @"";
+    CommandPathObject *fps48 = [[CommandPathObject alloc] init];
+    fps48.value = @"48";
+    fps48.commandPath = @"";
+    CommandPathObject *fps30 = [[CommandPathObject alloc] init];
+    fps30.value = @"30";
+    fps30.commandPath = @"";
+    CommandPathObject *fps25 = [[CommandPathObject alloc] init];
+    fps25.value = @"25";
+    fps25.commandPath = @"";
+    CommandPathObject *fps24 = [[CommandPathObject alloc] init];
+    fps24.value = @"24";
+    fps24.commandPath = @"";
+    CommandPathObject *fps15 = [[CommandPathObject alloc] init];
+    fps15.value = @"15";
+    fps15.commandPath = @"";
+    CommandPathObject *fps12_5 = [[CommandPathObject alloc] init];
+    fps12_5.value = @"12.5";
+    fps12_5.commandPath = @"";
+    
+    NSMutableArray *myFrameRates = [[NSMutableArray alloc]initWithObjects:fps240, fps120, fps100, fps90, fps80, fps60, fps50, fps48, fps30, fps25, fps24, fps15, fps12_5, nil];
+    self.availableVideoFrameRate = myFrameRates;
+    return self.availableVideoFrameRate;
+}
+- (NSMutableArray *)getVideoSubMode{
+    CommandPathObject *subMVideo = [[CommandPathObject alloc] init];
+    subMVideo.value = @"Video";
+    subMVideo.commandPath = @"";
+    CommandPathObject *subMTLVideo = [[CommandPathObject alloc] init];
+    subMTLVideo.value = @"Time Lapse Video";
+    subMTLVideo.commandPath = @"";
+    CommandPathObject *subMVideoAndPhoto = [[CommandPathObject alloc] init];
+    subMVideoAndPhoto.value = @"Video And Photo";
+    subMVideoAndPhoto.commandPath = @"";
+    CommandPathObject *subMLooping = [[CommandPathObject alloc] init];
+    subMLooping.value = @"Looping";
+    subMLooping.commandPath = @"";
+    
+    NSMutableArray *mySubModes = [[NSMutableArray alloc]initWithObjects:subMVideo, subMTLVideo, subMVideoAndPhoto, subMLooping, nil];
+    self.availableVideoSubMode = mySubModes;
+    return self.availableVideoSubMode;
+    
+}
+
+- (NSMutableArray *)getVideoFOV {
+    CommandPathObject *fovWide = [[CommandPathObject alloc] init];
+    fovWide.value = @"Wide";
+    fovWide.commandPath = @"";
+    
+    CommandPathObject *fovMedium = [[CommandPathObject alloc] init];
+    fovMedium.value = @"Medium";
+    fovMedium.commandPath = @"";
+    
+    CommandPathObject *fovNarrow = [[CommandPathObject alloc] init];
+    fovNarrow.value = @"Narrow";
+    fovNarrow.commandPath = @"";
+    
+    CommandPathObject *fovLinear = [[CommandPathObject alloc] init];
+    fovLinear.value = @"Linear";
+    fovLinear.commandPath = @"";
+    
+    NSMutableArray *myFOVs = [[NSMutableArray alloc]initWithObjects: fovWide, fovMedium, fovNarrow, fovLinear, nil];
+    self.availableVideoFOV = myFOVs;
+    return self.availableVideoFOV;
+}
+
+- (NSMutableArray *)getVideoTLInterval {
+    CommandPathObject *tlInterval_5 = [[CommandPathObject alloc] init];
+    tlInterval_5.value = @".5";
+    tlInterval_5.commandPath = @"";
+    CommandPathObject *tlInterval1 = [[CommandPathObject alloc] init];
+    tlInterval1.value = @"1";
+    tlInterval1.commandPath = @"";
+    CommandPathObject *tlInterval2 = [[CommandPathObject alloc] init];
+    tlInterval2.value = @"2";
+    tlInterval2.commandPath = @"";
+    CommandPathObject *tlInterval5 = [[CommandPathObject alloc] init];
+    tlInterval5.value = @"5";
+    tlInterval5.commandPath = @"";
+    CommandPathObject *tlInterval10 = [[CommandPathObject alloc] init];
+    tlInterval10.value = @"10";
+    tlInterval10.commandPath = @"";
+    CommandPathObject *tlInterval30 = [[CommandPathObject alloc] init];
+    tlInterval30.value = @"30";
+    tlInterval30.commandPath = @"";
+    CommandPathObject *tlInterval60 = [[CommandPathObject alloc] init];
+    tlInterval60.value = @"60";
+    tlInterval60.commandPath = @"";
+    
+    NSMutableArray *myTLIntervals = [[NSMutableArray alloc]initWithObjects: tlInterval_5, tlInterval1, tlInterval2, tlInterval5, tlInterval10, tlInterval30, tlInterval60, nil];
+    self.availableVideoTLInterval = myTLIntervals;
+    return self.availableVideoTLInterval;
+}
+
+- (NSMutableArray *)getVideoLoopingInterval {
+    CommandPathObject *loopingIntervalMax = [[CommandPathObject alloc] init];
+    loopingIntervalMax.value = @"Max";
+    loopingIntervalMax.commandPath = @"";
+    CommandPathObject *loopingInterval5 = [[CommandPathObject alloc] init];
+    loopingInterval5.value = @"5";
+    loopingInterval5.commandPath = @"";
+    CommandPathObject *loopingInterval20 = [[CommandPathObject alloc] init];
+    loopingInterval20.value = @"20";
+    loopingInterval20.commandPath = @"";
+    CommandPathObject *loopingInterval60 = [[CommandPathObject alloc] init];
+    loopingInterval60.value = @"60";
+    loopingInterval60.commandPath = @"";
+    CommandPathObject *loopingInterval120 = [[CommandPathObject alloc] init];
+    loopingInterval120.value = @"120";
+    loopingInterval120.commandPath = @"";
+    
+    NSMutableArray *myLoopingIntervals = [[NSMutableArray alloc]initWithObjects: loopingIntervalMax, loopingInterval5, loopingInterval20,loopingInterval60, loopingInterval120, nil];
+    self.availableVideoLoopingInterval = myLoopingIntervals;
+    return self.availableVideoLoopingInterval;
+
+    
+}
+
+- (NSMutableArray *)getVideoPhotoVideoInterval {
+    CommandPathObject *pvInterval5 = [[CommandPathObject alloc] init];
+    pvInterval5.value = @"5";
+    pvInterval5.commandPath = @"";
+    CommandPathObject *pvInterval10 = [[CommandPathObject alloc] init];
+    pvInterval10.value = @"10";
+    pvInterval10.commandPath = @"";
+    CommandPathObject *pvInterval30 = [[CommandPathObject alloc] init];
+    pvInterval30.value = @"30";
+    pvInterval30.commandPath = @"";
+    CommandPathObject *pvInterval60 = [[CommandPathObject alloc] init];
+    pvInterval60.value = @"60";
+    pvInterval60.commandPath = @"";
+    
+    NSMutableArray *myPhotoVideoIntervals = [[NSMutableArray alloc]initWithObjects: pvInterval5, pvInterval10, pvInterval30, pvInterval60, nil];
+    self.availableVideoPhotoVideoInterval = myPhotoVideoIntervals;
+    return self.availableVideoPhotoVideoInterval;
+
+}
+
+- (NSMutableArray *)getVideoWhiteBalance {
+    CommandPathObject *whiteBalanceAuto = [[CommandPathObject alloc] init];
+    whiteBalanceAuto.value = @"Auto";
+    whiteBalanceAuto.commandPath = @"";
+    CommandPathObject *whiteBalance3000K = [[CommandPathObject alloc] init];
+    whiteBalance3000K.value = @"3000K";
+    whiteBalance3000K.commandPath = @"";
+    CommandPathObject *whiteBalance4000K = [[CommandPathObject alloc] init];
+    whiteBalance4000K.value = @"4000K";
+    whiteBalance4000K.commandPath = @"";
+    CommandPathObject *whiteBalance4800K = [[CommandPathObject alloc] init];
+    whiteBalance4800K.value = @"4800K";
+    whiteBalance4800K.commandPath = @"";
+    CommandPathObject *whiteBalance5500K = [[CommandPathObject alloc] init];
+    whiteBalance5500K.value = @"5500K";
+    whiteBalance5500K.commandPath = @"";
+    CommandPathObject *whiteBalance6000K = [[CommandPathObject alloc] init];
+    whiteBalance6000K.value = @"6000K";
+    whiteBalance6000K.commandPath = @"";
+    CommandPathObject *whiteBalance6500K = [[CommandPathObject alloc] init];
+    whiteBalance6500K.value = @"6500K";
+    whiteBalance6500K.commandPath = @"";
+    CommandPathObject *whiteBalanceNative = [[CommandPathObject alloc] init];
+    whiteBalanceNative.value = @"Native";
+    whiteBalanceNative.commandPath = @"";
+    
+    NSMutableArray *myWhiteBalances = [[NSMutableArray alloc]initWithObjects: whiteBalanceAuto, whiteBalance3000K, whiteBalance4000K, whiteBalance4800K, whiteBalance5500K, whiteBalance6000K, whiteBalance6500K, whiteBalanceNative, nil];
+    self.availableVideoWhiteBalance = myWhiteBalances;
+    return self.availableVideoWhiteBalance;
+
+}
+
+- (NSMutableArray *)getVideoColor {
+    CommandPathObject *colorFlat = [[CommandPathObject alloc] init];
+    colorFlat.value = @"Flat";
+    colorFlat.commandPath = @"";
+    CommandPathObject *colorGoProColor = [[CommandPathObject alloc] init];
+    colorGoProColor.value = @"GoPro Color";
+    colorGoProColor.commandPath = @"";
+    
+    NSMutableArray *myColors = [[NSMutableArray alloc]initWithObjects: colorFlat, colorGoProColor, nil];
+    self.availableVideoColor = myColors;
+    return self.availableVideoColor;
+
+
+}
+
+
+- (NSMutableArray *)getVideoEVComp {
+    CommandPathObject *evComp2_0 = [[CommandPathObject alloc] init];
+    evComp2_0.value = @"2.0";
+    evComp2_0.commandPath = @"";
+    CommandPathObject *evComp1_5 = [[CommandPathObject alloc] init];
+    evComp1_5.value = @"1.5";
+    evComp1_5.commandPath = @"";
+    CommandPathObject *evComp1_0 = [[CommandPathObject alloc] init];
+    evComp1_0.value = @"1.0";
+    evComp1_0.commandPath = @"";
+    CommandPathObject *evComp0_5 = [[CommandPathObject alloc] init];
+    evComp0_5.value = @"0.5";
+    evComp0_5.commandPath = @"";
+    CommandPathObject *evComp0 = [[CommandPathObject alloc] init];
+    evComp0.value = @"0.0";
+    evComp0.commandPath = @"";
+    CommandPathObject *evCompn0_5 = [[CommandPathObject alloc] init];
+    evCompn0_5.value = @"-0.5";
+    evCompn0_5.commandPath = @"";
+    CommandPathObject *evCompn1_0 = [[CommandPathObject alloc] init];
+    evCompn1_0.value = @"-1.0";
+    evCompn1_0.commandPath = @"";
+    CommandPathObject *evCompn1_5 = [[CommandPathObject alloc] init];
+    evCompn1_5.value = @"-1.5";
+    evCompn1_5.commandPath = @"";
+    CommandPathObject *evCompn2_0 = [[CommandPathObject alloc] init];
+    evCompn2_0.value = @"-2.0";
+    evCompn2_0.commandPath = @"";
+    
+    NSMutableArray *myEVComp = [[NSMutableArray alloc]initWithObjects: evComp2_0,evCompn1_5,evCompn1_0,evComp0_5,evComp0,evCompn0_5,evCompn1_0,evCompn1_5,evCompn2_0, nil];
+    self.availableVideoEVComp = myEVComp;
+    return self.availableVideoEVComp;
+
+}
+
+
+
+
+
+- (NSMutableArray *)getVideoISOLimit {
+    CommandPathObject *isoLimit100 = [[CommandPathObject alloc] init];
+    isoLimit100.value = @"100";
+    isoLimit100.commandPath = @"";
+    CommandPathObject *isoLimit200 = [[CommandPathObject alloc] init];
+    isoLimit200.value = @"200";
+    isoLimit200.commandPath = @"";
+    CommandPathObject *isoLimit400 = [[CommandPathObject alloc] init];
+    isoLimit400.value = @"400";
+    isoLimit400.commandPath = @"";
+    CommandPathObject *isoLimit800 = [[CommandPathObject alloc] init];
+    isoLimit800.value = @"800";
+    isoLimit800.commandPath = @"";
+    CommandPathObject *isoLimit1600 = [[CommandPathObject alloc] init];
+    isoLimit1600.value = @"1600";
+    isoLimit1600.commandPath = @"";
+    CommandPathObject *isoLimit3200 = [[CommandPathObject alloc] init];
+    isoLimit3200.value = @"3200";
+    isoLimit3200.commandPath = @"";
+    
+    NSMutableArray *myISOLimit = [[NSMutableArray alloc]initWithObjects: isoLimit100, isoLimit200, isoLimit400, isoLimit800, isoLimit1600, isoLimit3200, nil];
+    self.availableVideoISOLimit = myISOLimit;
+    return self.availableVideoISOLimit;
+
+}
+
+
+- (NSMutableArray *)getVideoISOMode {
+    CommandPathObject *isoModeMax = [[CommandPathObject alloc] init];
+    isoModeMax.value = @"Max";
+    isoModeMax.commandPath = @"";
+    CommandPathObject *isoModeLock = [[CommandPathObject alloc] init];
+    isoModeLock.value = @"Lock";
+    isoModeLock.commandPath = @"";
+    
+    NSMutableArray *myISOMode = [[NSMutableArray alloc]initWithObjects:isoModeMax, isoModeLock, nil];
+    self.availableVideoISOMode = myISOMode;
+    return self.availableVideoISOMode;
+
+}
+
+
+- (NSMutableArray *)getVideoManualExposure {
+    CommandPathObject *manualExposureAuto = [[CommandPathObject alloc] init];
+    manualExposureAuto.value = @"Auto";
+    manualExposureAuto.commandPath = @"";
+    CommandPathObject *manualExposure24 = [[CommandPathObject alloc] init];
+    manualExposure24.value = @"24";
+    manualExposure24.commandPath = @"";
+    CommandPathObject *manualExposure25 = [[CommandPathObject alloc] init];
+    manualExposure25.value = @"25";
+    manualExposure25.commandPath = @"";
+    CommandPathObject *manualExposure30 = [[CommandPathObject alloc] init];
+    manualExposure30.value = @"30";
+    manualExposure30.commandPath = @"";
+    CommandPathObject *manualExposure48 = [[CommandPathObject alloc] init];
+    manualExposure48.value = @"48";
+    manualExposure48.commandPath = @"";
+    CommandPathObject *manualExposure50 = [[CommandPathObject alloc] init];
+    manualExposure50.value = @"50";
+    manualExposure50.commandPath = @"";
+    CommandPathObject *manualExposure60 = [[CommandPathObject alloc] init];
+    manualExposure60.value = @"60";
+    manualExposure60.commandPath = @"";
+    CommandPathObject *manualExposure80 = [[CommandPathObject alloc] init];
+    manualExposure80.value = @"80";
+    manualExposure80.commandPath = @"";
+    CommandPathObject *manualExposure90 = [[CommandPathObject alloc] init];
+    manualExposure90.value = @"90";
+    manualExposure90.commandPath = @"";
+    CommandPathObject *manualExposure96 = [[CommandPathObject alloc] init];
+    manualExposure96.value = @"96";
+    manualExposure96.commandPath = @"";
+    CommandPathObject *manualExposure100 = [[CommandPathObject alloc] init];
+    manualExposure100.value = @"100";
+    manualExposure100.commandPath = @"";
+    CommandPathObject *manualExposure120 = [[CommandPathObject alloc] init];
+    manualExposure120.value = @"120";
+    manualExposure120.commandPath = @"";
+    CommandPathObject *manualExposure160 = [[CommandPathObject alloc] init];
+    manualExposure160.value = @"160";
+    manualExposure160.commandPath = @"";
+    CommandPathObject *manualExposure180 = [[CommandPathObject alloc] init];
+    manualExposure180.value = @"180";
+    manualExposure180.commandPath = @"";
+    CommandPathObject *manualExposure192 = [[CommandPathObject alloc] init];
+    manualExposure192.value = @"192";
+    manualExposure192.commandPath = @"";
+    CommandPathObject *manualExposure200 = [[CommandPathObject alloc] init];
+    manualExposure200.value = @"200";
+    manualExposure200.commandPath = @"";
+    CommandPathObject *manualExposure240 = [[CommandPathObject alloc] init];
+    manualExposure240.value = @"240";
+    manualExposure240.commandPath = @"";
+    CommandPathObject *manualExposure320 = [[CommandPathObject alloc] init];
+    manualExposure320.value = @"320";
+    manualExposure320.commandPath = @"";
+    CommandPathObject *manualExposure360 = [[CommandPathObject alloc] init];
+    manualExposure360.value = @"360";
+    manualExposure360.commandPath = @"";
+    CommandPathObject *manualExposure400 = [[CommandPathObject alloc] init];
+    manualExposure400.value = @"400";
+    manualExposure400.commandPath = @"";
+    CommandPathObject *manualExposure480 = [[CommandPathObject alloc] init];
+    manualExposure480.value = @"480";
+    manualExposure480.commandPath = @"";
+    CommandPathObject *manualExposure960 = [[CommandPathObject alloc] init];
+    manualExposure960.value = @"960";
+    manualExposure960.commandPath = @"";
+    
+    NSMutableArray *myManualExposures = [[NSMutableArray alloc]initWithObjects: manualExposureAuto, manualExposure24, manualExposure25, manualExposure30, manualExposure48, manualExposure50, manualExposure60, manualExposure80, manualExposure90, manualExposure96, manualExposure100, manualExposure120, manualExposure160, manualExposure180, manualExposure192, manualExposure200, manualExposure240, manualExposure320, manualExposure360, manualExposure400, manualExposure480, manualExposure960, nil];
+    self.availableVideoManualExposure = myManualExposures;
+    return self.availableVideoManualExposure;
+
+}
+
+
+- (NSMutableArray *)getVideoSharpness {
+    CommandPathObject *sharpnessHigh = [[CommandPathObject alloc] init];
+    sharpnessHigh.value = @"High";
+    sharpnessHigh.commandPath = @"";
+    CommandPathObject *sharpnessMedium = [[CommandPathObject alloc] init];
+    sharpnessMedium.value = @"Medium";
+    sharpnessMedium.commandPath = @"";
+    CommandPathObject *sharpnessLow = [[CommandPathObject alloc] init];
+    sharpnessLow.value = @"Low";
+    sharpnessLow.commandPath = @"";
+    
+    NSMutableArray *mySharpness = [[NSMutableArray alloc]initWithObjects: sharpnessHigh, sharpnessMedium, sharpnessLow, nil];
+    self.availableVideoSharpness = mySharpness;
+    return self.availableVideoSharpness;
+
+}
+
+
 
 
 #pragma mark - JSON Handling
@@ -583,7 +1027,7 @@
         else if ([self.currentMode isEqualToString:@"MultiShot"])
             return self.availableMSSubMode;
     }
-//    NSLog(@"The array seeking = %@", [titleToArray objectForKey:title]);
+    //    NSLog(@"The array seeking = %@", [titleToArray objectForKey:title]);
     return [self.dictionaryAvailableArrays objectForKey:title];
 }
 
@@ -2205,6 +2649,145 @@
     });
     return sharedDAO;
 }
+
+/*
+
+- (NSMutableArray *)getMSBurstRate {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSColor {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSDefaultSubMode {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSEVComp {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSISOLimit {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSISOMin {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSMegaPixels {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSNLInterval {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSNightExposure {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSProtune {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSSharpness {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSSpotMeter {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSSubMode {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSTLInterval {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getMSWhiteBalance {
+    <#code#>
+}
+ */
+
+/*
+
+- (NSMutableArray *)getPhotoColor {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getPhotoContinuousRate {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getPhotoEVComp {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getPhotoISOMin {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getPhotoMegaPixels {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getPhotoNightExposure {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getPhotoProtune {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getPhotoSharpness {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getPhotoSpotMeter {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getPhotoSubMode {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getPhotoWhiteBalance {
+    <#code#>
+}
+
+
+- (NSMutableArray *)getphotoISOLimit {
+    <#code#>
+}
+*/
 
 - (id)init {
     if (self = [super init]) {
