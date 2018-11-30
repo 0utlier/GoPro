@@ -87,8 +87,6 @@
 - (NSMutableArray *)getPhotoContinuousRate;
 - (NSMutableArray *)getPhotoMegaPixels;
 - (NSMutableArray *)getPhotoNightExposure;
-- (NSMutableArray *)getPhotoSpotMeter;
-- (NSMutableArray *)getPhotoProtune;
 - (NSMutableArray *)getPhotoWhiteBalance;
 - (NSMutableArray *)getPhotoColor;
 - (NSMutableArray *)getPhotoSharpness;
@@ -132,7 +130,7 @@
 - (NSMutableArray *)assignCurrentMultiShotSettingsArray;
 
 // list the available settings for current device
-- (void)createHardCodeAvailableSettings;
+//- (void)createHardCodeAvailableSettings; // replaced 11.29.18 with arrays of objects
 
 // make the comparable dictionary to assign readable value to the JSON
 - (void)createHardCodeDictionary;
@@ -193,8 +191,6 @@
 @property (nonatomic, retain) NSMutableArray *availableMSTLInterval;
 @property (nonatomic, retain) NSMutableArray *availableMSNLInterval;
 @property (nonatomic, retain) NSMutableArray *availableMSMegaPixels;
-@property (nonatomic, retain) NSMutableArray *availableMSSpotMeter;
-@property (nonatomic, retain) NSMutableArray *availableMSProtune;
 @property (nonatomic, retain) NSMutableArray *availableMSWhiteBalance;
 @property (nonatomic, retain) NSMutableArray *availableMSColor;
 @property (nonatomic, retain) NSMutableArray *availableMSSharpness;
