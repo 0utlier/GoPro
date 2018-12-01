@@ -104,8 +104,6 @@
 - (NSMutableArray *)getMSTLInterval;
 - (NSMutableArray *)getMSNLInterval;
 - (NSMutableArray *)getMSMegaPixels;
-- (NSMutableArray *)getMSSpotMeter;
-- (NSMutableArray *)getMSProtune;
 - (NSMutableArray *)getMSWhiteBalance;
 - (NSMutableArray *)getMSColor;
 - (NSMutableArray *)getMSSharpness;
@@ -136,7 +134,6 @@
 - (void)createHardCodeDictionary;
 
 // list all HTTP calls for given setting request [without the front part - just the tail]
-- (void)createHardCodeCommandPaths;
 
 - (NSMutableArray *)showAvailableArray:(NSString *)title;
 
