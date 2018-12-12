@@ -99,19 +99,19 @@
         NSLog(@"%@", availableSelections.value);
 //        [self dismissViewControllerAnimated:NO completion:nil];
         
-        [self performSegueWithIdentifier:@"showValues" sender:indexPath];
+//        [self performSegueWithIdentifier:@"showMe" sender:indexPath];
 
     }
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSIndexPath *path = sender;
-    SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:path.row];
-    NSLog(@"path for segue is %@", objectAtIndex.title);
+//    NSIndexPath *path = sender;
+//    SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:path.row];
+//    NSLog(@"path for segue is %@", objectAtIndex.title);
     UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ValuesTVVC"];
-    [settingsController.view setFrame:CGRectMake(self.navigationController.view.frame.origin.x,
-                                       [UIApplication sharedApplication].statusBarFrame.size.height, self.navigationController.view.frame.size.width, [[UIScreen mainScreen] bounds].size.height-[UIApplication sharedApplication].statusBarFrame.size.height)];
-//    settingsController = segue.destinationViewController;
+//    [settingsController.view setFrame:CGRectMake(self.navigationController.view.frame.origin.x,
+//                                       [UIApplication sharedApplication].statusBarFrame.size.height, self.navigationController.view.frame.size.width, [[UIScreen mainScreen] bounds].size.height-[UIApplication sharedApplication].statusBarFrame.size.height)];
+    settingsController = segue.destinationViewController;
 
 }
 /*

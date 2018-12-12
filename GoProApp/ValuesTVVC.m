@@ -22,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"Values tableview loaded");
-           self.navigationController.navigationBar.hidden=YES;
+//    self.navigationController.navigationBar.hidden=YES;
     // create method manager
     self.methodManager = [MethodManager sharedManager];
     // set delegate for collection view to self
