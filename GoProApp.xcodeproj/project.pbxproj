@@ -25,6 +25,7 @@
 		4354FF9E21AA361600C2F3D8 /* OptionsTVVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4354FF9D21AA361600C2F3D8 /* OptionsTVVC.m */; };
 		4354FFA121AA400F00C2F3D8 /* OptionsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4354FFA021AA400F00C2F3D8 /* OptionsTVC.m */; };
 		4354FFA421AA44C200C2F3D8 /* CommandPathObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4354FFA321AA44C200C2F3D8 /* CommandPathObject.m */; };
+		43A5EED321C0BC71003C8546 /* ValuesTVVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A5EED221C0BC71003C8546 /* ValuesTVVC.m */; };
 		43AE1DE721A50C3300A68F6B /* HeroStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 31EB9C9B1FBFDD5C00B1D07D /* HeroStrings.m */; };
 		43AE1DE821A50C5600A68F6B /* HeroProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 31C82C131FBA6E0C007799F9 /* HeroProtocol.m */; };
 		43B045F0219BC30700284F34 /* SettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B045EF219BC30700284F34 /* SettingsObject.m */; };
@@ -68,6 +69,8 @@
 		4354FFA021AA400F00C2F3D8 /* OptionsTVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptionsTVC.m; sourceTree = "<group>"; };
 		4354FFA221AA44C200C2F3D8 /* CommandPathObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommandPathObject.h; sourceTree = "<group>"; };
 		4354FFA321AA44C200C2F3D8 /* CommandPathObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommandPathObject.m; sourceTree = "<group>"; };
+		43A5EED121C0BC71003C8546 /* ValuesTVVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ValuesTVVC.h; sourceTree = "<group>"; };
+		43A5EED221C0BC71003C8546 /* ValuesTVVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValuesTVVC.m; sourceTree = "<group>"; };
 		43B045EE219BC30700284F34 /* SettingsObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsObject.h; sourceTree = "<group>"; };
 		43B045EF219BC30700284F34 /* SettingsObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsObject.m; sourceTree = "<group>"; };
 		43B9A10A21A9461A00C0468E /* OptionsCVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionsCVC.h; sourceTree = "<group>"; };
@@ -153,6 +156,7 @@
 				31A13C621FA6B5860012EC68 /* Info.plist */,
 				31A13C511FA6B5860012EC68 /* Supporting Files */,
 				31718BAE1FFE567100ED5F69 /* PreviewVC */,
+				43A5EED421C0BC7D003C8546 /* ValuesTVVC */,
 			);
 			path = GoProApp;
 			sourceTree = "<group>";
@@ -244,6 +248,15 @@
 				4354FFA021AA400F00C2F3D8 /* OptionsTVC.m */,
 			);
 			path = OptionsTV;
+			sourceTree = "<group>";
+		};
+		43A5EED421C0BC7D003C8546 /* ValuesTVVC */ = {
+			isa = PBXGroup;
+			children = (
+				43A5EED121C0BC71003C8546 /* ValuesTVVC.h */,
+				43A5EED221C0BC71003C8546 /* ValuesTVVC.m */,
+			);
+			name = ValuesTVVC;
 			sourceTree = "<group>";
 		};
 		43DBCB272156DE3E00DBDD42 /* SettingsObject */ = {
@@ -343,6 +356,7 @@
 				31A13C531FA6B5860012EC68 /* main.m in Sources */,
 				43B9A11821A9AC3E00C0468E /* OptionsCVCCell.m in Sources */,
 				31A13C6A1FA6BFCC0012EC68 /* SettingsViewController.m in Sources */,
+				43A5EED321C0BC71003C8546 /* ValuesTVVC.m in Sources */,
 				31A13C781FA6CFCF0012EC68 /* MethodManager.m in Sources */,
 				31C2871D20EB13DB00259049 /* StreamViewController.m in Sources */,
 				31718BAD1FFE55CC00ED5F69 /* PreviewViewController.m in Sources */,

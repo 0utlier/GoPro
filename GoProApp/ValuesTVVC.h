@@ -1,16 +1,15 @@
 //
-//  OptionsTVVC.h
+//  ValuesTVVC.h
 //  GoProApp
 //
-//  Created by JDSL on 11/24/18.
+//  Created by JDSL on 12/11/18.
 //  Copyright © 2018 JD Leonard. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "MethodManager.h"
 #import "SettingsObject.h"
-#import "ValuesTVVC.h"
 
-@interface OptionsTVVC : UITableViewController
+@interface ValuesTVVC : UITableViewController
 
 @end

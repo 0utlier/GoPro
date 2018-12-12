@@ -1,14 +1,14 @@
 //
-//  OptionsTVVC.m
+//  ValuesTVVC.m
 //  GoProApp
 //
-//  Created by JDSL on 11/24/18.
+//  Created by JDSL on 12/11/18.
 //  Copyright © 2018 JD Leonard. All rights reserved.
 //
 
-#import "OptionsTVVC.h"
+#import "ValuesTVVC.h"
 
-@interface OptionsTVVC ()
+@interface ValuesTVVC ()
 
 // MethodManager property
 @property (strong, nonatomic) MethodManager *methodManager;
@@ -17,12 +17,12 @@
 
 @end
 
-@implementation OptionsTVVC
+@implementation ValuesTVVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"Options tableview loaded");
-
+    NSLog(@"Values tableview loaded");
+           self.navigationController.navigationBar.hidden=YES;
     // create method manager
     self.methodManager = [MethodManager sharedManager];
     // set delegate for collection view to self
@@ -31,10 +31,6 @@
     
     // assign array to be used from DAO
     self.currentSettingsArray = self.methodManager.deviceCurrent.heroDAO.currentSettingsArray;
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -55,11 +51,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return [self.currentSettingsArray count];
 }
-
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OptionsTVC" forIndexPath:indexPath];
@@ -75,7 +68,7 @@
     
     if ([objectAtIndex.paramType containsString:@"Binary"]) {
         UILabel *lbl = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
-        [lbl setTextColor:[UIColor blueColor]];
+        [lbl setTextColor:[UIColor redColor]];
         [lbl setTextAlignment:NSTextAlignmentLeft];
         SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
         [lbl setText:[NSString stringWithFormat:@"%d", objectAtIndex.switchStatus]];
@@ -87,33 +80,23 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
-    NSLog(@"User selected %@, %@", objectAtIndex.title, objectAtIndex.value);
-    // call upon proper "available arrays" and check off one that is current settings.
-    // present in table view format and use selection to make call to the gopro
-//    NSLog(@"%@", [self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
-    NSMutableArray *availableList = ([self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
-    // once proper array presented, return new tableView using it
-    for (CommandPathObject *availableSelections in availableList) {
-        NSLog(@"%@", availableSelections.value);
-//        [self dismissViewControllerAnimated:NO completion:nil];
-        
-        [self performSegueWithIdentifier:@"showValues" sender:indexPath];
-
-    }
+    
+    NSLog(@"second selected %@", objectAtIndex.title);
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
+    
 }
+/*
+ - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+ UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+ 
+ // Configure the cell...
+ 
+ return cell;
+ }
+ */
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    NSIndexPath *path = sender;
-    SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:path.row];
-    NSLog(@"path for segue is %@", objectAtIndex.title);
-    UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"ValuesTVVC"];
-    [settingsController.view setFrame:CGRectMake(self.navigationController.view.frame.origin.x,
-                                       [UIApplication sharedApplication].statusBarFrame.size.height, self.navigationController.view.frame.size.width, [[UIScreen mainScreen] bounds].size.height-[UIApplication sharedApplication].statusBarFrame.size.height)];
-//    settingsController = segue.destinationViewController;
-
-}
 /*
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

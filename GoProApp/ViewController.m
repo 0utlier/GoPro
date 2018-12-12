@@ -31,7 +31,7 @@
     [self createConnectButton];
     [self createSetDesiredButton];
     [self createChangeDeviceButton];
-
+    
     
 }
 
@@ -69,10 +69,10 @@
 
 - (void)settingsButtonPressed:(UIButton *)openToSettings {
     [self connectButtonPressed:nil];
-    sleep(3); // PLEASE REPLACE TEMPORARY [sleep function] with listener to when it is done. maybe create a new function for JSON call with COMPLETION 11.24.18
+    sleep(1.5); // PLEASE REPLACE TEMPORARY [sleep function] with listener to when it is done. maybe create a new function for JSON call with COMPLETION 11.24.18
     NSLog(@"works, opening settings page");
     UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"OptionsTVVC"];
-//    UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"OptionsCVC"];
+    //    UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"OptionsCVC"];
     [self presentViewController:settingsController animated:YES completion:nil];
     
 }
@@ -108,6 +108,11 @@
 }
 
 -(void)testButtonPressed:(UIButton *)submitTestCode {
+    NSLog(@"test pressed");
+    [self connectButtonPressed:nil];
+    sleep(3); // PLEASE REPLACE TEMPORARY [sleep function] with listener to when it is done. maybe create a new function for JSON call with COMPLETION 11.24.18
+    NSLog(@"works, opening settings page");
+    [self performSegueWithIdentifier:@"showTestQ" sender:self];
     
 }
 
@@ -147,8 +152,8 @@
 - (void)createSetDesiredButton {
     UIButton *setDesired = [UIButton buttonWithType:UIButtonTypeCustom];
     [setDesired addTarget:self
-                       action:@selector(setDesiredButtonPressed:)
-             forControlEvents:UIControlEventTouchUpInside];
+                   action:@selector(setDesiredButtonPressed:)
+         forControlEvents:UIControlEventTouchUpInside];
     [setDesired setTitle:@"SetDesir" forState:UIControlStateNormal];
     setDesired.frame = CGRectMake(240.0, 160.0, 80.0, 40.0);
     setDesired.backgroundColor = [UIColor grayColor];
@@ -161,14 +166,14 @@
     // test code: self.methodManager.settingsCurrent.mode = @"photo";
     //    if the settingsCurrent is set, then submit to change with these values
     
-//    self.methodManager.settingsDesired.mode = @"videod";
-//    self.methodManager.settingsDesired.subMode = @"vidTL";
-//    self.methodManager.settingsDesired.quality = @"1080p";
+    //    self.methodManager.settingsDesired.mode = @"videod";
+    //    self.methodManager.settingsDesired.subMode = @"vidTL";
+    //    self.methodManager.settingsDesired.quality = @"1080p";
     //    to check if it is what is expected: NSLog(@"%@", self.methodManager.settingsCurrent.mode);
     
-//    [self.methodManager SetMode:self.methodManager.settingsDesired.mode];
-//    [self.methodManager SetSubMode:self.methodManager.settingsDesired.subMode];
-//    [self.methodManager SetQuality:self.methodManager.settingsDesired.quality];
+    //    [self.methodManager SetMode:self.methodManager.settingsDesired.mode];
+    //    [self.methodManager SetSubMode:self.methodManager.settingsDesired.subMode];
+    //    [self.methodManager SetQuality:self.methodManager.settingsDesired.quality];
     
 }
 
@@ -176,8 +181,8 @@
 - (void)createChangeDeviceButton {
     UIButton *changeDevice = [UIButton buttonWithType:UIButtonTypeCustom];
     [changeDevice addTarget:self
-                   action:@selector(changeDeviceButtonPressed:)
-         forControlEvents:UIControlEventTouchUpInside];
+                     action:@selector(changeDeviceButtonPressed:)
+           forControlEvents:UIControlEventTouchUpInside];
     [changeDevice setTitle:@"chngDevi" forState:UIControlStateNormal];
     changeDevice.frame = CGRectMake(240.0, 260.0, 80.0, 40.0);
     changeDevice.backgroundColor = [UIColor blackColor];
@@ -202,8 +207,8 @@
      self.methodManager.gpCurrent = @"NothingTestFail";
      [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];
      */
-
-
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

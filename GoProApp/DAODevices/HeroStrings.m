@@ -1570,7 +1570,7 @@
 // return readable values
 - (NSMutableArray *)showAvailableArray:(NSString *)title {
     
-    if ([title isEqualToString:@"Sub Mode"]) {
+   /* if ([title isEqualToString:@"Sub Mode"]) {
         if ([self.currentMode isEqualToString:@"Video"]) {
             return self.availableVideoSubMode;
         }
@@ -1581,6 +1581,85 @@
     }
     //    NSLog(@"The array seeking = %@", [titleToArray objectForKey:title]);
     return [self.dictionaryAvailableArrays objectForKey:title];
+*/
+    // check what title is submitted
+    // run correct function, to return array, return given array
+    
+    // VIDEO
+    if ([title isEqualToString:@"Sub Mode"]) {
+        return self.getVideoSubMode;
+    }
+    else if ([title isEqualToString:@"Resolution"]) {
+        return self.getVideoResolution;
+        
+    }
+    else if ([title isEqualToString:@"Frame Rate"]) {
+        return self.getVideoFrameRate;
+        
+    }
+    else if ([title isEqualToString:@"FOV"]) {
+        return self.getVideoFOV;
+        
+    }
+    else if ([title isEqualToString:@"Time Lapse Interval"]) {
+        return self.getVideoTLInterval;
+        
+    }
+    else if ([title isEqualToString:@"Looping Interval"]) {
+        return self.getVideoLoopingInterval;
+        
+    }
+    else if ([title isEqualToString:@"Photo Video Interval"]) {
+        return self.getVideoPhotoVideoInterval;
+        
+    }
+    else if ([title isEqualToString:@"White Balance"]) {
+        return self.getVideoWhiteBalance;
+        
+    }
+    else if ([title isEqualToString:@"Color"]) {
+        return self.getVideoColor;
+        
+    }
+    
+    else if ([title isEqualToString:@"Manual Exposure"]) {
+        return self.getVideoManualExposure;
+    }
+    
+    else if ([title isEqualToString:@"ISO Mode"]) {
+        return self.getVideoISOMode;
+    }
+    
+    else if ([title isEqualToString:@"ISO Limit"]) {
+        return self.getVideoISOLimit;
+    }
+    
+    else if ([title isEqualToString:@"Sharpness"]) {
+        return self.getVideoSharpness;
+    }
+    else if ([title isEqualToString:@"EV Comp"]) {
+        return self.getVideoEVComp;
+    }
+    
+    // PHOTO
+    /*
+    - (NSMutableArray *)getPhotoSubMode;
+    - (NSMutableArray *)getPhotoContinuousRate;
+    - (NSMutableArray *)getPhotoMegaPixels;
+    - (NSMutableArray *)getPhotoNightExposure;
+    - (NSMutableArray *)getPhotoWhiteBalance;
+    - (NSMutableArray *)getPhotoColor;
+    - (NSMutableArray *)getPhotoSharpness;
+    - (NSMutableArray *)getPhotoEVComp;
+    - (NSMutableArray *)getPhotoISOMin;
+    - (NSMutableArray *)getphotoISOLimit;
+    
+
+    */
+
+    else return nil;
+
+
 }
 
 
