@@ -61,6 +61,8 @@
 
 #pragma mark - COMMAND PATHS
 
+- (void)sendCurrentURL:(CommandPathObject*)object;
+
 #pragma mark - Video Available
 // Available VIDEO
 
@@ -213,6 +215,7 @@
 
 @property (nonatomic, retain) NSString *currentMode;
 @property (nonatomic, retain) NSMutableArray *currentSettingsArray;
+@property (nonatomic, retain) NSMutableArray *currentValuesArray;
 
 @property (nonatomic, retain) NSString *urlForCurrentCall; // for passing through the HTTP call
 

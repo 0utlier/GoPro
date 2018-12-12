@@ -62,25 +62,26 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OptionsTVC" forIndexPath:indexPath];
     
     // Configure the cell
-    UILabel *lbl = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
-    [lbl setTextColor:[UIColor blackColor]];
-    [lbl setTextAlignment:NSTextAlignmentCenter];
+    UILabel *labelTitle = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
+    [labelTitle setTextColor:[UIColor blackColor]];
+    [labelTitle setTextAlignment:NSTextAlignmentCenter];
     SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
-    [lbl setText:[NSString stringWithFormat:@"%@", objectAtIndex.title]];
+    [labelTitle setText:[NSString stringWithFormat:@"%@", objectAtIndex.title]];
     
-    [cell addSubview:lbl];
+    [cell addSubview:labelTitle];
     
     if ([objectAtIndex.paramType containsString:@"Binary"]) {
-        UILabel *lbl = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
-        [lbl setTextColor:[UIColor blueColor]];
-        [lbl setTextAlignment:NSTextAlignmentLeft];
+        UILabel *labelBinary = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
+        [labelBinary setTextColor:[UIColor blueColor]];
+        [labelBinary setTextAlignment:NSTextAlignmentLeft];
         SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
-        [lbl setText:[NSString stringWithFormat:@"%d", objectAtIndex.switchStatus]];
+        [labelBinary setText:[NSString stringWithFormat:@"%d", objectAtIndex.switchStatus]];
         
-        [cell addSubview:lbl];
+        [cell addSubview:labelBinary];
     }
     
     return cell;
@@ -88,23 +89,30 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSLog(@"did select goes");
+
     SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
     NSLog(@"User selected %@, %@", objectAtIndex.title, objectAtIndex.value);
     // call upon proper "available arrays" and check off one that is current settings.
     // present in table view format and use selection to make call to the gopro
 //    NSLog(@"%@", [self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
     NSMutableArray *availableList = ([self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
+    self.methodManager.deviceCurrent.heroDAO.currentValuesArray = availableList;
     // once proper array presented, return new tableView using it
     for (CommandPathObject *availableSelections in availableList) {
         NSLog(@"%@", availableSelections.value);
-//        [self dismissViewControllerAnimated:NO completion:nil];
         
-//        [self performSegueWithIdentifier:@"showMe" sender:indexPath];
-
+     
     }
+    //        [self dismissViewControllerAnimated:NO completion:nil];
+    [self performSegueWithIdentifier:@"showMe" sender:indexPath];
+
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog(@"segue selected");
+
+
 //    NSIndexPath *path = sender;
 //    SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:path.row];
 //    NSLog(@"path for segue is %@", objectAtIndex.title);

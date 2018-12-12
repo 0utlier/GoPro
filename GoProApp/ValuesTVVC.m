@@ -30,8 +30,9 @@
     self.tableView.dataSource = self;
     
     // assign array to be used from DAO
-    self.currentSettingsArray = self.methodManager.deviceCurrent.heroDAO.currentSettingsArray;
-    
+    self.currentSettingsArray = self.methodManager.deviceCurrent.heroDAO.currentValuesArray;
+//    self.currentSettingsArray = self.methodManager.deviceCurrent.heroDAO.currentValuesArray;
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -62,10 +63,10 @@
     [lbl setTextColor:[UIColor blackColor]];
     [lbl setTextAlignment:NSTextAlignmentCenter];
     SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
-    [lbl setText:[NSString stringWithFormat:@"%@", objectAtIndex.title]];
+    [lbl setText:[NSString stringWithFormat:@"%@", objectAtIndex.value]];
     
     [cell addSubview:lbl];
-    
+    /*
     if ([objectAtIndex.paramType containsString:@"Binary"]) {
         UILabel *lbl = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
         [lbl setTextColor:[UIColor redColor]];
@@ -74,15 +75,18 @@
         [lbl setText:[NSString stringWithFormat:@"%d", objectAtIndex.switchStatus]];
         
         [cell addSubview:lbl];
-    }
+    }*/
     
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
+    CommandPathObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
     
-    NSLog(@"second selected %@", objectAtIndex.title);
+    NSLog(@"User selected %@", objectAtIndex.value);
+    // send signal to GoPro
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:objectAtIndex];
+    // dismiss viewController
     [self dismissViewControllerAnimated:NO completion:nil];
     
     

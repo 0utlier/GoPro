@@ -3237,6 +3237,53 @@
     [self splitJSON];
 }
 
+-(void)sendCurrentURL:(CommandPathObject *)object { // 12.11.18 should I pass through the object, or the string? probably object since I can add properties to check and handle differently here
+    if ([object.value isEqualToString:@"Looping"]) {
+        NSLog(@"this is why we need a check");
+    }
+    NSString *urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/setting/%@", object.commandPath];
+    NSLog(@"sent to gp %@",urlString);
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    //create the Method "GET" or "POST"
+    [urlRequest setHTTPMethod:@"POST"];
+    
+    //Convert the String to Data
+    NSData *data1 = [urlString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    //Apply the data to the body
+    [urlRequest setHTTPBody:data1];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:urlRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if(httpResponse.statusCode == 200)
+        {
+            NSError *parseError = nil;
+            NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
+            NSLog(@"The response is - %@",responseDictionary);
+            NSInteger success = [[responseDictionary objectForKey:@"success"] integerValue];
+            if(success == 1)
+            {
+                NSLog(@"signal SUCCESS");
+            }
+            else
+            {
+                NSLog(@"signal FAILURE");
+            }
+        }
+        else
+        {
+            NSLog(@"Error");
+        }
+    }];
+    [dataTask resume];
+    
+
+//    [self splitJSON];
+}
+
 //==============================================//
 
 
@@ -3278,6 +3325,7 @@
 @synthesize dictionaryAvailableArrays;
 @synthesize urlForCurrentCall;
 @synthesize currentSettingsArray;
+@synthesize currentValuesArray;
 @synthesize currentMode;
 @synthesize availableMSBurstRate;
 @synthesize availableMSColor;
