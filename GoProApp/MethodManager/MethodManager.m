@@ -245,6 +245,7 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     [task resume]; // to start the download task
 }
 
+// assign which GoPro is being used and allocate a DAO
 #pragma mark - CREATE HERO
 - (void) creationOfHeroStrings {
     self.HeroStrings = [HeroStrings sharedDAO];
@@ -258,6 +259,7 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 //    self.deviceCurrent.heroDAO = self.Hero4;
 }
 
+/*This is for the MethodManager to have a singleton - very important*/
 #pragma mark - Singleton Methods
 + (id)sharedManager {
     static MethodManager *sharedMyManager = nil;

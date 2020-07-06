@@ -123,7 +123,7 @@
 -(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler;
 
 
-
+// 07.04.20 WHAT IS THIS? QUESTION
 - (NSMutableArray *)assignCurrentStatusSettingsArray;
 - (NSMutableArray *)assignCurrentVideoSettingsArray;
 - (NSMutableArray *)assignCurrentPhotoSettingsArray;

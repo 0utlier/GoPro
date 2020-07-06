@@ -41,7 +41,7 @@
                                         @"8",  @"recordingProcessing", //?
                                         @"54", @"remainingBytes",
                                         nil];
-    NSLog(@"Hardcoded Status Dict: %@", myStatusDictionary);
+//    NSLog(@"Hardcoded Status Dict: %@", myStatusDictionary);
     
     self.dictionaryStatusHardcode = myStatusDictionary;
     
@@ -115,7 +115,7 @@
                                           @"59", @"otherAutoPowerOff",
                                           nil];
     
-    NSLog(@"Hardcoded Settings Dict: %@", mySettingsDictionary);
+//    NSLog(@"Hardcoded Settings Dict: %@", mySettingsDictionary);
     
     self.dictionarySettingsHardcode = mySettingsDictionary;
     
@@ -435,7 +435,7 @@
     return settingsArray;
 }
 
-// prints out all properties of the settings object within the array
+// prints out all properties of the settingsObject within the received array
 -(void)printMyArray:(NSMutableArray *)array {
     NSLog(@"SETTINGS, VALUE, TYPE:");
     

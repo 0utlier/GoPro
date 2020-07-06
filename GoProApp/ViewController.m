@@ -24,9 +24,13 @@
     // create a reference to the MethodManager
     self.methodManager = [MethodManager sharedManager];
     
+    //07.06.20 fucking around PLEASE REMOVE
+    [self sortCards];
+    
+    // call methods to create all the buttons on the page
     [self createTimeLapseButton];
     [self createSettingsButton];
-    [self createStreamButton];
+//    [self createStreamButton]; //07.04.20 not using currently, since no stream is created
     [self createTESTButton];
     [self createConnectButton];
     [self createSetDesiredButton];
@@ -35,9 +39,22 @@
     
 }
 
+#pragma mark - FUCKING AROUND DELETE
+-(void)sortCards {
+    NSMutableArray *cardsForSet = [[NSMutableArray alloc]initWithObjects:@45,@2,@0,@43,@44, nil];
+    NSLog(@"my cards are %@", cardsForSet);
+
+    cardsForSet = [NSMutableArray arrayWithArray:[cardsForSet sortedArrayUsingSelector: @selector(compare:)]];
+    [cardsForSet sortedArrayUsingSelector: @selector(compare:)];
+    NSLog(@"my SORTED second cards are %@", cardsForSet);
+    
+    
+}
+
+
 #pragma mark - BUTTON CREATION
 
-
+// button to set Time Lapse settings
 - (void)createTimeLapseButton {
     UIButton *openToTimeLapse = [UIButton buttonWithType:UIButtonTypeCustom];
     [openToTimeLapse addTarget:self
@@ -55,7 +72,7 @@
     [self presentViewController:timeLapseController animated:YES completion:nil];
     
 }
-
+// button to console the set settings and display on page
 - (void)createSettingsButton {
     UIButton *openToSettings = [UIButton buttonWithType:UIButtonTypeCustom];
     [openToSettings addTarget:self
@@ -76,7 +93,7 @@
     [self presentViewController:settingsController animated:YES completion:nil];
     
 }
-
+// eventually meant to stream the GoPro's visual
 - (void)createStreamButton {
     UIButton *openToStream = [UIButton buttonWithType:UIButtonTypeCustom];
     [openToStream addTarget:self
@@ -95,7 +112,7 @@
     
 }
 
-// this is a test button currently sends GoPro power off signal 03.05.18
+// this is a test button currently sends GoPro power off signal 03.05.18 [disabled and moved 07.02.20]
 - (void)createTESTButton {
     UIButton *openToSettings = [UIButton buttonWithType:UIButtonTypeCustom];
     [openToSettings addTarget:self
@@ -111,8 +128,8 @@
     NSLog(@"test pressed");
     [self connectButtonPressed:nil];
     sleep(3); // PLEASE REPLACE TEMPORARY [sleep function] with listener to when it is done. maybe create a new function for JSON call with COMPLETION 11.24.18
-    NSLog(@"works, opening settings page");
-    [self performSegueWithIdentifier:@"showTestQ" sender:self];
+    NSLog(@"works, opening settings page [07.04.20 disabled - bring back]");
+//    [self performSegueWithIdentifier:@"showTestQ" sender:self]; //bring back 07.04.20
     
 }
 
@@ -133,7 +150,7 @@
     // connect MM to the correct DAO
     // Assign the MM's currentString which GoPro Model
     self.methodManager.gpCurrent = [[NSString alloc]init];
-    self.methodManager.gpCurrent = @"HeroStrings";
+    self.methodManager.gpCurrent = @"HeroStrings"; // 07.04.20 currently hardCoded to strings, for time being
     NSLog(@"connected MM to the correct DAO [%@]", self.methodManager.gpCurrent);
     // device will be selected from given connection
     [self.methodManager assignDeviceManager:self.methodManager.gpCurrent];

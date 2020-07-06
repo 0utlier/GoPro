@@ -12,7 +12,7 @@
 
 // MethodManager property
 @property (strong, nonatomic) MethodManager *methodManager;
-// Settings Array to use throughout page
+// Settings Array to use throughout current page [assigned values from DAO's version for simpler code]
 @property (strong, nonatomic) NSMutableArray *currentSettingsArray;
 
 @end
@@ -70,7 +70,7 @@
     [labelTitle setTextColor:[UIColor blackColor]];
     [labelTitle setTextAlignment:NSTextAlignmentCenter];
     SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
-    [labelTitle setText:[NSString stringWithFormat:@"%@", objectAtIndex.title]];
+    [labelTitle setText:[NSString stringWithFormat:@"%@ = %@", objectAtIndex.title, objectAtIndex.value]];
     
     [cell addSubview:labelTitle];
     
@@ -90,12 +90,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"did select goes");
-
+// assign object to currentSettings
     SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
     NSLog(@"User selected %@, %@", objectAtIndex.title, objectAtIndex.value);
     // call upon proper "available arrays" and check off one that is current settings.
     // present in table view format and use selection to make call to the gopro
-//    NSLog(@"%@", [self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
+    NSLog(@"%@", [self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
     NSMutableArray *availableList = ([self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
     self.methodManager.deviceCurrent.heroDAO.currentValuesArray = availableList;
     // once proper array presented, return new tableView using it

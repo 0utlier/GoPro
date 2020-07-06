@@ -88,6 +88,7 @@
 
 }
 
+// 07.04.20 not called currently. Also crashes, and needs to be redirected
 - (void) createSettingsButton {
     UIButton *openToSettings = [UIButton buttonWithType:UIButtonTypeCustom];
     [openToSettings addTarget:self
