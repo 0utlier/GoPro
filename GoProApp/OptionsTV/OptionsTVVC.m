@@ -95,7 +95,7 @@
     NSLog(@"User selected %@, %@", objectAtIndex.title, objectAtIndex.value);
     // call upon proper "available arrays" and check off one that is current settings.
     // present in table view format and use selection to make call to the gopro
-    NSLog(@"%@", [self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
+    NSLog(@"Table should show: %@", [self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
     NSMutableArray *availableList = ([self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
     self.methodManager.deviceCurrent.heroDAO.currentValuesArray = availableList;
     // once proper array presented, return new tableView using it

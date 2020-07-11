@@ -123,7 +123,7 @@
 -(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler;
 
 
-// 07.04.20 WHAT IS THIS? QUESTION
+// assign the JSON values to settingsObjects and add to array
 - (NSMutableArray *)assignCurrentStatusSettingsArray;
 - (NSMutableArray *)assignCurrentVideoSettingsArray;
 - (NSMutableArray *)assignCurrentPhotoSettingsArray;
@@ -214,8 +214,8 @@
 */
 
 @property (nonatomic, retain) NSString *currentMode;
-@property (nonatomic, retain) NSMutableArray *currentSettingsArray;
-@property (nonatomic, retain) NSMutableArray *currentValuesArray;
+@property (nonatomic, retain) NSMutableArray *currentSettingsArray; // dependent on mode
+@property (nonatomic, retain) NSMutableArray *currentValuesArray; // for ViewController to assign? 07.11.20
 
 @property (nonatomic, retain) NSString *urlForCurrentCall; // for passing through the HTTP call
 

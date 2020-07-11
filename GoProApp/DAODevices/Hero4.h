@@ -17,8 +17,7 @@
 
 #pragma MARK - IMPORTANT
 
-@interface Hero4 : NSObject
-///<HeroDAO> /*PLEASE ADD BACK when ready to implement DAO of the Hero 4 file*/
+@interface Hero4 : NSObject /* <HeroDAO>*/ /*PLEASE ADD BACK when ready to implement DAO of the Hero 4 file*/
 
 
 @end

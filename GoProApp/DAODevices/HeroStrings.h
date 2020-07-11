@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "HeroProtocol.h"
 
-/*This is the Device Manager for the GoPro Hero TESTING
+/*This is the Device Manager for the GoPro Hero TESTING [07.11.20 currently seems like Hero 4 calls. Unsure]
  All of the:
  Calls
  Properties
  Information pertaining directly and specifically to this device*/
+
+#pragma MARK - IMPORTANT
 
 @interface HeroStrings : NSObject <HeroDAO>
 

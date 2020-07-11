@@ -134,7 +134,7 @@
 }
 
 // function to assign the JSON values to the settings, displayed in VCs
-// this will need to be broken up for given usage of the mode. no need to display video specs, if photo is current.
+// this will need to be broken up for given usage of the mode. no need to display video specs, if photo is current. [07.11.20 Looks like this sorting is done in the if statement below]
 -(NSMutableArray *)assignCurrentStatusSettingsArray {
     SettingsObject *battery = [[SettingsObject alloc]init];
     battery.title = @"Battery";
@@ -161,6 +161,7 @@
     streamingStatus.paramType = @"typeSystemSettings";
     //    streamingStatus.switchStatus = [self binaryAssignment:streamingStatus];
     
+    // create an array with all current settingsObjects
     NSMutableArray *statusSettingsArray = [[NSMutableArray alloc]initWithObjects:battery, batteryLevel, mode, sdCardPresent, streamingStatus, nil];
     [self printMyArray:statusSettingsArray];
     
@@ -168,6 +169,7 @@
     
     NSLog(@"settings object created, and now values assigned");
     
+    // create an array depending on which currentMode is being used
     NSMutableArray *currentSettingArray = [[NSMutableArray alloc]init];
     
     // check which mode, to assign proper settings to the given mode
@@ -462,6 +464,7 @@
     
 }
 
+// 07.11.20 I believe this is to RETURN arrays for all available calls for this particular GoPro
 #pragma mark - COMMANDPATH
 
 #pragma mark - Video Commands
@@ -1567,7 +1570,7 @@
 }
 
 #pragma mark - Return Values
-// return readable values
+// return readable values // QUESTION 07.11.20 why is there no MegaPixel here?
 - (NSMutableArray *)showAvailableArray:(NSString *)title {
     
    /* if ([title isEqualToString:@"Sub Mode"]) {
@@ -1621,21 +1624,21 @@
         return self.getVideoColor;
         
     }
-    
     else if ([title isEqualToString:@"Manual Exposure"]) {
         return self.getVideoManualExposure;
-    }
     
+    }
     else if ([title isEqualToString:@"ISO Mode"]) {
         return self.getVideoISOMode;
+
     }
-    
     else if ([title isEqualToString:@"ISO Limit"]) {
         return self.getVideoISOLimit;
+
     }
-    
     else if ([title isEqualToString:@"Sharpness"]) {
         return self.getVideoSharpness;
+
     }
     else if ([title isEqualToString:@"EV Comp"]) {
         return self.getVideoEVComp;

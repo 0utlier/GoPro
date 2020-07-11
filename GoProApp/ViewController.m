@@ -23,9 +23,7 @@
     NSLog(@"Oh boy is it good to be back in Objective-C");
     // create a reference to the MethodManager
     self.methodManager = [MethodManager sharedManager];
-    
-    //07.06.20 fucking around PLEASE REMOVE
-    [self sortCards];
+    self.view.backgroundColor = [UIColor blackColor];
     
     // call methods to create all the buttons on the page
     [self createTimeLapseButton];
@@ -38,19 +36,6 @@
     
     
 }
-
-#pragma mark - FUCKING AROUND DELETE
--(void)sortCards {
-    NSMutableArray *cardsForSet = [[NSMutableArray alloc]initWithObjects:@45,@2,@0,@43,@44, nil];
-    NSLog(@"my cards are %@", cardsForSet);
-
-    cardsForSet = [NSMutableArray arrayWithArray:[cardsForSet sortedArrayUsingSelector: @selector(compare:)]];
-    [cardsForSet sortedArrayUsingSelector: @selector(compare:)];
-    NSLog(@"my SORTED second cards are %@", cardsForSet);
-    
-    
-}
-
 
 #pragma mark - BUTTON CREATION
 
@@ -202,7 +187,7 @@
            forControlEvents:UIControlEventTouchUpInside];
     [changeDevice setTitle:@"chngDevi" forState:UIControlStateNormal];
     changeDevice.frame = CGRectMake(240.0, 260.0, 80.0, 40.0);
-    changeDevice.backgroundColor = [UIColor blackColor];
+    changeDevice.backgroundColor = [UIColor purpleColor];
     [self.view addSubview:changeDevice];
 }
 
