@@ -177,9 +177,19 @@
     //    [self.methodManager SetSubMode:self.methodManager.settingsDesired.subMode];
     //    [self.methodManager SetQuality:self.methodManager.settingsDesired.quality];
     
+    NSMutableArray *testMe = [self.methodManager.deviceCurrent.heroDAO getVideoSubMode];
+    NSLog(@"The array should be video: %@",testMe);
+    for (CommandPathObject *timeLapseSubMode in testMe) {
+        if ([timeLapseSubMode.value isEqualToString:@"Time Lapse Video"]) {
+            NSLog(@"we found it %@", timeLapseSubMode.commandPath);
+            [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:timeLapseSubMode];
+            break;
+        }
+    }
+    
 }
 
-// this is a test button to set the desired settings for the GoPro 09.25.18
+// this is a test button to change device for the GoPro 09.25.18
 - (void)createChangeDeviceButton {
     UIButton *changeDevice = [UIButton buttonWithType:UIButtonTypeCustom];
     [changeDevice addTarget:self

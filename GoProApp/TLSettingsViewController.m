@@ -27,9 +27,15 @@
 
 @property (strong, nonatomic) MethodManager *methodManager;
 
+// Settings Array to use throughout current page [assigned values from DAO's version for simpler code]
+@property (strong, nonatomic) NSMutableArray *currentSettingsArray;
+
 /*
+ 07.12.20
+ TODO - set values [make properties] and correct index [find with "ForIn loop"?] on that UIPickerView
+ 
  03.19.18
- NEXT things to do
+ NEXT things TODO
  Set item when other item changed (ie time in seconds affects shooting minutes, effected by interval)
  Once this happens, add SUBMIT button
  Try to make the button send the signal to MM to send signal
@@ -59,9 +65,10 @@
     /*This is where the assignment comes in*/
     [self assignAvailable];
 //    NSLog(@"TLSettings Page Loading for %@", self.availableFPS);
+    [self assignInitialValues];
     
-    /* in case we need hard code 03.19.18
-     [self makeHardCodeTestData]; */
+    /* in case we need hard code 03.19.18 */
+     [self makeHardCodeTestData];
     
     [self delegateForUIPickers];
     [self labelForUIPickerViews];
@@ -77,7 +84,7 @@
     self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // available to shoot
     self.availableSeconds = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // post after creation
 
-    self.availableSize = [[NSMutableArray alloc]initWithObjects:@"standard", @"wide", nil]; // need to set in protocl and DAO
+    self.availableSize = [[NSMutableArray alloc]initWithObjects:@"standard", @"wide", nil]; // need to set in protocol and DAO
 }
 
 - (void) makeHardCodeTestData{ // NOT CURRENTLY BEING USED
@@ -85,6 +92,28 @@
     self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
     self.availableFPS = [[NSMutableArray alloc]initWithObjects:@"24", @"30", @"60", nil];
     self.availableSeconds = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"3", @"4", @"5", @"6", nil];
+
+}
+
+- (void) assignInitialValues {
+    // 07.12.20 I believe I will have to make the call to the GoPro to change mode to Time Lapse, due to the "currentSettingsArray" needing to be set by DAO
+    
+    // change GoPro mode to Time Lapse
+    
+    // assign array to be used from DAO
+    self.currentSettingsArray = self.methodManager.deviceCurrent.heroDAO.currentSettingsArray;
+
+/*    self.X_MinutesValue;
+    self.Y_FPSValue;
+    self.Z_SecondsValue;
+    self.QualityValue;
+    self.SizeValue;
+  */
+    
+    
+    self.IntervalExposureValue = [self.methodManager.deviceCurrent.heroDAO.currentSettingsArray valueForKey:@"videoTLInterval"];
+    NSLog(@"Time Lapse interval value: %@",self.IntervalExposureValue);
+
 
 }
 
@@ -136,7 +165,7 @@
 {
     NSString *strSec = @"Seconds";
     float lblWidth = self.Z_Seconds.frame.size.width / 2;//self.Z_Seconds.numberOfComponents;
-    float lblXposition = self.Z_Seconds.frame.origin.x;
+    float lblXposition = self.Z_Seconds.frame.origin.x+100;
     float lblYposition = (self.Z_Seconds.frame.origin.y);
     
     UILabel *lblSec = [[UILabel alloc] initWithFrame:CGRectMake(lblXposition,
@@ -150,7 +179,7 @@
 
     NSString *strFPS = @"FPS";
     float lblWidthFPS = self.Y_FPS.frame.size.width/2;// / self.Y_FPS.numberOfComponents;
-    float lblXpositionFPS = self.Y_FPS.frame.origin.x;
+    float lblXpositionFPS = self.Y_FPS.frame.origin.x+100;
     float lblYpositionFPS = (self.Y_FPS.frame.origin.y);
     
     UILabel *lblFPS = [[UILabel alloc] initWithFrame:CGRectMake(lblXpositionFPS,
@@ -242,6 +271,7 @@ NSString *strMinutes = @"Minutes";
 - (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     if (pickerView == self.X_Minutes) {
+        [pickerView selectRow:2 inComponent:0 animated:YES];
         return self.availableMinutes[row];
         
     }
@@ -276,6 +306,10 @@ NSString *strMinutes = @"Minutes";
     // The parameter named row and component represents what was selected.
     if (pickerView == self.X_Minutes) {
         NSLog(@"Minutes set to %@", self.availableMinutes[row]);
+        
+        // 07.12.20 TODO using equation, find other values due to this selection
+        [self equationForTimeLapse];
+        [self.Y_FPS selectRow:2 inComponent:0 animated:YES];
         
     }
     else if (pickerView == self.Y_FPS) {
@@ -318,5 +352,10 @@ NSString *strMinutes = @"Minutes";
     // Pass the selected object to the new view controller.
 }
 */
+
+-(void) equationForTimeLapse {
+    NSLog(@"Changing values for properties - do I return a property or set it?");
+
+}
 
 @end

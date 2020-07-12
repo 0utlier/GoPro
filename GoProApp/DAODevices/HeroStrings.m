@@ -3244,7 +3244,14 @@
     if ([object.value isEqualToString:@"Looping"]) {
         NSLog(@"this is why we need a check");
     }
-    NSString *urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/setting/%@", object.commandPath];
+    // create the URL request with URL string
+    NSString *urlString = [[NSString alloc]init];
+    if ([object.commandPath containsString:@"sub_mode"]) {
+        urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/command/sub_mode?mode=%@", object.commandPath];
+    }
+    else {
+    urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/setting/%@", object.commandPath];
+    }
     NSLog(@"sent to gp %@",urlString);
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL:url];

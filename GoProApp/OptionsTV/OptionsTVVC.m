@@ -8,6 +8,8 @@
 
 #import "OptionsTVVC.h"
 
+/*Options TableView Controller meant for displaying all available options for the GoPro and giving option to change given option (e.g. Mode, SubMode, MP=12 >> MP=7 >> makes call via DAO)*/
+
 @interface OptionsTVVC ()
 
 // MethodManager property
@@ -74,6 +76,7 @@
     
     [cell addSubview:labelTitle];
     
+    // if a binary setting, display its binary value on the left side
     if ([objectAtIndex.paramType containsString:@"Binary"]) {
         UILabel *labelBinary = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
         [labelBinary setTextColor:[UIColor blueColor]];
@@ -87,6 +90,7 @@
     return cell;
 }
 
+// once selected, open tableView of values for options 07.11.20
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"did select goes");
@@ -105,6 +109,7 @@
      
     }
     //        [self dismissViewControllerAnimated:NO completion:nil];
+    // using storyBoard to open ValuesTVVC
     [self performSegueWithIdentifier:@"showMe" sender:indexPath];
 
 }

@@ -10,6 +10,8 @@
 #import "MethodManager.h"
 #import "SettingsObject.h"
 
+/*Tried using CollectionView and clearly did not like that VS TableView 07.11.20*/
+
 @interface OptionsCVC : UICollectionViewController
 
 @end

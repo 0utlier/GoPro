@@ -27,6 +27,14 @@
 @property (nonatomic, retain) NSMutableArray *availableExposure;
 @property (nonatomic, retain) NSMutableArray *availableSize;
 
+// Initial values - when page loads, set and use for UIPickerView index
+@property (weak, nonatomic) NSString *X_MinutesValue;
+@property (weak, nonatomic) NSString *Y_FPSValue;
+@property (weak, nonatomic) NSString *Z_SecondsValue;
+@property (weak, nonatomic) NSString *QualityValue;
+@property (weak, nonatomic) NSString *IntervalExposureValue;
+@property (weak, nonatomic) NSString *SizeValue;
+
 // desired - to be set in TLSettings and sent to Method Manager
 @property (nonatomic, retain) NSString *desiredMode;
 @property (nonatomic, retain) NSString *desiredSubMode;

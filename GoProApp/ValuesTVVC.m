@@ -8,6 +8,8 @@
 
 #import "ValuesTVVC.h"
 
+/*Values TableView Controller intended for displaying the values chosen from OptionTableViewController and assigning selected index*/
+
 @interface ValuesTVVC ()
 
 // MethodManager property

@@ -214,7 +214,7 @@
 */
 
 @property (nonatomic, retain) NSString *currentMode;
-@property (nonatomic, retain) NSMutableArray *currentSettingsArray; // dependent on mode
+@property (nonatomic, retain) NSMutableArray *currentSettingsArray; // dependent on mode [07.12.20 does this mean that if I want a given set of currentSettings (e.g. Time Lapse), I need to change the mode?]
 @property (nonatomic, retain) NSMutableArray *currentValuesArray; // for ViewController to assign? 07.11.20
 
 @property (nonatomic, retain) NSString *urlForCurrentCall; // for passing through the HTTP call
