@@ -19,21 +19,15 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *Size;
 
 // available - to be set by MM, through the DAO
-@property (nonatomic, retain) NSMutableArray *availableMinutes;
-@property (nonatomic, retain) NSMutableArray *availableFPS;
-@property (nonatomic, retain) NSMutableArray *availableSeconds;
 @property (nonatomic, retain) NSMutableArray *availableQuality;
 @property (nonatomic, retain) NSMutableArray *availableInterval;
 @property (nonatomic, retain) NSMutableArray *availableExposure;
-@property (nonatomic, retain) NSMutableArray *availableSize;
+@property (nonatomic, retain) NSMutableArray *availableSize; // wide vs standard
 
-// Initial values - when page loads, set and use for UIPickerView index
-@property (weak, nonatomic) NSString *X_MinutesValue;
-@property (weak, nonatomic) NSString *Y_FPSValue;
-@property (weak, nonatomic) NSString *Z_SecondsValue;
-@property (weak, nonatomic) NSString *QualityValue;
-@property (weak, nonatomic) NSString *IntervalExposureValue;
-@property (weak, nonatomic) NSString *SizeValue;
+// available - to be hardcoded, since it will be "User Chosen"
+@property (nonatomic, retain) NSMutableArray *availableMinutes;
+@property (nonatomic, retain) NSMutableArray *availableFPS;
+@property (nonatomic, retain) NSMutableArray *availableSeconds;
 
 // desired - to be set in TLSettings and sent to Method Manager
 @property (nonatomic, retain) NSString *desiredMode;

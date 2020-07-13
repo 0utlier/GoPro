@@ -28,11 +28,15 @@
 @property (strong, nonatomic) MethodManager *methodManager;
 
 // Settings Array to use throughout current page [assigned values from DAO's version for simpler code]
-@property (strong, nonatomic) NSMutableArray *currentSettingsArray;
+@property (weak, nonatomic) NSMutableArray *currentSettingsArray;
 
 /*
- 07.12.20
- TODO - set values [make properties] and correct index [find with "ForIn loop"?] on that UIPickerView
+ 
+ 07.13.20
+ Give option to LOCK the pickerView of choice. User DEFINITELY wants to use "minutes", meaning don't change that in equationTimeLapse method
+ 
+ 07.13.20
+ Check if NightMode Time Lapse [interval becomes exposure!]
  
  03.19.18
  NEXT things TODO
@@ -65,26 +69,31 @@
     /*This is where the assignment comes in*/
     [self assignAvailable];
 //    NSLog(@"TLSettings Page Loading for %@", self.availableFPS);
-    [self assignInitialValues];
     
     /* in case we need hard code 03.19.18 */
-     [self makeHardCodeTestData];
+//     [self makeHardCodeTestData];
     
     [self delegateForUIPickers];
     [self labelForUIPickerViews];
+
+    // assign the default index for each UIViewPicker
+    [self assignInitialValues];
+
 }
-    
 
 -(void) assignAvailable {
-    self.availableFPS = self.methodManager.deviceCurrent.heroDAO.availableVideoFrameRate;
-    self.availableQuality = self.methodManager.deviceCurrent.heroDAO.availableVideoResolution;
-    self.availableInterval = self.methodManager.deviceCurrent.heroDAO.availableVideoTLInterval;
+    //    CRASH TODO
+    self.availableQuality = [self.methodManager.HeroStrings getVideoResolution]; // 07.13.20 this is going to get ALL qualities, and not JUST Time Lapse qualities [TODO figure out if new method required]
+    self.availableInterval = [self.methodManager.HeroStrings getVideoTLInterval];
     
 // hard code these two, as it is up to user and NOT determined by the GoPro
     self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // available to shoot
     self.availableSeconds = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // post after creation
+    self.availableFPS = [[NSMutableArray alloc]initWithObjects:@"24", @"30", @"60", nil]; // post after creation
 
     self.availableSize = [[NSMutableArray alloc]initWithObjects:@"standard", @"wide", nil]; // need to set in protocol and DAO
+    
+
 }
 
 - (void) makeHardCodeTestData{ // NOT CURRENTLY BEING USED
@@ -95,24 +104,40 @@
 
 }
 
-- (void) assignInitialValues {
-    // 07.12.20 I believe I will have to make the call to the GoPro to change mode to Time Lapse, due to the "currentSettingsArray" needing to be set by DAO
+- (void) assignInitialValues { // 07.13.20 default for each of the sections
+    // HARDCODED
+    [self.X_Minutes selectRow:5 inComponent:0 animated:YES]; // 6 min
+    [self.Y_FPS selectRow:1 inComponent:0 animated:YES]; // 30FPS
+    [self.Z_Seconds selectRow:5 inComponent:0 animated:YES]; // 6 Sec
     
-    // change GoPro mode to Time Lapse
+    /*Find the value of Time Lapse interval -- then assign that to the index*/
+    // assign array to be used from DAO
+    NSMutableArray *videoSettings = [self.methodManager.HeroStrings assignCurrentVideoSettingsArray];
+    NSString *currentIntervalValue = [[NSString alloc]init];
+    
+    for (SettingsObject *timeLapseInterval in videoSettings) {
+        if ([timeLapseInterval.title isEqualToString:@"Time Lapse Interval"]) {
+            NSLog(@"we found it %@", timeLapseInterval.value);
+            currentIntervalValue = timeLapseInterval.value;
+            break;
+        }
+    }
     
     // assign array to be used from DAO
-    self.currentSettingsArray = self.methodManager.deviceCurrent.heroDAO.currentSettingsArray;
-
-/*    self.X_MinutesValue;
-    self.Y_FPSValue;
-    self.Z_SecondsValue;
-    self.QualityValue;
-    self.SizeValue;
-  */
+    NSMutableArray *intervalSettings = [self.methodManager.HeroStrings getVideoTLInterval];
+    int indexForTL = 0; // assign the index of current
     
-    
-    self.IntervalExposureValue = [self.methodManager.deviceCurrent.heroDAO.currentSettingsArray valueForKey:@"videoTLInterval"];
-    NSLog(@"Time Lapse interval value: %@",self.IntervalExposureValue);
+    for (CommandPathObject *fpsAvailable in intervalSettings) {
+        if ([fpsAvailable.value isEqualToString:currentIntervalValue]) {
+            NSLog(@"%@ at index: %d",fpsAvailable.value, indexForTL);
+            break;
+        }
+        indexForTL++;
+    }
+    //    NSLog(@"Time Lapse interval value: %d",self.IntervalExposureIndex);
+    // ASSIGNED
+    [self.IntervalExposure selectRow:indexForTL inComponent:0 animated:YES];
+    [self.Quality selectRow:3 inComponent:0 animated:YES];
 
 
 }
@@ -271,7 +296,6 @@ NSString *strMinutes = @"Minutes";
 - (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     if (pickerView == self.X_Minutes) {
-        [pickerView selectRow:2 inComponent:0 animated:YES];
         return self.availableMinutes[row];
         
     }
@@ -284,11 +308,13 @@ NSString *strMinutes = @"Minutes";
         
     }
     else if (pickerView == self.Quality) {
-        return self.availableQuality[row];
+        // since it is an array of commandObjects, we want the value for display
+        return [self.availableQuality[row] valueForKey:@"value"];
         
     }
     else if (pickerView == self.IntervalExposure) {
-        return self.availableInterval[row];
+        // since it is an array of commandObjects, we want the value for display
+        return [self.availableInterval[row] valueForKey:@"value"];
         
     }
     else if (pickerView == self.Size) {
@@ -321,15 +347,17 @@ NSString *strMinutes = @"Minutes";
         
     }
     else if (pickerView == self.Quality) {
-        NSLog(@"Seconds set to %@", self.availableQuality[row]);
+        // since it is an array of commandObjects, we want the value for display
+        NSLog(@"Quality set to %@", [self.availableQuality[row] valueForKey:@"value"]);
         
     }
     else if (pickerView == self.IntervalExposure) {
-        NSLog(@"Seconds set to %@", self.availableInterval[row]);
+        // since it is an array of commandObjects, we want the value for display
+        NSLog(@"Interval set to %@", [self.availableInterval[row] valueForKey:@"value"]);
         
     }
     else if (pickerView == self.Size) {
-        NSLog(@"Seconds set to %@", self.availableSize[row]);
+        NSLog(@"Width set to %@", self.availableSize[row]);
         
     }
     else
@@ -355,6 +383,8 @@ NSString *strMinutes = @"Minutes";
 
 -(void) equationForTimeLapse {
     NSLog(@"Changing values for properties - do I return a property or set it?");
+// testing purposes - change each picker depending on what values are changed. How to determine which one to change first? What is prioritized? Or decided by user? [keep minutes, keep FPS, etc. - now do we change the seconds or the interval?]
+    [self.Y_FPS selectRow:2 inComponent:0 animated:YES];
 
 }
 
