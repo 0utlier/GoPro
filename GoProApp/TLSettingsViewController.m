@@ -59,10 +59,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    [self createRefreshButton];
     /*create a methodManager - use sharedDAO*/
     self.methodManager = [MethodManager sharedManager];
-    [self.methodManager assignDeviceManager:NULL];
+//    [self.methodManager assignDeviceManager:NULL]; // 07.15.20 why did I do this? Is it not assigned already?
     /*check if it exists, and did not return empty/null*/
     NSLog(@"device is object %@", self.methodManager.deviceCurrent);
     
@@ -82,9 +82,17 @@
 }
 
 -(void) assignAvailable {
-    //    CRASH TODO
-    self.availableQuality = [self.methodManager.HeroStrings getVideoResolution]; // 07.13.20 this is going to get ALL qualities, and not JUST Time Lapse qualities [TODO figure out if new method required]
+    // obtain all available intervals of Time Lapse
     self.availableInterval = [self.methodManager.HeroStrings getVideoTLInterval];
+    if ([self.availableInterval count] == 0) {
+        NSLog(@"The Interval Array is EMPTY!");
+
+    }
+    
+    // obtain all available qualities of Time Lapse
+    // 07.15.20 HARDCODE for now, because it seems limited in qualities for Time Lapse [at least on H4]
+    self.availableQuality = [[NSMutableArray alloc]initWithObjects:@"2.7K 4:3", @"4K", nil];
+//    self.availableQuality = [self.methodManager.HeroStrings getVideoResolution]; // 07.13.20 this is going to get ALL qualities, and not JUST Time Lapse qualities [TODO figure out if new method required]
     
 // hard code these two, as it is up to user and NOT determined by the GoPro
     self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // available to shoot
@@ -115,6 +123,7 @@
     NSMutableArray *videoSettings = [self.methodManager.HeroStrings assignCurrentVideoSettingsArray];
     NSString *currentIntervalValue = [[NSString alloc]init];
     
+    // obtain SettingsObject.value that is Time Lapse Interval
     for (SettingsObject *timeLapseInterval in videoSettings) {
         if ([timeLapseInterval.title isEqualToString:@"Time Lapse Interval"]) {
             NSLog(@"we found it %@", timeLapseInterval.value);
@@ -123,7 +132,7 @@
         }
     }
     
-    // assign array to be used from DAO
+    // assign array of Time Lapse Interval to be used from DAO
     NSMutableArray *intervalSettings = [self.methodManager.HeroStrings getVideoTLInterval];
     int indexForTL = 0; // assign the index of current
     
@@ -137,28 +146,69 @@
     //    NSLog(@"Time Lapse interval value: %d",self.IntervalExposureIndex);
     // ASSIGNED
     [self.IntervalExposure selectRow:indexForTL inComponent:0 animated:YES];
-    [self.Quality selectRow:3 inComponent:0 animated:YES];
+//==============================================//
+    
+    /*Find the value of Time Lapse quality -- then assign that to the index*/
+    // assign array to be used from DAO
+    NSMutableArray *videoSettingsForQuality = [self.methodManager.HeroStrings assignCurrentVideoSettingsArray];
+    NSString *currentQualityValue = [[NSString alloc]init];
+    
+    // obtain SettingsObject.value that is Time Lapse Interval
+    for (SettingsObject *timeLapseQuality in videoSettingsForQuality) {
+        if ([timeLapseQuality.title isEqualToString:@"Resolution"]) {
+            NSLog(@"we found it %@", timeLapseQuality.value);
+            currentQualityValue = timeLapseQuality.value;
+            break;
+        }
+    }
+    
+    // assign array of Time Lapse Interval to be used from DAO
+    NSMutableArray *qualitySettings = [self.methodManager.HeroStrings getVideoResolution];
+    int indexForTLQuality = 0; // assign the index of current
+    
+    for (CommandPathObject *qualityAvailable in qualitySettings) {
+        if ([qualityAvailable.value isEqualToString:currentQualityValue]) {
+            NSLog(@"%@ at index: %d",qualityAvailable.value, indexForTL);
+            break;
+        }
+        indexForTLQuality++;
+    }
+    NSLog(@"Time Lapse quality value: %d",indexForTLQuality);
+    int countOfArrayForModulo = (int)[self.availableQuality count]; // should be 2 for hardcode
+    int i = indexForTLQuality%countOfArrayForModulo;
+    NSLog(@"modulo %d for count: %d",i, countOfArrayForModulo);
+
+    // ASSIGNED
+    [self.Quality selectRow:i inComponent:0 animated:YES];
 
 
 }
 
 // 07.04.20 not called currently. Also crashes, and needs to be redirected
-- (void) createSettingsButton {
-    UIButton *openToSettings = [UIButton buttonWithType:UIButtonTypeCustom];
-    [openToSettings addTarget:self
-                       action:@selector(settingsButtonPressed:)
+- (void) createRefreshButton {
+    UIButton *refreshPicker = [UIButton buttonWithType:UIButtonTypeCustom];
+    [refreshPicker addTarget:self
+                       action:@selector(refreshButtonPressed:)
              forControlEvents:UIControlEventTouchUpInside];
-    [openToSettings setTitle:@"Show View" forState:UIControlStateNormal];
-    openToSettings.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
-    openToSettings.backgroundColor = [UIColor blueColor];
-    [self.view addSubview:openToSettings];
+    [refreshPicker setTitle:@"Refresh" forState:UIControlStateNormal];
+    refreshPicker.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    refreshPicker.backgroundColor = [UIColor blueColor];
+    [self.view addSubview:refreshPicker];
 }
 
--(void)settingsButtonPressed:(UIButton *)openToSettings {
-    NSLog(@"works, opening settings page");
-    UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"OptionAssignViewController"];
-    [self presentViewController:settingsController animated:YES completion:nil];
+-(void)refreshButtonPressed:(UIButton *)refresh {
+    NSLog(@"works, refreshing pickers");
+
+    // refresh the GoPro settings [JSON] and refresh initial index for UIPickerViews [only the ones that are assigned by the camera]
+    [self.methodManager.deviceCurrent.heroDAO splitJSON];
+    // TODO 07.15.20 Needs "listener" here, so that it can refresh once done!
+    [self assignInitialValues];
+    [self.Quality reloadAllComponents];
+    [self.Y_FPS reloadAllComponents];
     
+    /*    UIViewController *settingsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"OptionAssignViewController"];
+     [self presentViewController:settingsController animated:YES completion:nil];
+*/
 }
 
 #pragma mark - UIPickerDelegate
@@ -292,7 +342,7 @@ NSString *strMinutes = @"Minutes";
         return (int)self.availableMinutes.count;
 }
 
-// The data to return for the row and component (column) that's being passed in
+// The data to return for the row and component (column) that's being displayed
 - (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     if (pickerView == self.X_Minutes) {
@@ -308,8 +358,11 @@ NSString *strMinutes = @"Minutes";
         
     }
     else if (pickerView == self.Quality) {
+        return self.availableQuality[row];
+        /*
+        // 07.15.20 hardcoded because not all video qualities are available for Time Lapse
         // since it is an array of commandObjects, we want the value for display
-        return [self.availableQuality[row] valueForKey:@"value"];
+        return [self.availableQuality[row] valueForKey:@"value"]; */
         
     }
     else if (pickerView == self.IntervalExposure) {
@@ -347,9 +400,10 @@ NSString *strMinutes = @"Minutes";
         
     }
     else if (pickerView == self.Quality) {
-        // since it is an array of commandObjects, we want the value for display
-        NSLog(@"Quality set to %@", [self.availableQuality[row] valueForKey:@"value"]);
-        
+        NSLog(@"Quality set to %@", self.availableQuality[row]);
+
+        /*        // since it is an array of commandObjects, we want the value for display
+         NSLog(@"Quality set to %@", [self.availableQuality[row] valueForKey:@"value"]);*/
     }
     else if (pickerView == self.IntervalExposure) {
         // since it is an array of commandObjects, we want the value for display
