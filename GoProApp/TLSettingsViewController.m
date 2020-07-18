@@ -56,6 +56,7 @@
 
 @implementation TLSettingsViewController
 
+#pragma mark - SET UP PAGE VALUES
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -81,10 +82,12 @@
 }
 
 -(void) assignAvailable {
-    // obtain all available intervals of Time Lapse
+    // obtain all available intervals of Time Lapse [video 07.18.20] // may need to get MSTLInterval as well
     self.availableInterval = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];
     if ([self.availableInterval count] == 0) {
         NSLog(@"The Interval Array is EMPTY!");
+        // still causes crash if GoPro is not connected
+        self.availableInterval = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", nil];
         
     }
     
@@ -116,7 +119,7 @@
 }
 
 - (void) assignInitialValues { // 07.13.20 default for each of the sections
-    // HARDCODED
+    // HARDCODED for default values
     [self.X_Minutes selectRow:5 inComponent:0 animated:YES]; // 6 min
     [self.Y_FPS selectRow:1 inComponent:0 animated:YES]; // 30FPS
     [self.Z_Seconds selectRow:5 inComponent:0 animated:YES]; // 6 Sec
@@ -126,7 +129,7 @@
     NSMutableArray *videoSettings = [self.methodManager.deviceCurrent.heroDAO assignCurrentVideoSettingsArray];
     NSString *currentIntervalValue = [[NSString alloc]init];
     
-    // obtain SettingsObject.value that is Time Lapse Interval
+    // obtain current SettingsObject.value that is Time Lapse Interval
     for (SettingsObject *timeLapseInterval in videoSettings) {
         if ([timeLapseInterval.title isEqualToString:@"Time Lapse Interval"]) {
             NSLog(@"we found it %@", timeLapseInterval.value);
@@ -136,10 +139,12 @@
     }
     
     // assign array of Time Lapse Interval to be used from DAO
-    NSMutableArray *intervalSettings = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];
+    /* // already assigned with a private value, no need to make this call again
+     //    NSMutableArray *intervalSettings = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];
+     //    for (CommandPathObject *fpsAvailable in intervalSettings) { */
     int indexForTL = 0; // assign the index of current
     
-    for (CommandPathObject *fpsAvailable in intervalSettings) {
+    for (CommandPathObject *fpsAvailable in self.availableInterval) {
         if ([fpsAvailable.value isEqualToString:currentIntervalValue]) {
             NSLog(@"%@ at index: %d",fpsAvailable.value, indexForTL);
             break;
@@ -438,6 +443,8 @@
  }
  */
 
+#pragma mark - FIND VALUES
+
 -(int)currentValueForPicker:(UIPickerView*)pickerView ofArray:(NSMutableArray*)availableArray {
     NSInteger row;
     row = [pickerView selectedRowInComponent:0];
@@ -466,38 +473,13 @@
     self.secondsValue = [self currentValueForPicker:self.Z_Seconds ofArray:self.availableSeconds];
     NSLog(@"print correct value: I=%f, X=%f, Y=%f, Z=%f",self.intervalValue, self.minuteValue, self.FPSValue, self.secondsValue);
     
-    [self equationForTimeLapse:self.availableInterval];
-
-}
-// TODO 07.15.20 if statements for what is input
--(float)equate:(float)currentValue {
-    /* ZYI/60 = X */
-    // I have 6 minutes to shoot. I want 30fps in post. I want 6 seconds of footage in post. What is my interval
-    float equationValue = 0;
-    if (currentValue == self.intervalValue) {
-        NSLog(@"This is the INTERVAL here!");
-        equationValue = ((self.minuteValue*60)/self.secondsValue)/self.FPSValue;
-    }
-    if (currentValue == self.secondsValue) {
-        NSLog(@"This is the SECONDS here!");
-        equationValue = ((self.minuteValue*60)/self.intervalValue)/self.FPSValue;
-    }
-    if (currentValue == self.FPSValue) {
-        NSLog(@"This is the FPS here!");
-        equationValue = ((self.minuteValue*60)/self.secondsValue)/self.intervalValue;
-    }
-    if (currentValue == self.minuteValue) {
-        NSLog(@"This is the MINUTES here!");
-        equationValue = ((self.intervalValue/60)*self.secondsValue)*self.FPSValue;
-    }
-    // if statement, or case? Discover which one we are working with
-    NSLog(@"The value necessary would be %f",equationValue);
-    return equationValue;
+    /*07.15.20 TODO this is where the decision about which value is locked and which is figured out*/
+    [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
 
 }
 
 // 07.15.20 this is to take which array is being changed // look for locked/prioritized currentSettings and base new value from there
--(void)equationForTimeLapse:(NSMutableArray*)currentArray {
+-(void)equationForTimeLapse:(NSMutableArray*)currentArray forCurrentValue:(float)currentValue {
     // check if locked to any values TODO
     float equationValue = [self equate:self.intervalValue]; // I think this will need an if statement for which one needs to be input [locked and prioritized]
     
@@ -526,6 +508,33 @@
     }
     
     [self.IntervalExposure selectRow:indexToAssign inComponent:0 animated:YES]; //testing purposes
+}
+
+// TODO 07.15.20 if statements for what is input
+-(float)equate:(float)currentValue {
+    /* ZYI/60 = X */
+    // I have 6 minutes to shoot. I want 30fps in post. I want 6 seconds of footage in post. What is my interval
+    float equationValue = 0;
+    if (currentValue == self.intervalValue) {
+        NSLog(@"This is the INTERVAL here!");
+        equationValue = ((self.minuteValue*60)/self.secondsValue)/self.FPSValue;
+    }
+    if (currentValue == self.secondsValue) {
+        NSLog(@"This is the SECONDS here!");
+        equationValue = ((self.minuteValue*60)/self.intervalValue)/self.FPSValue;
+    }
+    if (currentValue == self.FPSValue) {
+        NSLog(@"This is the FPS here!");
+        equationValue = ((self.minuteValue*60)/self.secondsValue)/self.intervalValue;
+    }
+    if (currentValue == self.minuteValue) {
+        NSLog(@"This is the MINUTES here!");
+        equationValue = ((self.intervalValue/60)*self.secondsValue)*self.FPSValue;
+    }
+    // if statement, or case? Discover which one we are working with
+    NSLog(@"The value necessary would be %f",equationValue);
+    return equationValue;
+    
 }
 
 @end

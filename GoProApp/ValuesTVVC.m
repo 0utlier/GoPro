@@ -90,7 +90,7 @@
     [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:objectAtIndex];
     // dismiss viewController
     [self dismissViewControllerAnimated:NO completion:nil];
-    
+    // TODO 07.18.20 need to refresh settings page, after updated
     
 }
 /*

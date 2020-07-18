@@ -21,6 +21,9 @@
 
 @implementation OptionsTVVC
 
+/*TODO 07.18.20 refresh tableview once returned to this page. Currently reloadData duplicates the information. Need to clear the contents and reload it
+ 07.18.20 add switches for binary options*/
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"Options tableview loaded");
@@ -44,6 +47,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -92,22 +97,31 @@
 
 // once selected, open tableView of values for options 07.11.20
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSLog(@"did select goes");
+    // TODO 07.18.20 direct selection to correct array for each selection //write for BINARY as well
+//    NSLog(@"did select goes");
 // assign object to currentSettings
     SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
     NSLog(@"User selected %@, %@", objectAtIndex.title, objectAtIndex.value);
+    // if a Binary setting, no need to show a page of options. Will be switches at one point 07.18.20
+    if ([objectAtIndex.paramType containsString:@"Binary"]) {
+        NSLog(@"%@ is BINARY, with status %d - TODO send signal to switch", objectAtIndex.title, objectAtIndex.switchStatus);
+        // insert binary function here
+        [self.methodManager.deviceCurrent.heroDAO switchStatusForObject:objectAtIndex];
+        return;
+    }
     // call upon proper "available arrays" and check off one that is current settings.
     // present in table view format and use selection to make call to the gopro
-    NSLog(@"Table should show: %@", [self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
+    NSLog(@"Table should show: %@", [[self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]valueForKey:@"value"]);
     NSMutableArray *availableList = ([self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
     self.methodManager.deviceCurrent.heroDAO.currentValuesArray = availableList;
+//    NSLog(@"TEST for MM CurrentValues %@",self.methodManager.deviceCurrent.heroDAO.currentValuesArray);
+
     // once proper array presented, return new tableView using it
-    for (CommandPathObject *availableSelections in availableList) {
-        NSLog(@"%@", availableSelections.value);
-        
-     
-    }
+//    for (CommandPathObject *availableSelections in availableList) {
+//        NSLog(@"%@", availableSelections.value);
+//
+//
+//    }
     //        [self dismissViewControllerAnimated:NO completion:nil];
     // using storyBoard to open ValuesTVVC
     [self performSegueWithIdentifier:@"showMe" sender:indexPath];

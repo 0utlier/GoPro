@@ -394,7 +394,7 @@
     
     // instead of value, it is a binary
     SettingsObject *photoSpotMeter = [[SettingsObject alloc] init];
-    photoSpotMeter.title = @"SpotMeter";
+    photoSpotMeter.title = @"Spot Meter";
     photoSpotMeter.value = [self readablePhotoSpotMeter:[self compareSettingsHardcode:@"photoSpotMeter"]];
     photoSpotMeter.paramType = @"typePhotoBinary";
     photoSpotMeter.switchStatus = [self binaryAssignment:photoSpotMeter];
@@ -937,6 +937,78 @@
 
 }
 
+// Switch Binary Values
+
+- (void)getVideoLowLight:(SettingsObject *)objectForSwitch {
+    // create a commandPath to send to URL call [with value of object's title]
+    CommandPathObject *lowLightObject = [[CommandPathObject alloc]init];
+    lowLightObject.value = objectForSwitch.title;
+    
+    if (objectForSwitch.switchStatus == YES) {
+        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
+        // include commandPath for object
+        lowLightObject.commandPath = @"8/0";
+        // update the switchStatus
+        objectForSwitch.switchStatus = NO;
+    }
+    else if (objectForSwitch.switchStatus == NO) {
+        NSLog(@"Status for object %@ is NO!", objectForSwitch.title);
+        // include commandPath for object
+        lowLightObject.commandPath = @"8/1";
+        // update the switchStatus
+        objectForSwitch.switchStatus = YES;
+    }
+    
+    [self sendCurrentURL:lowLightObject];
+}
+
+- (void)getVideoSpotMeter:(SettingsObject *)objectForSwitch {
+    // create a commandPath to send to URL call [with value of object's title]
+    CommandPathObject *spotMeterObject = [[CommandPathObject alloc]init];
+    spotMeterObject.value = objectForSwitch.title;
+    
+    if (objectForSwitch.switchStatus == YES) {
+        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
+        // include commandPath for object
+        spotMeterObject.commandPath = @"9/0";
+        // update the switchStatus
+        objectForSwitch.switchStatus = NO;
+    }
+    else if (objectForSwitch.switchStatus == NO) {
+        NSLog(@"Status for object %@ is NO!", objectForSwitch.title);
+        // include commandPath for object
+        spotMeterObject.commandPath = @"9/1";
+        // update the switchStatus
+        objectForSwitch.switchStatus = YES;
+    }
+    
+    [self sendCurrentURL:spotMeterObject];
+}
+
+- (void)getVideoProtune:(SettingsObject *)objectForSwitch {
+    // create a commandPath to send to URL call [with value of object's title]
+    CommandPathObject *protuneObject = [[CommandPathObject alloc]init];
+    protuneObject.value = objectForSwitch.title;
+    
+    if (objectForSwitch.switchStatus == YES) {
+        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
+        // include commandPath for object
+        protuneObject.commandPath = @"10/0";
+        // update the switchStatus
+        objectForSwitch.switchStatus = NO;
+    }
+    else if (objectForSwitch.switchStatus == NO) {
+        NSLog(@"Status for object %@ is NO!", objectForSwitch.title);
+        // include commandPath for object
+        protuneObject.commandPath = @"10/1";
+        // update the switchStatus
+        objectForSwitch.switchStatus = YES;
+    }
+    
+    [self sendCurrentURL:protuneObject];
+}
+
+
 #pragma mark - Photo Commands
 
 - (NSMutableArray *)getPhotoColor {
@@ -1149,7 +1221,7 @@
 }
 
 
-- (NSMutableArray *)getphotoISOLimit {
+- (NSMutableArray *)getPhotoISOLimit {
     CommandPathObject *isoLimit100 = [[CommandPathObject alloc] init];
     isoLimit100.value = @"100";
     isoLimit100.commandPath = @"24/3";
@@ -1166,6 +1238,53 @@
     NSMutableArray *myISOLimit = [[NSMutableArray alloc]initWithObjects: isoLimit100, isoLimit200, isoLimit400, isoLimit800, nil];
     self.availablephotoISOLimit = myISOLimit;
     return self.availablephotoISOLimit;
+}
+
+// Switch Binary Values
+- (void)getPhotoSpotMeter:(SettingsObject *)objectForSwitch {
+    // create a commandPath to send to URL call [with value of object's title]
+    CommandPathObject *spotMeterObject = [[CommandPathObject alloc]init];
+    spotMeterObject.value = objectForSwitch.title;
+    
+    if (objectForSwitch.switchStatus == YES) {
+        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
+        // include commandPath for object
+        spotMeterObject.commandPath = @"20/0";
+        // update the switchStatus
+        objectForSwitch.switchStatus = NO;
+    }
+    else if (objectForSwitch.switchStatus == NO) {
+        NSLog(@"Status for object %@ is NO!", objectForSwitch.title);
+        // include commandPath for object
+        spotMeterObject.commandPath = @"20/1";
+        // update the switchStatus
+        objectForSwitch.switchStatus = YES;
+    }
+    
+    [self sendCurrentURL:spotMeterObject];
+}
+
+- (void)getPhotoProtune:(SettingsObject *)objectForSwitch {
+    // create a commandPath to send to URL call [with value of object's title]
+    CommandPathObject *protuneObject = [[CommandPathObject alloc]init];
+    protuneObject.value = objectForSwitch.title;
+    
+    if (objectForSwitch.switchStatus == YES) {
+        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
+        // include commandPath for object
+        protuneObject.commandPath = @"21/0";
+        // update the switchStatus
+        objectForSwitch.switchStatus = NO;
+    }
+    else if (objectForSwitch.switchStatus == NO) {
+        NSLog(@"Status for object %@ is NO!", objectForSwitch.title);
+        // include commandPath for object
+        protuneObject.commandPath = @"21/1";
+        // update the switchStatus
+        objectForSwitch.switchStatus = YES;
+    }
+    
+    [self sendCurrentURL:protuneObject];
 }
 
 
@@ -1515,6 +1634,53 @@
     
 }
 
+// Switch Binary Values
+- (void)getMSSpotMeter:(SettingsObject *)objectForSwitch {
+    // create a commandPath to send to URL call [with value of object's title]
+    CommandPathObject *spotMeterObject = [[CommandPathObject alloc]init];
+    spotMeterObject.value = objectForSwitch.title;
+    
+    if (objectForSwitch.switchStatus == YES) {
+        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
+        // include commandPath for object
+        spotMeterObject.commandPath = @"33/0";
+        // update the switchStatus
+        objectForSwitch.switchStatus = NO;
+    }
+    else if (objectForSwitch.switchStatus == NO) {
+        NSLog(@"Status for object %@ is NO!", objectForSwitch.title);
+        // include commandPath for object
+        spotMeterObject.commandPath = @"33/1";
+        // update the switchStatus
+        objectForSwitch.switchStatus = YES;
+    }
+    
+    [self sendCurrentURL:spotMeterObject];
+}
+
+- (void)getMSProtune:(SettingsObject *)objectForSwitch {
+    // create a commandPath to send to URL call [with value of object's title]
+    CommandPathObject *protuneObject = [[CommandPathObject alloc]init];
+    protuneObject.value = objectForSwitch.title;
+    
+    if (objectForSwitch.switchStatus == YES) {
+        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
+        // include commandPath for object
+        protuneObject.commandPath = @"34/0";
+        // update the switchStatus
+        objectForSwitch.switchStatus = NO;
+    }
+    else if (objectForSwitch.switchStatus == NO) {
+        NSLog(@"Status for object %@ is NO!", objectForSwitch.title);
+        // include commandPath for object
+        protuneObject.commandPath = @"34/1";
+        // update the switchStatus
+        objectForSwitch.switchStatus = YES;
+    }
+    
+    [self sendCurrentURL:protuneObject];
+}
+
 
 #pragma mark - JSON Handling
 
@@ -1644,27 +1810,89 @@
         return self.getVideoEVComp;
     }
     
-    // PHOTO
-    /*
-    - (NSMutableArray *)getPhotoSubMode;
-    - (NSMutableArray *)getPhotoContinuousRate;
-    - (NSMutableArray *)getPhotoMegaPixels;
-    - (NSMutableArray *)getPhotoNightExposure;
-    - (NSMutableArray *)getPhotoWhiteBalance;
-    - (NSMutableArray *)getPhotoColor;
-    - (NSMutableArray *)getPhotoSharpness;
-    - (NSMutableArray *)getPhotoEVComp;
-    - (NSMutableArray *)getPhotoISOMin;
-    - (NSMutableArray *)getphotoISOLimit;
     
+    // PHOTO
+    
+    else if ([title isEqualToString:@"Sub Mode"]) {
+        return self.getPhotoSubMode;
+     }
 
-    */
+    else if ([title isEqualToString:@"Continuous Rate"]) {
+        return self.getPhotoContinuousRate;
+     }
+
+    else if ([title isEqualToString:@"Megapixels"]) {
+        return self.getPhotoMegaPixels;
+     }
+
+    else if ([title isEqualToString:@"Night Exposure"]) {
+        return self.getPhotoNightExposure;
+     }
+
+    else if ([title isEqualToString:@"White Balance"]) {
+        return self.getPhotoWhiteBalance;
+     }
+
+    else if ([title isEqualToString:@"Color"]) {
+        return self.getPhotoColor;
+     }
+
+    else if ([title isEqualToString:@"Sharpness"]) {
+        return self.getPhotoSharpness;
+     }
+
+    else if ([title isEqualToString:@"EV Comp"]) {
+        return self.getPhotoEVComp;
+     }
+
+    else if ([title isEqualToString:@"ISO Min"]) {
+        return self.getPhotoISOMin;
+     }
+
+    else if ([title isEqualToString:@"ISO Limit"]) {
+        return self.getPhotoISOLimit;
+     }
+
+    
 
     else return nil;
 
 
 }
 
+// if a binary value, check which one and make the call
+- (void)switchStatusForObject:(SettingsObject *)objectForSwitch {
+    if ([objectForSwitch.paramType isEqualToString:@"typeVideoBinary"]) {
+        
+        if ([objectForSwitch.title isEqualToString:@"Low Light"]) {
+            [self getVideoLowLight:objectForSwitch];
+        }
+        else if ([objectForSwitch.title isEqualToString:@"Spot Meter"]) {
+            [self getVideoSpotMeter:objectForSwitch];
+        }
+        else if ([objectForSwitch.title isEqualToString:@"Protune"]) {
+            [self getVideoProtune:objectForSwitch];
+        }
+    }
+    if ([objectForSwitch.paramType isEqualToString:@"typePhotoBinary"]) {
+        
+        if ([objectForSwitch.title isEqualToString:@"Spot Meter"]) {
+            [self getPhotoSpotMeter:objectForSwitch];
+        }
+        else if ([objectForSwitch.title isEqualToString:@"Protune"]) {
+            [self getPhotoProtune:objectForSwitch];
+        }
+    }
+    if ([objectForSwitch.paramType isEqualToString:@"typeMSBinary"]) {
+        
+        if ([objectForSwitch.title isEqualToString:@"Spot Meter"]) {
+            [self getMSSpotMeter:objectForSwitch];
+        }
+        else if ([objectForSwitch.title isEqualToString:@"Protune"]) {
+            [self getMSProtune:objectForSwitch];
+        }
+    }
+}
 
 
 #pragma mark - READABLE FUNCTIONS
@@ -3280,7 +3508,7 @@
             }
             else
             {
-                NSLog(@"signal FAILURE");
+                NSLog(@"signal FAILURE - 07.18.20 still working tho?");
             }
         }
         else

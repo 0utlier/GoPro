@@ -80,7 +80,10 @@
 - (NSMutableArray *)getVideoISOLimit;
 - (NSMutableArray *)getVideoSharpness;
 - (NSMutableArray *)getVideoEVComp;
-
+// 07.18.20 binary - no need to return array. Just make the call!
+- (void)getVideoLowLight:(SettingsObject *)objectForSwitch;
+- (void)getVideoSpotMeter:(SettingsObject *)objectForSwitch;
+- (void)getVideoProtune:(SettingsObject *)objectForSwitch;
 
 #pragma mark - Photo Available
 // Available PHOTO
@@ -94,7 +97,11 @@
 - (NSMutableArray *)getPhotoSharpness;
 - (NSMutableArray *)getPhotoEVComp;
 - (NSMutableArray *)getPhotoISOMin;
-- (NSMutableArray *)getphotoISOLimit;
+- (NSMutableArray *)getPhotoISOLimit;
+// 07.18.20 binary - no need to return array. Just make the call!
+- (void)getPhotoSpotMeter:(SettingsObject *)objectForSwitch;
+- (void)getPhotoProtune:(SettingsObject *)objectForSwitch;
+
 
 #pragma mark - MultiShot Available
 // Available MULTISHOT
@@ -112,6 +119,9 @@
 - (NSMutableArray *)getMSEVComp;
 - (NSMutableArray *)getMSISOMin;
 - (NSMutableArray *)getMSISOLimit;
+// 07.18.20 binary - no need to return array. Just make the call!
+- (void)getMSSpotMeter:(SettingsObject *)objectForSwitch;
+- (void)getMSProtune:(SettingsObject *)objectForSwitch;
 
 
 #pragma mark - SETTINGS / STATUS
@@ -138,6 +148,9 @@
 // list all HTTP calls for given setting request [without the front part - just the tail]
 
 - (NSMutableArray *)showAvailableArray:(NSString *)title;
+
+// if a binary value, check which one and make the call
+- (void)switchStatusForObject:(SettingsObject *)objectForSwitch; // made 07.18.20
 
 #pragma mark - AVAILABLE PROPERTIES
 @property (nonatomic, retain) NSMutableArray *availableModes;
