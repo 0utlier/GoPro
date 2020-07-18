@@ -30,6 +30,14 @@
 // Settings Array to use throughout current page [assigned values from DAO's version for simpler code]
 @property (weak, nonatomic) NSMutableArray *currentSettingsArray;
 
+@property BOOL testForHardCode;
+
+// if user chooses to lock current value [button on UIPickerView] this BOOL will be checked so that equation can be implemented with that in mind // TODO 07.18.20 needs to be used and implemented
+@property BOOL lockedForMinutes;
+@property BOOL lockedForSeconds;
+@property BOOL lockedForFPS;
+@property BOOL lockedForIntervalExposure;
+
 /*
  
  07.13.20
@@ -60,7 +68,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self createRefreshButton];
     /*create a methodManager - use sharedDAO*/
     self.methodManager = [MethodManager sharedManager];
     /*check if it exists, and did not return empty/null*/
@@ -69,7 +76,8 @@
     /*This is where the assignment comes in*/
     [self assignAvailable];
     //    NSLog(@"TLSettings Page Loading for %@", self.availableFPS);
-    
+    [self createRefreshButton];
+
     /* in case we need hard code 03.19.18 */ /*removed 07.15.20*/
     //     [self makeHardCodeTestData];
     
@@ -85,7 +93,8 @@
     // obtain all available intervals of Time Lapse [video 07.18.20] // may need to get MSTLInterval as well
     self.availableInterval = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];
     if ([self.availableInterval count] == 0) {
-        NSLog(@"The Interval Array is EMPTY!");
+        NSLog(@"The Interval Array is EMPTY! Make hardcode");
+        self.testForHardCode = YES;
         // still causes crash if GoPro is not connected
         self.availableInterval = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", nil];
         
@@ -144,14 +153,16 @@
      //    for (CommandPathObject *fpsAvailable in intervalSettings) { */
     int indexForTL = 0; // assign the index of current
     
-    for (CommandPathObject *fpsAvailable in self.availableInterval) {
-        if ([fpsAvailable.value isEqualToString:currentIntervalValue]) {
-            NSLog(@"%@ at index: %d",fpsAvailable.value, indexForTL);
-            break;
+    if (self.testForHardCode == NO) {
+        for (CommandPathObject *fpsAvailable in self.availableInterval) {
+            if ([fpsAvailable.value isEqualToString:currentIntervalValue]) {
+                NSLog(@"%@ at index: %d",fpsAvailable.value, indexForTL);
+                break;
+            }
+            indexForTL++;
         }
-        indexForTL++;
-    }
-    //    NSLog(@"Time Lapse interval value: %d",self.IntervalExposureIndex);
+
+    }    //    NSLog(@"Time Lapse interval value: %d",self.IntervalExposureIndex);
     // ASSIGNED
     [self.IntervalExposure selectRow:indexForTL inComponent:0 animated:YES];
     //==============================================//
@@ -199,6 +210,8 @@
                       action:@selector(refreshButtonPressed:)
             forControlEvents:UIControlEventTouchUpInside];
     [refreshPicker setTitle:@"Refresh [x2]" forState:UIControlStateNormal];
+    if (self.testForHardCode == YES) {
+        [refreshPicker setTitle:@"HARDCODE [x2]" forState:UIControlStateNormal];    }
     refreshPicker.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
     refreshPicker.backgroundColor = [UIColor blueColor];
     [self.view addSubview:refreshPicker];
@@ -374,6 +387,9 @@
         
     }
     else if (pickerView == self.IntervalExposure) {
+        if (self.testForHardCode == YES) {
+            return self.availableInterval[row];
+        }
         // since it is an array of commandObjects, we want the value for display
         return [self.availableInterval[row] valueForKey:@"value"];
         
@@ -394,10 +410,12 @@
     if (pickerView == self.X_Minutes) {
         NSLog(@"Minutes set to %@", self.availableMinutes[row]);
         
-        // 07.12.20 TODO using equation, find other values due to this selection
+        if (self.testForHardCode == NO) {
+            // 07.12.20 TODO using equation, find other values due to this selection
+            [self updateValuesWithEquation];
+            //        [self.Y_FPS selectRow:2 inComponent:0 animated:YES]; // testing purposes
+        }
         [self updateValuesWithEquation];
-        //        [self.Y_FPS selectRow:2 inComponent:0 animated:YES]; // testing purposes
-        
     }
     else if (pickerView == self.Y_FPS) {
         NSLog(@"FPS set to %@", self.availableFPS[row]);
@@ -414,6 +432,10 @@
          NSLog(@"Quality set to %@", [self.availableQuality[row] valueForKey:@"value"]);*/
     }
     else if (pickerView == self.IntervalExposure) {
+        if (self.testForHardCode == YES) {
+            NSLog(@"Interval [hardcode] set to %@", self.availableInterval[row]);
+            return;
+        }
         // since it is an array of commandObjects, we want the value for display
         NSLog(@"Interval set to %@", [self.availableInterval[row] valueForKey:@"value"]);
         
@@ -482,7 +504,10 @@
 -(void)equationForTimeLapse:(NSMutableArray*)currentArray forCurrentValue:(float)currentValue {
     // check if locked to any values TODO
     float equationValue = [self equate:self.intervalValue]; // I think this will need an if statement for which one needs to be input [locked and prioritized]
-    
+    if (self.testForHardCode == YES) {
+        [self.IntervalExposure selectRow:2 inComponent:0 animated:YES]; //testing purposes
+        return;
+    }
     int indexToAssign = (int)currentArray.count - 1; // most likely, make this its own method
     for (int i = indexToAssign; i >= 0; i--) {
         NSLog(@"%f",[[currentArray[i] valueForKey:@"value"]floatValue]);
