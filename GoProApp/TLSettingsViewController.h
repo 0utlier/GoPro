@@ -29,12 +29,6 @@
 @property (nonatomic, retain) NSMutableArray *availableFPS;
 @property (nonatomic, retain) NSMutableArray *availableSeconds;
 
-// equation values - to be set and used for the assignment of others
-@property float intervalValue;
-@property float minuteValue;
-@property float FPSValue;
-@property float secondsValue;
-
 // desired - to be set in TLSettings and sent to Method Manager
 @property (nonatomic, retain) NSString *desiredMode;
 @property (nonatomic, retain) NSString *desiredSubMode;

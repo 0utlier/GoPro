@@ -10,6 +10,28 @@
 
 // this is the page to use as the options available for the current device's TIME LAPSE settings (ie rsolution, FPS...)
 /*NOTHING GETS STORED HERE. ONLY ASSIGNED*/
+@interface FloatValueObject : NSObject
+    @property float valueOf;
+
+
+- (id)initWithFloat:(float)valueOf;
+- (void)print;
+
+@end
+
+@implementation FloatValueObject
+
+-(id)initWithFloat:(float)valueOf {
+    return self;
+}
+- (void)print {
+//    NSLog(@"Name: %@", personName);
+//    NSLog(@"Age: %ld", personAge);
+}
+
+@end
+
+
 @interface TLSettingsViewController ()
 
 
@@ -37,6 +59,13 @@
 @property BOOL lockedForSeconds;
 @property BOOL lockedForFPS;
 @property BOOL lockedForIntervalExposure;
+
+// equation values - to be set and used for the assignment of others
+@property FloatValueObject* intervalValue;
+@property FloatValueObject* minuteValue;
+@property FloatValueObject* FPSValue;
+@property FloatValueObject* secondsValue;
+
 
 /*
  
@@ -90,6 +119,12 @@
 }
 
 -(void) assignAvailable {
+    
+    self.intervalValue = [[FloatValueObject alloc]initWithFloat:0];
+    self.minuteValue = [[FloatValueObject alloc]initWithFloat:0];
+    self.FPSValue = [[FloatValueObject alloc]initWithFloat:0];
+    self.secondsValue = [[FloatValueObject alloc]initWithFloat:0];
+
     // obtain all available intervals of Time Lapse [video 07.18.20] // may need to get MSTLInterval as well
     self.availableInterval = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];
     if ([self.availableInterval count] == 0) {
@@ -467,7 +502,7 @@
 
 #pragma mark - FIND VALUES
 
--(int)currentValueForPicker:(UIPickerView*)pickerView ofArray:(NSMutableArray*)availableArray {
+-(float)currentValueForPicker:(UIPickerView*)pickerView ofArray:(NSMutableArray*)availableArray {
     NSInteger row;
     row = [pickerView selectedRowInComponent:0];
     // obtain value of currentSelectedRow
@@ -479,8 +514,8 @@
         
         currentlyAssignedValue = [[availableArray objectAtIndex:row]valueForKey:@"value"];
     }
-    int currentValue = (int)[currentlyAssignedValue integerValue];
-    NSLog(@"row %d AND object value %d", (int)row, currentValue);
+    float currentValue = [currentlyAssignedValue floatValue];
+    NSLog(@"row %d AND object value %f", (int)row, currentValue);
     return currentValue;
 }
 
@@ -489,25 +524,147 @@
     
     // testing purposes - change each picker depending on what values are changed. How to determine which one to change first? What is prioritized? Or decided by user? [keep minutes, keep FPS, etc. - now do we change the seconds or the interval?]
     // obtain current index/value of each of the pickers
-    self.intervalValue = [self currentValueForPicker:self.IntervalExposure ofArray:self.availableInterval];
-    self.minuteValue = [self currentValueForPicker:self.X_Minutes ofArray:self.availableMinutes];
-    self.FPSValue = [self currentValueForPicker:self.Y_FPS ofArray:self.availableFPS];
-    self.secondsValue = [self currentValueForPicker:self.Z_Seconds ofArray:self.availableSeconds];
-    NSLog(@"print correct value: I=%f, X=%f, Y=%f, Z=%f",self.intervalValue, self.minuteValue, self.FPSValue, self.secondsValue);
+    self.intervalValue.valueOf = [self currentValueForPicker:self.IntervalExposure ofArray:self.availableInterval];
+    self.minuteValue.valueOf = [self currentValueForPicker:self.X_Minutes ofArray:self.availableMinutes];
+    self.FPSValue.valueOf = [self currentValueForPicker:self.Y_FPS ofArray:self.availableFPS];
+    self.secondsValue.valueOf = [self currentValueForPicker:self.Z_Seconds ofArray:self.availableSeconds];
+    NSLog(@"print correct value: I=%f, X=%f, Y=%f, Z=%f",self.intervalValue.valueOf, self.minuteValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf);
+    
+    /*07.20.20 PRIORITY for values: // in case locked is NOT for 3 values [need to determine 2 values]
+     (0) FPS [30 default]
+     (1) Minutes [6 default]
+     (2) Seconds [6 default]
+     (3) Interval [determined by camera]
+     */
+    // hardcode testing 07.20.20
+    self.lockedForSeconds = NO;
+    self.lockedForMinutes = YES;
+    self.lockedForFPS = YES;
+    self.lockedForIntervalExposure = YES;
     
     /*07.15.20 TODO this is where the decision about which value is locked and which is figured out*/
-    [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
-
-}
-
-// 07.15.20 this is to take which array is being changed // look for locked/prioritized currentSettings and base new value from there
--(void)equationForTimeLapse:(NSMutableArray*)currentArray forCurrentValue:(float)currentValue {
-    // check if locked to any values TODO
-    float equationValue = [self equate:self.intervalValue]; // I think this will need an if statement for which one needs to be input [locked and prioritized]
-    if (self.testForHardCode == YES) {
-        [self.IntervalExposure selectRow:2 inComponent:0 animated:YES]; //testing purposes
+    if (self.lockedForIntervalExposure) {// Interval is locked
+        if (self.lockedForFPS) {// Interval AND FPS is locked
+            if (self.lockedForMinutes) {// Interval AND FPS AND Minutes ONLY is locked
+                // TODO change to correct // testing until equation function is corrected
+                [self equationForTimeLapse:self.availableSeconds forCurrentValue:self.secondsValue];
+                return;
+            }
+            else if (self.lockedForSeconds) {// Interval AND FPS AND Seconds ONLY is locked
+                return;
+            }
+            // Interval AND FPS ONLY is locked
+            return;
+        }
+        else if (self.lockedForMinutes) {// Interval AND Minutes ONLY is locked
+            return;
+        }
+        
+        else if (self.lockedForSeconds) {// Interval AND Seconds ONLY is locked
+            return;
+        }
+        // Interval ONLY is locked
         return;
     }
+    
+    else if (self.lockedForMinutes) {// Minutes is locked
+        if (self.lockedForSeconds) {// Minutes AND Seconds is locked
+            if (self.lockedForFPS) {// Minutes AND Seconds AND FPS ONLY is locked
+                [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
+                return;
+            }
+        }
+        else if (self.lockedForFPS) {// Minutes AND FPS ONLY is locked
+            return;
+        }
+    }
+    else if (self.lockedForFPS) {// FPS is locked
+        
+        if (self.lockedForSeconds) {// FPS AND Seconds ONLY is locked
+            return;
+        }
+    }
+    
+    else if (self.lockedForSeconds) {// Seconds ONLY is locked
+        return;
+    }
+    
+    // Interval is ONLY locked
+    return;
+}
+
+
+
+// 07.15.20 this is to take which array is being changed // look for locked/prioritized currentSettings and base new value from there
+-(void)equationForTimeLapse:(NSMutableArray*)currentArray forCurrentValue:(FloatValueObject*)currentValue {
+    float equationValue = 0;
+    int indexToAssign = 0;
+    /*Obtain which value is to be equated
+     Find assigned value
+     Find index in array
+     Assign the UIPickerView index/row*/
+    
+    if (currentValue == self.intervalValue) { // change interval Value
+        equationValue = [self equate:self.intervalValue];
+        indexToAssign = [self findIndexForArray:currentArray forEquationValue:equationValue];
+        [self.IntervalExposure selectRow:indexToAssign inComponent:0 animated:YES];
+//        return; // row is set for Interval, no need to go forward
+    }
+    
+    else if (currentValue == self.minuteValue) { // change minute Value
+        equationValue = [self equate:self.minuteValue];
+        indexToAssign = [self findIndexForArrayForHardCodedValues:currentArray forEquationValue:equationValue];
+        [self.X_Minutes selectRow:indexToAssign inComponent:0 animated:YES]; //testing purposes
+    }
+    
+    else if (currentValue == self.secondsValue) { // change seconds Value
+        equationValue = [self equate:self.secondsValue];
+        indexToAssign = [self findIndexForArrayForHardCodedValues:currentArray forEquationValue:equationValue];
+        [self.Z_Seconds selectRow:indexToAssign inComponent:0 animated:YES]; //testing purposes
+    }
+    
+    else if (currentValue == self.FPSValue) { // change FPS Value
+        equationValue = [self equate:self.FPSValue];
+        indexToAssign = [self findIndexForArrayForHardCodedValues:currentArray forEquationValue:equationValue];
+        [self.Y_FPS selectRow:indexToAssign inComponent:0 animated:YES]; //testing purposes
+    }
+    
+    if (self.testForHardCode == YES) {//testing purposes
+        [self.IntervalExposure selectRow:2 inComponent:0 animated:YES];
+        return;
+    }
+}
+
+// TODO 07.15.20 if statements for what is input
+// 07.20.20 this is only checking the float value, not the object that we are aiming to change
+-(float)equate:(FloatValueObject*)currentValue {
+    float equationValue = 0;
+    
+    /* ZYI/60 = X */
+    // I have 6 minutes to shoot. I want 30fps in post. I want 6 seconds of footage in post. What is my interval
+    if (currentValue == self.intervalValue) {
+        NSLog(@"This is the INTERVAL here!");
+        equationValue = ((self.minuteValue.valueOf*60)/self.secondsValue.valueOf)/self.FPSValue.valueOf;
+    }
+    if (currentValue == self.secondsValue) {
+        NSLog(@"This is the SECONDS here!");
+        equationValue = ((self.minuteValue.valueOf*60)/self.intervalValue.valueOf)/self.FPSValue.valueOf;
+    }
+    if (currentValue == self.FPSValue) {
+        NSLog(@"This is the FPS here!");
+        equationValue = ((self.minuteValue.valueOf*60)/self.secondsValue.valueOf)/self.intervalValue.valueOf;
+    }
+    if (currentValue == self.minuteValue) {
+        NSLog(@"This is the MINUTES here!");
+        equationValue = ((self.intervalValue.valueOf/60)*self.secondsValue.valueOf)*self.FPSValue.valueOf;
+    }
+    // if statement, or case? Discover which one we are working with
+    NSLog(@"The value necessary would be %f",equationValue);
+    return equationValue;
+    
+}
+
+-(int)findIndexForArray:(NSMutableArray *)currentArray forEquationValue:(float)equationValue {
     int indexToAssign = (int)currentArray.count - 1; // most likely, make this its own method
     for (int i = indexToAssign; i >= 0; i--) {
         NSLog(@"%f",[[currentArray[i] valueForKey:@"value"]floatValue]);
@@ -519,8 +676,9 @@
                 indexToAssign = i;
                 break;
             }
-            
+            if (indexToAssign != currentArray.count - 1) {
             indexToAssign = i+1;
+            }
             // check if counter is 0, because if it is, don't increase by 1. Also, ensure it is actually LESS THAN index 0 [.66 between .5 and 1 would not be zero index]
             if (i == 0 &&
                 equationValue < [[currentArray[i] valueForKey:@"value"]floatValue]) {
@@ -531,35 +689,38 @@
             break;
         }
     }
-    
-    [self.IntervalExposure selectRow:indexToAssign inComponent:0 animated:YES]; //testing purposes
+    return indexToAssign;
 }
 
-// TODO 07.15.20 if statements for what is input
--(float)equate:(float)currentValue {
-    /* ZYI/60 = X */
-    // I have 6 minutes to shoot. I want 30fps in post. I want 6 seconds of footage in post. What is my interval
-    float equationValue = 0;
-    if (currentValue == self.intervalValue) {
-        NSLog(@"This is the INTERVAL here!");
-        equationValue = ((self.minuteValue*60)/self.secondsValue)/self.FPSValue;
+-(int)findIndexForArrayForHardCodedValues:(NSMutableArray *)currentArray forEquationValue:(float)equationValue {
+    int indexToAssign = (int)currentArray.count - 1; // most likely, make this its own method
+    for (int i = indexToAssign; i >= 0; i--) {
+        NSLog(@"%f",[currentArray[i]floatValue]);
+        
+        /*check if above zero using intValue*/
+        if (equationValue >= [currentArray[i]intValue]) {
+            if (equationValue == [currentArray[i]floatValue]) {
+                NSLog(@"The value is the SAME! Index: %d, value of row %@",i, currentArray[i]);
+                indexToAssign = i;
+                break;
+            }
+            // if it is larger than the largest value, do not add 1. Keep as is
+            if (indexToAssign != currentArray.count - 1) {
+                indexToAssign = i+1;
+            }
+            // check if counter is 0, because if it is, don't increase by 1. Also, ensure it is actually LESS THAN index 0 [.66 between .5 and 1 would not be zero index]
+            if (i == 0 &&
+                equationValue < [currentArray[i]floatValue]) {
+                indexToAssign = i;
+            }
+            NSLog(@"The value is %f, so assign the value to above current: %@",equationValue, currentArray[indexToAssign]);
+            // since it is not equal, it needs to be the index above
+            break;
+        }
     }
-    if (currentValue == self.secondsValue) {
-        NSLog(@"This is the SECONDS here!");
-        equationValue = ((self.minuteValue*60)/self.intervalValue)/self.FPSValue;
-    }
-    if (currentValue == self.FPSValue) {
-        NSLog(@"This is the FPS here!");
-        equationValue = ((self.minuteValue*60)/self.secondsValue)/self.intervalValue;
-    }
-    if (currentValue == self.minuteValue) {
-        NSLog(@"This is the MINUTES here!");
-        equationValue = ((self.intervalValue/60)*self.secondsValue)*self.FPSValue;
-    }
-    // if statement, or case? Discover which one we are working with
-    NSLog(@"The value necessary would be %f",equationValue);
-    return equationValue;
-    
+    return indexToAssign;
 }
+
+
 
 @end
