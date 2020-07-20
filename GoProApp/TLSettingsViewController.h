@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *Z_Seconds;
 @property (weak, nonatomic) IBOutlet UIPickerView *Quality;
 @property (weak, nonatomic) IBOutlet UIPickerView *IntervalExposure;
-@property (weak, nonatomic) IBOutlet UIPickerView *Size;
+@property (weak, nonatomic) IBOutlet UIPickerView *Size; //width 07.20.20 please change when you can
 
 // available - to be set by MM, through the DAO
 @property (nonatomic, retain) NSMutableArray *availableQuality;

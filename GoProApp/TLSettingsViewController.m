@@ -10,30 +10,18 @@
 
 // this is the page to use as the options available for the current device's TIME LAPSE settings (ie rsolution, FPS...)
 /*NOTHING GETS STORED HERE. ONLY ASSIGNED*/
+
+/*An object that can be passed through and confirmed as right one, with a float value*/
 @interface FloatValueObject : NSObject
-    @property float valueOf;
-
-
-- (id)initWithFloat:(float)valueOf;
-- (void)print;
-
+@property float valueOf;
+- (id)init;
 @end
-
 @implementation FloatValueObject
-
--(id)initWithFloat:(float)valueOf {
-    return self;
-}
-- (void)print {
-//    NSLog(@"Name: %@", personName);
-//    NSLog(@"Age: %ld", personAge);
-}
-
-@end
+- (id)init {return self;}
+@end // end float object
 
 
 @interface TLSettingsViewController ()
-
 
 /* please check out these websites
  
@@ -66,6 +54,7 @@
 @property FloatValueObject* FPSValue;
 @property FloatValueObject* secondsValue;
 
+@property UILabel* displayValues;
 
 /*
  
@@ -106,6 +95,7 @@
     [self assignAvailable];
     //    NSLog(@"TLSettings Page Loading for %@", self.availableFPS);
     [self createRefreshButton];
+    [self createValueLabel];
 
     /* in case we need hard code 03.19.18 */ /*removed 07.15.20*/
     //     [self makeHardCodeTestData];
@@ -118,13 +108,24 @@
     
 }
 
--(void) assignAvailable {
-    
-    self.intervalValue = [[FloatValueObject alloc]initWithFloat:0];
-    self.minuteValue = [[FloatValueObject alloc]initWithFloat:0];
-    self.FPSValue = [[FloatValueObject alloc]initWithFloat:0];
-    self.secondsValue = [[FloatValueObject alloc]initWithFloat:0];
+-(void)createValueLabel {
+    UILabel *valueLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 300, 400, 40)];
+    valueLabel.backgroundColor = [UIColor redColor];
+//    NSString *textForLabel = [NSString stringWithFormat:@"Values: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f",self.intervalValue.valueOf, self.minuteValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
+;
+//    [valueLabel setText:textForLabel];
+    self.displayValues = valueLabel;
+    [[self view] addSubview:self.displayValues];
+}
 
+-(void) assignAvailable {
+
+    // allocate the float objects in memory
+    self.intervalValue = [[FloatValueObject alloc]init];
+    self.minuteValue = [[FloatValueObject alloc]init];
+    self.FPSValue = [[FloatValueObject alloc]init];
+    self.secondsValue = [[FloatValueObject alloc]init];
+    
     // obtain all available intervals of Time Lapse [video 07.18.20] // may need to get MSTLInterval as well
     self.availableInterval = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];
     if ([self.availableInterval count] == 0) {
@@ -138,7 +139,7 @@
     // obtain all available qualities of Time Lapse
     // 07.15.20 HARDCODE for now, because it seems limited in qualities for Time Lapse [at least on H4]
     self.availableQuality = [[NSMutableArray alloc]initWithObjects:@"2.7K 4:3", @"4K", nil];
-    //    self.availableQuality = [self.methodManager.deviceCurrent.heroDAO getVideoResolution]; // 07.13.20 this is going to get ALL qualities, and not JUST Time Lapse qualities [TODO figure out if new method required]
+    //    self.availableQuality = [self.methodManager.deviceCurrent.heroDAO getVideoResolution]; // 07.13.20 this is going to get ALL resolution qualities, and not JUST Time Lapse qualities [TODO figure out if new method required (e.g. GetVideoTLResolition)]
     
     // hard code these two, as it is up to user and NOT determined by the GoPro
     self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // available to shoot
@@ -454,11 +455,13 @@
     }
     else if (pickerView == self.Y_FPS) {
         NSLog(@"FPS set to %@", self.availableFPS[row]);
-        
+        [self updateValuesWithEquation];
+
     }
     else if (pickerView == self.Z_Seconds) {
         NSLog(@"Seconds set to %@", self.availableSeconds[row]);
-        
+        [self updateValuesWithEquation];
+
     }
     else if (pickerView == self.Quality) {
         NSLog(@"Quality set to %@", self.availableQuality[row]);
@@ -473,7 +476,7 @@
         }
         // since it is an array of commandObjects, we want the value for display
         NSLog(@"Interval set to %@", [self.availableInterval[row] valueForKey:@"value"]);
-        
+        [self updateValuesWithEquation];
     }
     else if (pickerView == self.Size) {
         NSLog(@"Width set to %@", self.availableSize[row]);
@@ -530,17 +533,22 @@
     self.secondsValue.valueOf = [self currentValueForPicker:self.Z_Seconds ofArray:self.availableSeconds];
     NSLog(@"print correct value: I=%f, X=%f, Y=%f, Z=%f",self.intervalValue.valueOf, self.minuteValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf);
     
+    NSString *textForLabel = [NSString stringWithFormat:@"Values: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f",self.intervalValue.valueOf, self.minuteValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
+    ;
+    [self.displayValues setText:textForLabel];
+
     /*07.20.20 PRIORITY for values: // in case locked is NOT for 3 values [need to determine 2 values]
      (0) FPS [30 default]
      (1) Minutes [6 default]
      (2) Seconds [6 default]
      (3) Interval [determined by camera]
      */
+    
     // hardcode testing 07.20.20
-    self.lockedForSeconds = NO;
+    self.lockedForSeconds = YES;
     self.lockedForMinutes = YES;
     self.lockedForFPS = YES;
-    self.lockedForIntervalExposure = YES;
+    self.lockedForIntervalExposure = NO;
     
     /*07.15.20 TODO this is where the decision about which value is locked and which is figured out*/
     if (self.lockedForIntervalExposure) {// Interval is locked
@@ -599,6 +607,12 @@
 -(void)equationForTimeLapse:(NSMutableArray*)currentArray forCurrentValue:(FloatValueObject*)currentValue {
     float equationValue = 0;
     int indexToAssign = 0;
+    
+    if (self.testForHardCode == YES) {//testing purposes
+        [self.IntervalExposure selectRow:2 inComponent:0 animated:YES];
+        return;
+    }
+
     /*Obtain which value is to be equated
      Find assigned value
      Find index in array
@@ -629,10 +643,6 @@
         [self.Y_FPS selectRow:indexToAssign inComponent:0 animated:YES]; //testing purposes
     }
     
-    if (self.testForHardCode == YES) {//testing purposes
-        [self.IntervalExposure selectRow:2 inComponent:0 animated:YES];
-        return;
-    }
 }
 
 // TODO 07.15.20 if statements for what is input
@@ -660,6 +670,10 @@
     }
     // if statement, or case? Discover which one we are working with
     NSLog(@"The value necessary would be %f",equationValue);
+    NSString *textForLabel = [NSString stringWithFormat:@"Values %.02f: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f", equationValue,self.intervalValue.valueOf, self.minuteValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
+    ;
+    [self.displayValues setText:textForLabel];
+
     return equationValue;
     
 }
@@ -676,6 +690,8 @@
                 indexToAssign = i;
                 break;
             }
+            indexToAssign = i;
+            // check as long as it is not the top of the array, add 1
             if (indexToAssign != currentArray.count - 1) {
             indexToAssign = i+1;
             }
@@ -704,6 +720,7 @@
                 indexToAssign = i;
                 break;
             }
+            indexToAssign = i;
             // if it is larger than the largest value, do not add 1. Keep as is
             if (indexToAssign != currentArray.count - 1) {
                 indexToAssign = i+1;
@@ -724,3 +741,4 @@
 
 
 @end
+
