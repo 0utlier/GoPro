@@ -20,6 +20,7 @@
 - (id)init {return self;}
 @end // end float object
 
+#pragma mark -
 
 @interface TLSettingsViewController ()
 
@@ -50,7 +51,7 @@
 
 // equation values - to be set and used for the assignment of others
 @property FloatValueObject* intervalValue;
-@property FloatValueObject* minuteValue;
+@property FloatValueObject* minutesValue;
 @property FloatValueObject* FPSValue;
 @property FloatValueObject* secondsValue;
 
@@ -90,12 +91,19 @@
     self.methodManager = [MethodManager sharedManager];
     /*check if it exists, and did not return empty/null*/
     NSLog(@"device is object %@", self.methodManager.deviceCurrent);
+    self.view.backgroundColor = [UIColor darkGrayColor];
     
     /*This is where the assignment comes in*/
     [self assignAvailable];
     //    NSLog(@"TLSettings Page Loading for %@", self.availableFPS);
     [self createRefreshButton];
     [self createValueLabel];
+
+    // buttons for testing locked binaries for settings
+    [self createLockIntervalButton];
+    [self createLockMinutesButton];
+    [self createLockSecondsButton];
+    [self createLockFPSButton];
 
     /* in case we need hard code 03.19.18 */ /*removed 07.15.20*/
     //     [self makeHardCodeTestData];
@@ -108,21 +116,11 @@
     
 }
 
--(void)createValueLabel {
-    UILabel *valueLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 300, 400, 40)];
-    valueLabel.backgroundColor = [UIColor redColor];
-//    NSString *textForLabel = [NSString stringWithFormat:@"Values: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f",self.intervalValue.valueOf, self.minuteValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
-;
-//    [valueLabel setText:textForLabel];
-    self.displayValues = valueLabel;
-    [[self view] addSubview:self.displayValues];
-}
-
 -(void) assignAvailable {
 
     // allocate the float objects in memory
     self.intervalValue = [[FloatValueObject alloc]init];
-    self.minuteValue = [[FloatValueObject alloc]init];
+    self.minutesValue = [[FloatValueObject alloc]init];
     self.FPSValue = [[FloatValueObject alloc]init];
     self.secondsValue = [[FloatValueObject alloc]init];
     
@@ -239,7 +237,10 @@
     
 }
 
-// 07.04.20 not called currently. Also crashes, and needs to be redirected
+#pragma mark - UIButtons
+
+
+// refreshes values of pickers compared to the JSON of the GoPro. Also considers if HARDCODED
 - (void) createRefreshButton {
     UIButton *refreshPicker = [UIButton buttonWithType:UIButtonTypeCustom];
     [refreshPicker addTarget:self
@@ -248,7 +249,7 @@
     [refreshPicker setTitle:@"Refresh [x2]" forState:UIControlStateNormal];
     if (self.testForHardCode == YES) {
         [refreshPicker setTitle:@"HARDCODE [x2]" forState:UIControlStateNormal];    }
-    refreshPicker.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    refreshPicker.frame = CGRectMake(120.0, 340.0, 160.0, 40.0);
     refreshPicker.backgroundColor = [UIColor blueColor];
     [self.view addSubview:refreshPicker];
 }
@@ -267,6 +268,137 @@
      [self presentViewController:settingsController animated:YES completion:nil];
      */
 }
+
+-(void)createValueLabel {
+    UILabel *valueLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 300, 400, 40)];
+    valueLabel.backgroundColor = [UIColor redColor];
+    //    NSString *textForLabel = [NSString stringWithFormat:@"Values: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f",self.intervalValue.valueOf, self.minuteValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
+    ;
+    //    [valueLabel setText:textForLabel];
+    self.displayValues = valueLabel;
+    [[self view] addSubview:self.displayValues];
+}
+
+// button for testing the BOOL of IntervalExposure being locked or not
+- (void) createLockIntervalButton {
+    UIButton *lockIntervalButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [lockIntervalButton addTarget:self
+                           action:@selector(lockIntervalButtonPressed:)
+                 forControlEvents:UIControlEventTouchUpInside];
+    if (self.lockedForIntervalExposure == YES) {
+        [lockIntervalButton setTitle:@"Interval is Locked" forState:UIControlStateNormal];}
+    else {[lockIntervalButton setTitle:@"Interval Not Locked" forState:UIControlStateNormal];}
+    
+    if (self.testForHardCode == YES) {
+        //        [lockIntervalButton setTitle:@"HARDCODE [x2]" forState:UIControlStateNormal];
+    }
+    lockIntervalButton.frame = CGRectMake(120.0, 450.0, 160.0, 40.0);
+    lockIntervalButton.backgroundColor = [UIColor purpleColor];
+    [self.view addSubview:lockIntervalButton];
+}
+
+-(void)lockIntervalButtonPressed:(UIButton *)locked {
+    if (self.lockedForIntervalExposure == YES) {
+        //        NSLog(@"works, Interval Locked no longer");
+        [locked setTitle:@"Interval Not Locked" forState:UIControlStateNormal];
+        self.lockedForIntervalExposure = NO;
+        return;
+    }
+    //    NSLog(@"works, Interval Now Locked");
+    [locked setTitle:@"Interval is Locked" forState:UIControlStateNormal];
+    self.lockedForIntervalExposure = YES;
+}
+
+// button for testing the BOOL of Minutes being locked or not
+- (void) createLockMinutesButton {
+    UIButton *lockMinutesButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [lockMinutesButton addTarget:self
+                          action:@selector(lockMinuteButtonPressed:)
+                forControlEvents:UIControlEventTouchUpInside];
+    if (self.lockedForMinutes == YES) {
+        [lockMinutesButton setTitle:@"Minutes is Locked" forState:UIControlStateNormal];}
+    else {[lockMinutesButton setTitle:@"Minute Not Locked" forState:UIControlStateNormal];}
+    
+    if (self.testForHardCode == YES) {
+        //        [lockIntervalButton setTitle:@"HARDCODE [x2]" forState:UIControlStateNormal];
+    }
+    lockMinutesButton.frame = CGRectMake(0.0, 200.0, 160.0, 40.0);
+    lockMinutesButton.backgroundColor = [UIColor purpleColor];
+    [self.view addSubview:lockMinutesButton];
+}
+
+-(void)lockMinuteButtonPressed:(UIButton *)locked {
+    if (self.lockedForMinutes == YES) {
+        //        NSLog(@"works, Interval Locked no longer");
+        [locked setTitle:@"Minute Not Locked" forState:UIControlStateNormal];
+        self.lockedForMinutes = NO;
+        return;
+    }
+    //    NSLog(@"works, Interval Now Locked");
+    [locked setTitle:@"Minutes is Locked" forState:UIControlStateNormal];
+    self.lockedForMinutes = YES;
+}
+
+// button for testing the BOOL of Seconds being locked or not
+- (void) createLockSecondsButton {
+    UIButton *lockSecondsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [lockSecondsButton addTarget:self
+                          action:@selector(lockSecondButtonPressed:)
+                forControlEvents:UIControlEventTouchUpInside];
+    if (self.lockedForSeconds == YES) {
+        [lockSecondsButton setTitle:@"Seconds is Locked" forState:UIControlStateNormal];}
+    else {[lockSecondsButton setTitle:@"Second Not Locked" forState:UIControlStateNormal];}
+    
+    if (self.testForHardCode == YES) {
+        //        [lockIntervalButton setTitle:@"HARDCODE [x2]" forState:UIControlStateNormal];
+    }
+    lockSecondsButton.frame = CGRectMake(240.0, 200.0, 160.0, 40.0);
+    lockSecondsButton.backgroundColor = [UIColor purpleColor];
+    [self.view addSubview:lockSecondsButton];
+}
+
+-(void)lockSecondButtonPressed:(UIButton *)locked {
+    if (self.lockedForSeconds == YES) {
+        //        NSLog(@"works, Interval Locked no longer");
+        [locked setTitle:@"Second Not Locked" forState:UIControlStateNormal];
+        self.lockedForSeconds = NO;
+        return;
+    }
+    //    NSLog(@"works, Interval Now Locked");
+    [locked setTitle:@"Seconds is Locked" forState:UIControlStateNormal];
+    self.lockedForSeconds = YES;
+}
+
+// button for testing the BOOL of FPS being locked or not
+- (void) createLockFPSButton {
+    UIButton *lockFPSButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [lockFPSButton addTarget:self
+                          action:@selector(lockFPSButtonPressed:)
+                forControlEvents:UIControlEventTouchUpInside];
+    if (self.lockedForFPS == YES) {
+        [lockFPSButton setTitle:@"FPS is Locked" forState:UIControlStateNormal];}
+    else {[lockFPSButton setTitle:@"FPS Not Locked" forState:UIControlStateNormal];}
+    
+    if (self.testForHardCode == YES) {
+        //        [lockIntervalButton setTitle:@"HARDCODE [x2]" forState:UIControlStateNormal];
+    }
+    lockFPSButton.frame = CGRectMake(120.0, 260.0, 160.0, 40.0);
+    lockFPSButton.backgroundColor = [UIColor purpleColor];
+    [self.view addSubview:lockFPSButton];
+}
+
+-(void)lockFPSButtonPressed:(UIButton *)locked {
+    if (self.lockedForFPS == YES) {
+        //        NSLog(@"works, Interval Locked no longer");
+        [locked setTitle:@"FPS Not Locked" forState:UIControlStateNormal];
+        self.lockedForFPS = NO;
+        return;
+    }
+    //    NSLog(@"works, Interval Now Locked");
+    [locked setTitle:@"FPS is Locked" forState:UIControlStateNormal];
+    self.lockedForFPS = YES;
+}
+
 
 #pragma mark - UIPickerDelegate
 
@@ -528,12 +660,12 @@
     // testing purposes - change each picker depending on what values are changed. How to determine which one to change first? What is prioritized? Or decided by user? [keep minutes, keep FPS, etc. - now do we change the seconds or the interval?]
     // obtain current index/value of each of the pickers
     self.intervalValue.valueOf = [self currentValueForPicker:self.IntervalExposure ofArray:self.availableInterval];
-    self.minuteValue.valueOf = [self currentValueForPicker:self.X_Minutes ofArray:self.availableMinutes];
+    self.minutesValue.valueOf = [self currentValueForPicker:self.X_Minutes ofArray:self.availableMinutes];
     self.FPSValue.valueOf = [self currentValueForPicker:self.Y_FPS ofArray:self.availableFPS];
     self.secondsValue.valueOf = [self currentValueForPicker:self.Z_Seconds ofArray:self.availableSeconds];
-    NSLog(@"print correct value: I=%f, X=%f, Y=%f, Z=%f",self.intervalValue.valueOf, self.minuteValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf);
+    NSLog(@"print correct value: I=%f, X=%f, Y=%f, Z=%f",self.intervalValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf);
     
-    NSString *textForLabel = [NSString stringWithFormat:@"Values: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f",self.intervalValue.valueOf, self.minuteValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
+    NSString *textForLabel = [NSString stringWithFormat:@"Values: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f",self.intervalValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
     ;
     [self.displayValues setText:textForLabel];
 
@@ -544,11 +676,11 @@
      (3) Interval [determined by camera]
      */
     
-    // hardcode testing 07.20.20
-    self.lockedForSeconds = YES;
-    self.lockedForMinutes = YES;
-    self.lockedForFPS = YES;
-    self.lockedForIntervalExposure = NO;
+    /* // hardcode testing 07.20.20
+     self.lockedForSeconds = YES;
+     self.lockedForMinutes = YES;
+     self.lockedForFPS = YES;
+     self.lockedForIntervalExposure = NO;*/
     
     /*07.15.20 TODO this is where the decision about which value is locked and which is figured out*/
     if (self.lockedForIntervalExposure) {// Interval is locked
@@ -559,13 +691,17 @@
                 return;
             }
             else if (self.lockedForSeconds) {// Interval AND FPS AND Seconds ONLY is locked
+                [self equationForTimeLapse:self.availableMinutes forCurrentValue:self.minutesValue];
                 return;
             }
             // Interval AND FPS ONLY is locked
             return;
         }
         else if (self.lockedForMinutes) {// Interval AND Minutes ONLY is locked
+            if (self.lockedForSeconds) {// Interval AND Minutes AND Seconds ONLY is locked
+                [self equationForTimeLapse:self.availableFPS forCurrentValue:self.FPSValue];
             return;
+            }
         }
         
         else if (self.lockedForSeconds) {// Interval AND Seconds ONLY is locked
@@ -585,19 +721,22 @@
         else if (self.lockedForFPS) {// Minutes AND FPS ONLY is locked
             return;
         }
+        // Minutes is ONLY locked
+        return;
     }
     else if (self.lockedForFPS) {// FPS is locked
         
         if (self.lockedForSeconds) {// FPS AND Seconds ONLY is locked
             return;
         }
+        // FPS is ONLY locked
+        return;
     }
     
     else if (self.lockedForSeconds) {// Seconds ONLY is locked
         return;
     }
     
-    // Interval is ONLY locked
     return;
 }
 
@@ -625,8 +764,8 @@
 //        return; // row is set for Interval, no need to go forward
     }
     
-    else if (currentValue == self.minuteValue) { // change minute Value
-        equationValue = [self equate:self.minuteValue];
+    else if (currentValue == self.minutesValue) { // change minute Value
+        equationValue = [self equate:self.minutesValue];
         indexToAssign = [self findIndexForArrayForHardCodedValues:currentArray forEquationValue:equationValue];
         [self.X_Minutes selectRow:indexToAssign inComponent:0 animated:YES]; //testing purposes
     }
@@ -654,23 +793,23 @@
     // I have 6 minutes to shoot. I want 30fps in post. I want 6 seconds of footage in post. What is my interval
     if (currentValue == self.intervalValue) {
         NSLog(@"This is the INTERVAL here!");
-        equationValue = ((self.minuteValue.valueOf*60)/self.secondsValue.valueOf)/self.FPSValue.valueOf;
+        equationValue = ((self.minutesValue.valueOf*60)/self.secondsValue.valueOf)/self.FPSValue.valueOf;
     }
     if (currentValue == self.secondsValue) {
         NSLog(@"This is the SECONDS here!");
-        equationValue = ((self.minuteValue.valueOf*60)/self.intervalValue.valueOf)/self.FPSValue.valueOf;
+        equationValue = ((self.minutesValue.valueOf*60)/self.intervalValue.valueOf)/self.FPSValue.valueOf;
     }
     if (currentValue == self.FPSValue) {
         NSLog(@"This is the FPS here!");
-        equationValue = ((self.minuteValue.valueOf*60)/self.secondsValue.valueOf)/self.intervalValue.valueOf;
+        equationValue = ((self.minutesValue.valueOf*60)/self.secondsValue.valueOf)/self.intervalValue.valueOf;
     }
-    if (currentValue == self.minuteValue) {
+    if (currentValue == self.minutesValue) {
         NSLog(@"This is the MINUTES here!");
         equationValue = ((self.intervalValue.valueOf/60)*self.secondsValue.valueOf)*self.FPSValue.valueOf;
     }
     // if statement, or case? Discover which one we are working with
     NSLog(@"The value necessary would be %f",equationValue);
-    NSString *textForLabel = [NSString stringWithFormat:@"Values %.02f: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f", equationValue,self.intervalValue.valueOf, self.minuteValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
+    NSString *textForLabel = [NSString stringWithFormat:@"Values %.02f: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f", equationValue,self.intervalValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
     ;
     [self.displayValues setText:textForLabel];
 
@@ -682,15 +821,15 @@
     int indexToAssign = (int)currentArray.count - 1; // most likely, make this its own method
     for (int i = indexToAssign; i >= 0; i--) {
         NSLog(@"%f",[[currentArray[i] valueForKey:@"value"]floatValue]);
-        
+        indexToAssign = i;
         /*check if above zero using intValue*/
         if (equationValue >= [[currentArray[i] valueForKey:@"value"]intValue]) {
             if (equationValue == [[currentArray[i] valueForKey:@"value"]floatValue]) {
                 NSLog(@"The value is the SAME! Index: %d, value of row %@",i, [currentArray[i] valueForKey:@"value"]);
-                indexToAssign = i;
+                indexToAssign = i; // i think ok to remove 07.21.20
                 break;
             }
-            indexToAssign = i;
+//            indexToAssign = i;
             // check as long as it is not the top of the array, add 1
             if (indexToAssign != currentArray.count - 1) {
             indexToAssign = i+1;
@@ -698,7 +837,7 @@
             // check if counter is 0, because if it is, don't increase by 1. Also, ensure it is actually LESS THAN index 0 [.66 between .5 and 1 would not be zero index]
             if (i == 0 &&
                 equationValue < [[currentArray[i] valueForKey:@"value"]floatValue]) {
-                indexToAssign = i;
+                indexToAssign = i; // i think ok to remove 07.21.20
             }
             NSLog(@"The value is %f, so assign the value to above current: %@",equationValue, [currentArray[indexToAssign] valueForKey:@"value"]);
             // since it is not equal, it needs to be the index above
@@ -712,15 +851,15 @@
     int indexToAssign = (int)currentArray.count - 1; // most likely, make this its own method
     for (int i = indexToAssign; i >= 0; i--) {
         NSLog(@"%f",[currentArray[i]floatValue]);
-        
+        indexToAssign = i; // only needs changning if +1 for 0 value
         /*check if above zero using intValue*/
         if (equationValue >= [currentArray[i]intValue]) {
             if (equationValue == [currentArray[i]floatValue]) {
                 NSLog(@"The value is the SAME! Index: %d, value of row %@",i, currentArray[i]);
-                indexToAssign = i;
+                indexToAssign = i;// i think ok to remove 07.21.20
                 break;
             }
-            indexToAssign = i;
+            indexToAssign = i; // i think ok to remove 07.21.20
             // if it is larger than the largest value, do not add 1. Keep as is
             if (indexToAssign != currentArray.count - 1) {
                 indexToAssign = i+1;
@@ -728,7 +867,7 @@
             // check if counter is 0, because if it is, don't increase by 1. Also, ensure it is actually LESS THAN index 0 [.66 between .5 and 1 would not be zero index]
             if (i == 0 &&
                 equationValue < [currentArray[i]floatValue]) {
-                indexToAssign = i;
+                indexToAssign = i;// i think ok to remove 07.21.20
             }
             NSLog(@"The value is %f, so assign the value to above current: %@",equationValue, currentArray[indexToAssign]);
             // since it is not equal, it needs to be the index above
