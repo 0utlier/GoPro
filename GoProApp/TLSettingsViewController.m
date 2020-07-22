@@ -580,20 +580,20 @@
         
         if (self.testForHardCode == NO) {
             // 07.12.20 TODO using equation, find other values due to this selection
-            [self updateValuesWithEquation];
+            //            [self updateValuesWithEquation];
             //        [self.Y_FPS selectRow:2 inComponent:0 animated:YES]; // testing purposes
         }
-        [self updateValuesWithEquation];
+        //        [self updateValuesWithEquation];
     }
     else if (pickerView == self.Y_FPS) {
         NSLog(@"FPS set to %@", self.availableFPS[row]);
-        [self updateValuesWithEquation];
-
+        //        [self updateValuesWithEquation];
+        
     }
     else if (pickerView == self.Z_Seconds) {
         NSLog(@"Seconds set to %@", self.availableSeconds[row]);
-        [self updateValuesWithEquation];
-
+        //        [self updateValuesWithEquation];
+        
     }
     else if (pickerView == self.Quality) {
         NSLog(@"Quality set to %@", self.availableQuality[row]);
@@ -608,14 +608,16 @@
         }
         // since it is an array of commandObjects, we want the value for display
         NSLog(@"Interval set to %@", [self.availableInterval[row] valueForKey:@"value"]);
-        [self updateValuesWithEquation];
+        //        [self updateValuesWithEquation];
     }
     else if (pickerView == self.Size) {
         NSLog(@"Width set to %@", self.availableSize[row]);
         
     }
-    else
-        NSLog(@"none of the known pickers chosen/n%@",pickerView);
+    else {
+        NSLog(@"none of the known pickers chosen/n%@",pickerView);}
+    // update values at end [since there is no parameter] 07.22.20
+    [self updateValuesWithEquation];
 }
 
 ///////// END OF PICKER /////////
@@ -682,11 +684,12 @@
      self.lockedForFPS = YES;
      self.lockedForIntervalExposure = NO;*/
     
-    /*07.15.20 TODO this is where the decision about which value is locked and which is figured out*/
+    /*For values that are not locked, follow the priority list above. Assign until there is only one value NOT locked. Once assigned, unlock previously changed. 07.22.20 maybe consider a notification if ONLY one of the values is unlocked, that it cannot be changed without unlocking a different value */
+    
+    /*07.15.20 this is where the decision about which value is locked and which is calculated*/
     if (self.lockedForIntervalExposure) {// Interval is locked
         if (self.lockedForFPS) {// Interval AND FPS is locked
             if (self.lockedForMinutes) {// Interval AND FPS AND Minutes ONLY is locked
-                // TODO change to correct // testing until equation function is corrected
                 [self equationForTimeLapse:self.availableSeconds forCurrentValue:self.secondsValue];
                 return;
             }
@@ -695,19 +698,35 @@
                 return;
             }
             // Interval AND FPS ONLY is locked
+            self.lockedForMinutes = YES; // lock Minutes due to priority list
+            [self equationForTimeLapse:self.availableSeconds forCurrentValue:self.secondsValue];
+            self.lockedForMinutes = NO; // lock Minutes due to priority list
             return;
         }
-        else if (self.lockedForMinutes) {// Interval AND Minutes ONLY is locked
+        else if (self.lockedForMinutes) {// Interval AND Minutes is locked
             if (self.lockedForSeconds) {// Interval AND Minutes AND Seconds ONLY is locked
                 [self equationForTimeLapse:self.availableFPS forCurrentValue:self.FPSValue];
             return;
             }
+            // Interval and Minutes ONLY locked
+            self.lockedForFPS = YES; // lock FPS due to priority list
+            [self equationForTimeLapse:self.availableSeconds forCurrentValue:self.secondsValue];
+            self.lockedForFPS = NO; // lock FPS due to priority list
+            return;
         }
         
         else if (self.lockedForSeconds) {// Interval AND Seconds ONLY is locked
+            self.lockedForFPS = YES; // lock FPS due to priority list
+            [self equationForTimeLapse:self.availableMinutes forCurrentValue:self.minutesValue];
+            self.lockedForFPS = NO; // lock FPS due to priority list
             return;
         }
         // Interval ONLY is locked
+        self.lockedForFPS = YES; // lock FPS due to priority list
+        self.lockedForMinutes = YES; // lock Minutes due to priority list
+        [self equationForTimeLapse:self.availableSeconds forCurrentValue:self.secondsValue];
+        self.lockedForFPS = NO; // lock FPS due to priority list
+        self.lockedForMinutes = NO; // lock Minutes due to priority list
         return;
     }
     
@@ -717,23 +736,49 @@
                 [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
                 return;
             }
+            // Minutes AND Seconds ONLY is locked
+            self.lockedForFPS = YES; // lock FPS due to priority list
+            [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
+            self.lockedForFPS = NO; // lock FPS due to priority list
+            return;
         }
         else if (self.lockedForFPS) {// Minutes AND FPS ONLY is locked
+            self.lockedForSeconds = YES; // lock seconds due to priority list
+            [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
+            self.lockedForSeconds = NO; // lock seconds due to priority list
             return;
         }
         // Minutes is ONLY locked
+        self.lockedForFPS = YES; // lock FPS due to priority list
+        self.lockedForSeconds = YES; // lock Seconds due to priority list
+        [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
+        self.lockedForFPS = NO; // lock FPS due to priority list
+        self.lockedForSeconds = NO; // lock Seconds due to priority list
         return;
     }
     else if (self.lockedForFPS) {// FPS is locked
         
         if (self.lockedForSeconds) {// FPS AND Seconds ONLY is locked
+            self.lockedForMinutes = YES; // lock Minutes due to priority list
+            [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
+            self.lockedForMinutes = NO; // lock Minutes due to priority list
             return;
         }
         // FPS is ONLY locked
+        self.lockedForMinutes = YES; // lock Minutes due to priority list
+        self.lockedForSeconds = YES; // lock Seconds due to priority list
+        [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
+        self.lockedForMinutes = NO; // lock Minutes due to priority list
+        self.lockedForSeconds = NO; // lock Seconds due to priority list
         return;
     }
     
     else if (self.lockedForSeconds) {// Seconds ONLY is locked
+        self.lockedForFPS = YES; // lock FPS due to priority list
+        self.lockedForMinutes = YES; // lock Minutes due to priority list
+        [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
+        self.lockedForFPS = NO; // unlock FPS due to priority list
+        self.lockedForMinutes = NO; // unlock Minutes due to priority list
         return;
     }
     
