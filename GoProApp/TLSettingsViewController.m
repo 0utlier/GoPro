@@ -39,7 +39,7 @@
 @property (strong, nonatomic) MethodManager *methodManager;
 
 // Settings Array to use throughout current page [assigned values from DAO's version for simpler code]
-@property (weak, nonatomic) NSMutableArray *currentSettingsArray;
+//@property (weak, nonatomic) NSMutableArray *currentSettingsArray; // 07.22.20 removed from code. Why have it?
 
 @property BOOL testForHardCode;
 
@@ -56,11 +56,16 @@
 @property FloatValueObject* secondsValue;
 
 @property UILabel* displayValues;
+@property UIButton* submitButton;
 
+// properties of the timer
+@property int timerSeconds;
+@property NSDate* startDate;
+@property NSTimer* stopWatchTimer;
+@property NSDateFormatter* dateFormatter;
+@property BOOL timerIsCountingDown;
 /*
  
- 07.13.20
- Give option to LOCK the pickerView of choice. User DEFINITELY wants to use "minutes", meaning don't change that in equationTimeLapse method
  
  07.13.20
  Check if NightMode Time Lapse [interval becomes exposure!]
@@ -96,6 +101,7 @@
     [self assignAvailable];
     //    NSLog(@"TLSettings Page Loading for %@", self.availableFPS);
     [self createRefreshButton];
+    [self createSubmitButton];
     [self createValueLabel];
 
     // buttons for testing locked binaries for settings
@@ -267,6 +273,98 @@
      [self presentViewController:settingsController animated:YES completion:nil];
      */
 }
+
+// SUBMIT button so that you can submit values for UIPickerViews
+- (void) createSubmitButton {
+    UIButton *submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [submitButton addTarget:self
+                      action:@selector(submitButtonPressed:)
+            forControlEvents:UIControlEventTouchUpInside];
+    [submitButton setTitle:@"Submit" forState:UIControlStateNormal];
+    submitButton.frame = CGRectMake(280.0, 340.0, 100.0, 40.0);
+    submitButton.backgroundColor = [UIColor greenColor];
+    self.submitButton = submitButton;
+    [self.view addSubview:self.submitButton];
+}
+
+-(void)submitButtonPressed:(UIButton *)submit {
+    // if timer is already running, reset timer, bool and title
+    if (self.timerIsCountingDown == YES) {
+        [self stopTimer];
+        return;
+    }
+    
+    self.timerIsCountingDown = YES; // timer is going to be ON
+    [submit setTitle:@"STOP" forState:(UIControlStateNormal)];
+    // obtain currently assigned value for picker, using row as the index
+    int indexForObject = (int)[self.IntervalExposure selectedRowInComponent:0];
+    NSString *currentValueOfIntervalExposure = self.availableInterval[indexForObject];
+    NSLog(@"works, submit picker value for Interval/Exposure %@", currentValueOfIntervalExposure);
+    if (self.testForHardCode == YES) {
+        NSLog(@"Hardcoded, so no value sent for %@",currentValueOfIntervalExposure);
+        return;}
+    
+    CommandPathObject *objectAtIndex = [self.availableInterval objectAtIndex:indexForObject];
+    NSLog(@"User selected %@", objectAtIndex.value);
+    // send signal to GoPro
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:objectAtIndex];
+    // TODO 07.22.20 Needs "listener" here, so that it can refresh once done!
+    // once signal is received, send URL to start recording
+    // once recording has begun, start timer based on minutes value
+    int indexForMinutes = (int)[self.X_Minutes selectedRowInComponent:0];
+    NSInteger currentMinuteCount = [self.availableMinutes[indexForMinutes] integerValue];
+    self.timerSeconds=(int)currentMinuteCount*60; // makes into seconds
+    
+    // Create a date formatter
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0.0]];
+
+    self.dateFormatter = dateFormatter;
+    [self startTimer];
+}
+//===================START TIMER===========================//
+
+- (void)updateTimer {
+    // Create date from the elapsed time
+    NSDate *currentDate = [NSDate date];
+    NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:self.startDate];
+//    NSLog(@"time interval %f",timeInterval); // will print out elapsed time
+    // stop timer once seconds has been hit
+    if (timeInterval > self.timerSeconds) {
+        NSLog(@"We are done!");
+        [self stopTimer];
+        /*Offer a notification? 07.23.20*/
+        return;
+    }
+    // seconds count down [remaining]
+    NSTimeInterval timeIntervalCountDown = self.timerSeconds - timeInterval;
+    NSDate *timerDate = [NSDate dateWithTimeIntervalSince1970:timeIntervalCountDown];
+    
+    // Format the remaining time and set it to the label
+    NSString *timeString = [self.dateFormatter stringFromDate:timerDate];
+    [self.displayValues setText:timeString];
+}
+
+- (void)startTimer {
+    if (self.stopWatchTimer) {
+        [self.stopWatchTimer invalidate];
+        self.stopWatchTimer = nil;}
+    self.startDate = [NSDate date];
+    // Create the stop watch timer that fires every 300 ms [Orig was 100ms]
+    self.stopWatchTimer = [NSTimer scheduledTimerWithTimeInterval:3.0/10.0 target:self selector:@selector(updateTimer)userInfo:nil repeats:YES];
+}
+
+- (void)stopTimer {
+    // send signal to STOP /*TODO 07.23.20*/
+    [self.stopWatchTimer invalidate];
+    self.stopWatchTimer = nil;
+    [self.submitButton setTitle:@"Submit" forState:(UIControlStateNormal)];
+    [self updateValuesWithEquation];
+    self.timerIsCountingDown = NO;
+}
+
+//===================END TIMER===========================//
 
 -(void)createValueLabel {
     UILabel *valueLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 300, 400, 40)];
