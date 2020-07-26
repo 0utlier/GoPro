@@ -61,7 +61,7 @@
 @property FloatValueObject* secondsValue;
 
 @property UILabel* displayValues;
-@property UIButton* submitButton;
+@property UIButton* submitButton; 
 
 // properties of the timer
 @property int timerSeconds;
