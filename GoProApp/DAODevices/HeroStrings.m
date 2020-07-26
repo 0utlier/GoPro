@@ -292,7 +292,7 @@
     // MultiShot param type
     SettingsObject *mode = [[SettingsObject alloc] init];
     mode.title = @"Mode";
-    mode.value = [self readableModeCurrent:[self compareStatusHardcode:@"mode"]];
+    mode.value = [self readableModeCurrent:[self compareStatusHardcode:@"modeCurrent"]];
     mode.paramType = @"typeMS";
     SettingsObject *MSSubMode = [[SettingsObject alloc] init];
     MSSubMode.title = @"Sub Mode";

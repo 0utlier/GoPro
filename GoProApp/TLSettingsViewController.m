@@ -75,16 +75,10 @@
  07.13.20
  Check if NightMode Time Lapse [interval becomes exposure!]
  
- 03.19.18
- NEXT things TODO
- [DONE! Check below] Set item when other item changed (ie time in seconds affects shooting minutes, effected by interval)
- Once this happens, add SUBMIT button
- Try to make the button send the signal to MM to send signal
- make 2 buttons: submit and set view
- if submit hit, start clock timer after sending signal
  
  07.02.18
  set up live stream
+ make button on Time Lapse page: set view
  */
 
 
@@ -102,19 +96,7 @@
     NSLog(@"device is object %@", self.methodManager.deviceCurrent);
     self.view.backgroundColor = [UIColor darkGrayColor];
     
-    self.intervalOrExposure = NO; // unless it is. Check here
-    /*CHECK IF NIGHT TIME EXPOSURE!*/
-    if ([self.methodManager.deviceCurrent.heroDAO.currentMode isEqualToString:@"MultiShot"]) {
-        // check sub mode, since may be Time Lapse photo OR Time Lapse Night Photo
-        NSMutableArray *currentPhotoSettingsArray = [self.methodManager.deviceCurrent.heroDAO assignCurrentMultiShotSettingsArray];
-        for (SettingsObject *currentPhotoSubMode in currentPhotoSettingsArray) {
-            if ([currentPhotoSubMode.value isEqualToString:@"Night Lapse"]) {
-                NSLog(@"User is in Night Lapse mode for MultiShot");
-                self.intervalOrExposure = YES;
-//                return;
-            }
-        }
-    }
+    self.intervalOrExposure = [self checkIntervalOrExposure];
 
     /*This is where the assignment comes in*/
     [self assignAvailable];
@@ -141,47 +123,74 @@
     
 }
 
+-(BOOL) checkIntervalOrExposure {
+    /*CHECK IF NIGHT TIME EXPOSURE!*/
+    if ([self.methodManager.deviceCurrent.heroDAO.currentMode isEqualToString:@"MultiShot"]) {
+        // check sub mode, since may be Time Lapse photo OR Time Lapse Night Photo
+        NSMutableArray *currentPhotoSettingsArray = [self.methodManager.deviceCurrent.heroDAO assignCurrentMultiShotSettingsArray];
+        for (SettingsObject *currentPhotoSubMode in currentPhotoSettingsArray) {
+            if ([currentPhotoSubMode.value isEqualToString:@"Night Lapse"]) {
+                NSLog(@"User is in Night Lapse mode for MultiShot");
+//                self.intervalOrExposure = YES;
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
 -(void) assignAvailable {
     
     // allocate the float objects in memory
-    self.intervalExposureValue = [[FloatValueObject alloc]init];
-    self.minutesValue = [[FloatValueObject alloc]init];
-    self.FPSValue = [[FloatValueObject alloc]init];
-    self.secondsValue = [[FloatValueObject alloc]init];
     
-    // obtain all available intervals of Time Lapse [video 07.18.20] // may need to get MSTLInterval as well
-    if (self.intervalOrExposure == YES) {
-        self.availableIntervalExposure = [self.methodManager.deviceCurrent.heroDAO getMSNightExposure];
+    if (self.intervalExposureValue.locked == NO) {
+        self.intervalExposureValue = [[FloatValueObject alloc]init];
+        // obtain all available intervals of Time Lapse [video 07.18.20] // may need to get MSTLInterval as well
+        if (self.intervalOrExposure == YES) {
+            self.availableIntervalExposure = [self.methodManager.deviceCurrent.heroDAO getMSNightExposure];
+        }
+        else {self.availableIntervalExposure = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];}
+        if ([self.availableIntervalExposure count] == 0) {
+            NSLog(@"The Interval Array is EMPTY! Make hardcode");
+            self.testForHardCode = YES;
+            // still causes crash if GoPro is not connected
+            self.availableIntervalExposure = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"3", @"10", @"30", @"60", nil];
+        }
     }
-    else {    self.availableIntervalExposure = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];}
-    if ([self.availableIntervalExposure count] == 0) {
-        NSLog(@"The Interval Array is EMPTY! Make hardcode");
-        self.testForHardCode = YES;
-        // still causes crash if GoPro is not connected
-        self.availableIntervalExposure = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"3", @"10", @"30", @"60", nil];
-        
+    if (self.minutesValue.locked == NO) {
+        self.minutesValue = [[FloatValueObject alloc]init];
+        // hard code these two, as it is up to user and NOT determined by the GoPro
+        self.availableMinutes = [[NSMutableArray alloc]init];// available to shoot
+        // initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
+        for (int i = 1; i <= 10; i++) {
+            NSString *numberStringToAdd = [NSString stringWithFormat:@"%d",i];
+            [self.availableMinutes addObject:numberStringToAdd];
+        }
     }
+
+        if (self.secondsValue.locked == NO) {
+        self.secondsValue = [[FloatValueObject alloc]init];
+        self.availableSeconds = [[NSMutableArray alloc]init];// post after creation
+        // initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
+        for (int i = 1; i <= 10; i++) {
+            NSString *numberStringToAdd = [NSString stringWithFormat:@"%d",i];
+            [self.availableSeconds addObject:numberStringToAdd];
+        }        //    self.availableSeconds = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
+    }
+
     
     // obtain all available qualities of Time Lapse
     // 07.15.20 HARDCODE for now, because it seems limited in qualities for Time Lapse [at least on H4]
     self.availableQuality = [[NSMutableArray alloc]initWithObjects:@"2.7K 4:3", @"4K", nil];
-    //    self.availableQuality = [self.methodManager.deviceCurrent.heroDAO getVideoResolution]; // 07.13.20 this is going to get ALL resolution qualities, and not JUST Time Lapse qualities [TODO figure out if new method required (e.g. GetVideoTLResolition)]
+    if (self.intervalOrExposure == YES) {
+        self.availableQuality = [self.methodManager.deviceCurrent.heroDAO getMSMegaPixels];
+    }
+ // 07.13.20 this is going to get ALL resolution qualities, and not JUST Time Lapse qualities [TODO figure out if new method required (e.g. GetVideoTLResolition)]
     
-    // hard code these two, as it is up to user and NOT determined by the GoPro
-    self.availableMinutes = [[NSMutableArray alloc]init];// available to shoot
-    // initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
-    for (int i = 1; i <= 10; i++) {
-        NSString *numberStringToAdd = [NSString stringWithFormat:@"%d",i];
-        [self.availableMinutes addObject:numberStringToAdd];
-    }
-    self.availableSeconds = [[NSMutableArray alloc]init];// post after creation
-    // initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
-    for (int i = 1; i <= 10; i++) {
-        NSString *numberStringToAdd = [NSString stringWithFormat:@"%d",i];
-        [self.availableSeconds addObject:numberStringToAdd];
-    }
-    //    self.availableSeconds = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
-    self.availableFPS = [[NSMutableArray alloc]initWithObjects:@"24", @"30", @"60", nil]; // post after creation
+    if (self.FPSValue.locked == NO) {
+        self.FPSValue = [[FloatValueObject alloc]init];
+        self.availableFPS = [[NSMutableArray alloc]initWithObjects:@"24", @"30", @"60", nil]; // post after creation
+        }
     
     self.availableSize = [[NSMutableArray alloc]initWithObjects:@"standard", @"wide", nil]; // need to set in protocol and DAO
     
@@ -204,22 +213,31 @@
     
 }
 
-- (void) assignInitialValues { // 07.13.20 default for each of the sections
-    // HARDCODED for default values
-    [self.X_Minutes selectRow:5 inComponent:0 animated:YES]; // 6 min
-    [self.Y_FPS selectRow:1 inComponent:0 animated:YES]; // 30FPS
-    [self.Z_Seconds selectRow:5 inComponent:0 animated:YES]; // 6 Sec
+- (void) assignInitialValues { // 07.13.20 default for each of the pickers
+    // HARDCODED for default values, unless values are locked, then keep their values
+    if (!(self.minutesValue.locked == YES)) {
+        [self.X_Minutes selectRow:5 inComponent:0 animated:YES];} // 6 min
+    if (!(self.FPSValue.locked == YES)) {
+        [self.Y_FPS selectRow:1 inComponent:0 animated:YES];} // 30FPS
+    if (!(self.secondsValue.locked == YES)) {
+        [self.Z_Seconds selectRow:5 inComponent:0 animated:YES];} // 6 Sec
     
     /*Find the value of Time Lapse interval -- then assign that to the index*/
     // assign array to be used from DAO
     NSMutableArray *videoSettings = [self.methodManager.deviceCurrent.heroDAO assignCurrentVideoSettingsArray];
     NSString *currentIntervalValue = [[NSString alloc]init];
     NSString *intervalOrExposureString = @"Time Lapse Interval";
+    NSString *resolutionOrMegapixel = @"Resolution";
+    // assign array of Time Lapse Interval to be used from DAO
+    NSMutableArray *qualitySettings = [self.methodManager.deviceCurrent.heroDAO getVideoResolution];
+
     if (self.intervalOrExposure == YES) {
-        intervalOrExposureString = @"Night Lapse Interval";
+        intervalOrExposureString = @"Night Exposure Interval";
+        resolutionOrMegapixel = @"Megapixels";
         videoSettings = [self.methodManager.deviceCurrent.heroDAO assignCurrentMultiShotSettingsArray];
+        qualitySettings = [self.methodManager.deviceCurrent.heroDAO getMSMegaPixels];
     }
-    // obtain current SettingsObject.value that is Time Lapse Interval
+    // obtain current SettingsObject.value that is Time Lapse Interval OR Night Exposure Interval
     for (SettingsObject *timeLapseInterval in videoSettings) {
         if ([timeLapseInterval.title isEqualToString:intervalOrExposureString]) {
             NSLog(@"we found it %@", timeLapseInterval.value);
@@ -229,12 +247,9 @@
     }
     
     // assign array of Time Lapse Interval to be used from DAO
-    /* // already assigned with a private value, no need to make this call again
-     //    NSMutableArray *intervalSettings = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];
-     //    for (CommandPathObject *fpsAvailable in intervalSettings) { */
     int indexForTL = 0; // assign the index of current
     
-    if (self.testForHardCode == NO) {
+    if (self.testForHardCode == NO) { // NOT hard coded
         for (CommandPathObject *fpsAvailable in self.availableIntervalExposure) {
             if ([fpsAvailable.value isEqualToString:currentIntervalValue]) {
                 NSLog(@"%@ at index: %d",fpsAvailable.value, indexForTL);
@@ -242,28 +257,25 @@
             }
             indexForTL++;
         }
-        
     }    //    NSLog(@"Time Lapse interval value: %d",self.IntervalExposureIndex);
+    
     // ASSIGNED
     [self.IntervalExposure selectRow:indexForTL inComponent:0 animated:YES];
     //==============================================//
     
-    /*Find the value of Time Lapse quality -- then assign that to the index*/
+    /*Find the value of Time Lapse Resolution/Megapixels -- then assign that to the index*/
     // assign array to be used from DAO
-    NSMutableArray *videoSettingsForQuality = [self.methodManager.deviceCurrent.heroDAO assignCurrentVideoSettingsArray];
     NSString *currentQualityValue = [[NSString alloc]init];
     
     // obtain SettingsObject.value that is Time Lapse Interval
-    for (SettingsObject *timeLapseQuality in videoSettingsForQuality) {
-        if ([timeLapseQuality.title isEqualToString:@"Resolution"]) {
+    for (SettingsObject *timeLapseQuality in videoSettings) {
+        if ([timeLapseQuality.title isEqualToString:resolutionOrMegapixel]) {
             NSLog(@"we found it %@", timeLapseQuality.value);
             currentQualityValue = timeLapseQuality.value;
             break;
         }
     }
     
-    // assign array of Time Lapse Interval to be used from DAO
-    NSMutableArray *qualitySettings = [self.methodManager.deviceCurrent.heroDAO getVideoResolution];
     int indexForTLQuality = 0; // assign the index of current
     
     for (CommandPathObject *qualityAvailable in qualitySettings) {
@@ -273,14 +285,17 @@
         }
         indexForTLQuality++;
     }
-    NSLog(@"Time Lapse quality value: %d",indexForTLQuality);
-    int countOfArrayForModulo = (int)[self.availableQuality count]; // should be 2 for hardcode
-    int i = indexForTLQuality%countOfArrayForModulo;
-    NSLog(@"modulo %d for count: %d",i, countOfArrayForModulo);
+    int i = indexForTLQuality;
+    
+//    if (self.intervalOrExposure == NO) { // if interval, sort through available qualities
+        NSLog(@"Time Lapse quality value: %d",indexForTLQuality);
+        int countOfArrayForModulo = (int)[self.availableQuality count]; // should be 2 for hardcode
+        i = indexForTLQuality%countOfArrayForModulo;
+        NSLog(@"modulo %d for count: %d",i, countOfArrayForModulo);
+//    }
     
     // ASSIGNED
     [self.Quality selectRow:i inComponent:0 animated:YES];
-    
     
 }
 
@@ -306,7 +321,9 @@
     
     // refresh the GoPro settings [JSON] and refresh initial index for UIPickerViews [only the ones that are assigned by the camera]
     [self.methodManager.deviceCurrent.heroDAO splitJSON];
+    self.intervalOrExposure = [self checkIntervalOrExposure];
     // TODO 07.15.20 Needs "listener" here, so that it can refresh once done!
+    [self assignAvailable];
     [self assignInitialValues];
     [self.Quality reloadAllComponents];
     [self.Y_FPS reloadAllComponents];
@@ -473,11 +490,13 @@
         //        NSLog(@"works, Interval Locked no longer");
         [locked setTitle:@"Minute Not Locked" forState:UIControlStateNormal];
         self.minutesValue.locked = NO;
+        [self updateValuesWithEquation];
         return;
     }
     //    NSLog(@"works, Interval Now Locked");
     [locked setTitle:@"Minutes is Locked" forState:UIControlStateNormal];
     self.minutesValue.locked = YES;
+    [self updateValuesWithEquation];
 }
 
 // button for testing the BOOL of Seconds being locked or not
@@ -503,11 +522,13 @@
         //        NSLog(@"works, Interval Locked no longer");
         [locked setTitle:@"Second Not Locked" forState:UIControlStateNormal];
         self.secondsValue.locked = NO;
+        [self updateValuesWithEquation];
         return;
     }
     //    NSLog(@"works, Interval Now Locked");
     [locked setTitle:@"Seconds is Locked" forState:UIControlStateNormal];
     self.secondsValue.locked = YES;
+    [self updateValuesWithEquation];
 }
 
 // button for testing the BOOL of FPS being locked or not
@@ -538,6 +559,7 @@
     //    NSLog(@"works, Interval Now Locked");
     [locked setTitle:@"FPS is Locked" forState:UIControlStateNormal];
     self.FPSValue.locked = YES;
+    [self updateValuesWithEquation];
 }
 
 // button for showing if ALL locked, NONE locked
@@ -568,7 +590,7 @@
         self.minutesValue.locked = NO;
         self.secondsValue.locked = NO;
         self.FPSValue.locked = NO;
-        NSLog(@"TODO 07.23.20 update button labels for BINARIES");
+        NSLog(@"TODO 07.23.20 update button labels for BINARIES NONE");
         return;
     }
     /*  // these are the same thing, and can be joined [using the below OR instead of AND]
@@ -587,7 +609,7 @@
     self.minutesValue.locked = YES;
     self.secondsValue.locked = YES;
     self.FPSValue.locked = YES;
-    NSLog(@"TODO 07.23.20 update button labels for BINARIES");
+    NSLog(@"TODO 07.23.20 update button labels for BINARIES ALL");
     return;
     //    }
 }
@@ -738,7 +760,10 @@
         
     }
     else if (pickerView == self.Quality) {
-        return self.availableQuality[row];
+        if (self.intervalOrExposure == NO) {
+            return self.availableQuality[row];
+        }
+        return [self.availableQuality[row] valueForKey:@"value"];
         /*
          // 07.15.20 hardcoded because not all video qualities are available for Time Lapse
          // since it is an array of commandObjects, we want the value for display
@@ -787,8 +812,11 @@
         
     }
     else if (pickerView == self.Quality) {
-        NSLog(@"Quality set to %@", self.availableQuality[row]);
-        
+        if (self.intervalOrExposure == NO) {
+            NSLog(@"Quality set to %@", self.availableQuality[row]);
+        }
+        else {
+            NSLog(@"Quality set to %@", [self.availableQuality[row] valueForKey:@"value"]);}
         /*        // since it is an array of commandObjects, we want the value for display
          NSLog(@"Quality set to %@", [self.availableQuality[row] valueForKey:@"value"]);*/
     }
@@ -807,6 +835,7 @@
     }
     else {
         NSLog(@"none of the known pickers chosen/n%@",pickerView);}
+    
     // update values at end [since there is no parameter] 07.22.20
     [self updateValuesWithEquation];
 }
@@ -881,6 +910,11 @@
      self.FPSValue.locked = YES;
      self.intervalExposureValue.locked = NO;*/
     
+    
+    if (self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked) {
+        NSLog(@"EVERYONE IS LOCKED AND WE DID NOT CONSIDER");
+        return;
+    }
     /*For values that are not locked, follow the priority list above. Assign until there is only one value NOT locked. Once assigned, unlock previously changed. 07.22.20 maybe consider a notification if ONLY one of the values is unlocked, that it cannot be changed without unlocking a different value */
     
     /*07.15.20 this is where the decision about which value is locked and which is calculated*/
