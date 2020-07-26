@@ -77,29 +77,6 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     NSLog(@"Device's modes available %@", self.deviceCurrent.heroDAO.availableModes);
     [self.deviceCurrent.heroDAO powerOn];
     
-    // allocated the settingsCurrent, so that it exists
-//    self.settingsCurrent = [[Settings alloc]init];
-//    self.settingsCurrent.subMode = @"vidTL";
-//    self.settingsCurrent.quality = @"4K";
-    
-    // Gather all current settings from GoPro [via DAO?] and assign the values
-    /*
-     [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
-     self.settingsCurrent.mode = @"photo";
-     // this is the line that will need to be duplicated many times over - INCORRECT - CALL JSON ONCE
-     self.settingsCurrent.mode = [self.deviceCurrent.heroDAO assignCurrentSettings:@"modeCurrent"];
-     self.settingsCurrent.batteryLevel = [self.deviceCurrent.heroDAO assignCurrentSettings:@"batteryLevel"];
-     self.settingsCurrent.battery = [self.deviceCurrent.heroDAO assignCurrentSettings:@"battery"];
-     */
-    
-    //10.26.18 I think this will replace all of the above
-    // below is the updated version after status added, and changed from broken up settings(ie vid, pho, MS)
-    //    self.settingsCurrent = self.deviceCurrent.heroDAO.statusSettings;
-//        self.settingsCurrent = self.deviceCurrent.heroDAO.videoSettings;
-
-    // allocated the settingsDesired, so that it exists
-//    self.settingsDesired = [[Settings alloc]init];
-    
 }
 
 
@@ -135,54 +112,6 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
      */
 }
 
-//10.26.18 most likely remove
-#pragma mark - Submitting Values to DAO
-
-
-- (void)SetMode:(NSString *)mode {
-    // here is the check and send to DAO
-   /* if ([mode isEqualToString:self.settingsCurrent.mode]) {
-        NSLog(@"SAME MODE, PASS");
-        
-    }
-    else {
-        NSLog(@"user chose %@, assign through DAO", mode);
-        NSLog(@"mode: %@", self.settingsCurrent.mode);
-        //        [self.deviceCurrent.heroDAO modeVideo];
-        [self.deviceCurrent.heroDAO changeMode:mode];
-        
-        
-    }*/
-}
-/*
-- (void)SetSubMode:(NSString *)subMode {
-    // here is the check and send to DAO
-    if ([subMode isEqualToString:self.settingsCurrent.subMode]) {
-        NSLog(@"SAME SUBMODE, PASS");
-        
-    }
-    else {
-        NSLog(@"user chose %@, assign through DAO", subMode);
-        NSLog(@"subm: %@", self.settingsCurrent.subMode);
-        
-    }
-    
-}
-
-- (void)SetQuality:(NSString *)quality {
-    // here is the check and send to DAO
-    if ([quality isEqualToString:self.settingsCurrent.quality]) {
-        NSLog(@"SAME QUALITY, PASS");
-        
-    }
-    else {
-        NSLog(@"user chose %@, assign through DAO", quality);
-        NSLog(@"qual: %@", self.settingsCurrent.quality);
-    }
-    
-}
-*/
-
 #pragma mark - START UP
 
 - (void)startUpApp {
@@ -216,9 +145,6 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 // the aim is to have a READABLE output here. the string goes in, the meaning comes out
 // @"modeCurrent" >> json >> 43 >> 1 >> @"photo"
 
-
-
-#pragma mark - CALLS
 
 #pragma mark - URL HANDLING
 

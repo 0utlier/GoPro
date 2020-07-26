@@ -39,6 +39,7 @@
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
     
+    self.view.backgroundColor = [UIColor blackColor];
     
     
     // Uncomment the following line to preserve selection between presentations.
@@ -71,16 +72,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OptionsTVC" forIndexPath:indexPath];
-    
+    cell.backgroundColor = [UIColor blackColor];
+
     // Configure the cell
     UILabel *labelTitle = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
-    [labelTitle setTextColor:[UIColor blackColor]];
+    [labelTitle setBackgroundColor:[UIColor blackColor]];
+    [labelTitle setTextColor:[UIColor yellowColor]];
     [labelTitle setTextAlignment:NSTextAlignmentCenter];
     SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
     [labelTitle setText:[NSString stringWithFormat:@"%@ = %@", objectAtIndex.title, objectAtIndex.value]];
     
     [cell addSubview:labelTitle];
-    
     // if a binary setting, display its binary value on the left side
     if ([objectAtIndex.paramType containsString:@"Binary"]) {
         UILabel *labelBinary = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
@@ -97,31 +99,24 @@
 
 // once selected, open tableView of values for options 07.11.20
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO 07.18.20 direct selection to correct array for each selection //write for BINARY as well
-//    NSLog(@"did select goes");
-// assign object to currentSettings
+    //  NSLog(@"did select goes");
+    // assign object to currentSettings
     SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
     NSLog(@"User selected %@, %@", objectAtIndex.title, objectAtIndex.value);
     // if a Binary setting, no need to show a page of options. Will be switches at one point 07.18.20
     if ([objectAtIndex.paramType containsString:@"Binary"]) {
-        NSLog(@"%@ is BINARY, with status %d - TODO send signal to switch", objectAtIndex.title, objectAtIndex.switchStatus);
+        NSLog(@"%@ is BINARY, with status %d - TODO update the cell text and binary switch", objectAtIndex.title, objectAtIndex.switchStatus);
         // insert binary function here
         [self.methodManager.deviceCurrent.heroDAO switchStatusForObject:objectAtIndex];
         return;
     }
     // call upon proper "available arrays" and check off one that is current settings.
     // present in table view format and use selection to make call to the gopro
-    NSLog(@"Table should show: %@", [[self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]valueForKey:@"value"]);
     NSMutableArray *availableList = ([self.methodManager.deviceCurrent.heroDAO showAvailableArray:objectAtIndex.title]);
+    NSLog(@"Table should show: %@", [availableList valueForKey:@"value"]); // changed using the property
     self.methodManager.deviceCurrent.heroDAO.currentValuesArray = availableList;
 //    NSLog(@"TEST for MM CurrentValues %@",self.methodManager.deviceCurrent.heroDAO.currentValuesArray);
 
-    // once proper array presented, return new tableView using it
-//    for (CommandPathObject *availableSelections in availableList) {
-//        NSLog(@"%@", availableSelections.value);
-//
-//
-//    }
     //        [self dismissViewControllerAnimated:NO completion:nil];
     // using storyBoard to open ValuesTVVC
     [self performSegueWithIdentifier:@"showMe" sender:indexPath];

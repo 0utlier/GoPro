@@ -34,7 +34,8 @@
     // assign array to be used from DAO
     self.currentSettingsArray = self.methodManager.deviceCurrent.heroDAO.currentValuesArray;
 //    self.currentSettingsArray = self.methodManager.deviceCurrent.heroDAO.currentValuesArray;
-
+    self.view.backgroundColor = [UIColor blackColor];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -59,10 +60,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OptionsTVC" forIndexPath:indexPath];
-    
+    cell.backgroundColor = [UIColor blackColor];
+
     // Configure the cell
     UILabel *lbl = [[UILabel alloc] initWithFrame:[[cell contentView] frame]];
-    [lbl setTextColor:[UIColor blackColor]];
+    [lbl setBackgroundColor:[UIColor blackColor]];
+    [lbl setTextColor:[UIColor redColor]];
     [lbl setTextAlignment:NSTextAlignmentCenter];
     SettingsObject *objectAtIndex = [self.currentSettingsArray objectAtIndex:indexPath.row];
     [lbl setText:[NSString stringWithFormat:@"%@", objectAtIndex.value]];

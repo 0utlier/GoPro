@@ -469,6 +469,22 @@
 
 #pragma mark - Video Commands
 
+- (NSMutableArray *)getModeOptions {
+    CommandPathObject *modeVideo = [[CommandPathObject alloc]init];
+    modeVideo.value = @"Video";
+    modeVideo.commandPath = @"/mode?p=0";
+    CommandPathObject *modePhoto = [[CommandPathObject alloc]init];
+    modePhoto.value = @"Photo";
+    modePhoto.commandPath = @"/mode?p=1";
+    CommandPathObject *modeMulti = [[CommandPathObject alloc]init];
+    modeMulti.value = @"Multishot";
+    modeMulti.commandPath = @"/mode?p=2";
+    NSMutableArray *myModes = [[NSMutableArray alloc]initWithObjects:modeVideo, modePhoto, modeMulti,nil];
+    self.availableModes = myModes;
+    return self.availableModes;
+}
+
+
 - (NSMutableArray *)getVideoResolution {
     CommandPathObject *qual4KSV = [[CommandPathObject alloc] init];
     qual4KSV.value = @"4K SuperView";
@@ -561,6 +577,7 @@
     self.availableVideoFrameRate = myFrameRates;
     return self.availableVideoFrameRate;
 }
+
 - (NSMutableArray *)getVideoSubMode{ // different URL
     /* http://10.5.5.9/gp/gpControl/command/sub_mode?mode= */
     CommandPathObject *subMVideo = [[CommandPathObject alloc] init];
@@ -1753,6 +1770,10 @@
 */
     // check what title is submitted
     // run correct function, to return array, return given array
+    
+    if ([title isEqualToString:@"Mode"]) {
+        return self.getModeOptions;
+    }
     
     // VIDEO
     if ([title isEqualToString:@"Sub Mode"]) {
@@ -3342,8 +3363,8 @@
 
 
 
-#pragma mark - Command Paths
-
+#pragma mark - Command Paths [See Note]
+/*07.22.20 I believe this is was for the strings aspect, and not necessary calls any more*/
 // list all HTTP calls for given setting request [without the front part - just the tail]
 
 #pragma mark - POWER & SHUTTER
@@ -3381,7 +3402,6 @@
     self.urlForCurrentCall =@"Hero Mode Multi";
     [self printCurrentURL];
 }
-
 
 #pragma mark - SUB MODES
 //video
@@ -3474,8 +3494,11 @@
     }
     // create the URL request with URL string
     NSString *urlString = [[NSString alloc]init];
-    if ([object.commandPath containsString:@"sub_mode"]) {
+    if ([object.commandPath containsString:@"sub_mode"]) { // for SUB MODE
         urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/command/sub_mode?mode=%@", object.commandPath];
+    }
+    else if ([object.commandPath containsString:@"/mode"]) { // for MODE
+        urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/command%@", object.commandPath];
     }
     else {
     urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/setting/%@", object.commandPath];

@@ -43,7 +43,7 @@
 
 @property BOOL testForHardCode;
 
-// if user chooses to lock current value [button on UIPickerView] this BOOL will be checked so that equation can be implemented with that in mind // TODO 07.18.20 needs to be used and implemented
+// if user chooses to lock current value [button on UIPickerView] this BOOL will be checked so that equation can be implemented with that in mind
 @property BOOL lockedForMinutes;
 @property BOOL lockedForSeconds;
 @property BOOL lockedForFPS;
@@ -67,10 +67,9 @@
  
  03.19.18
  NEXT things TODO
- Set item when other item changed (ie time in seconds affects shooting minutes, effected by interval)
+ [DONE! Check below] Set item when other item changed (ie time in seconds affects shooting minutes, effected by interval)
  Once this happens, add SUBMIT button
  Try to make the button send the signal to MM to send signal
- 
  make 2 buttons: submit and set view
  if submit hit, start clock timer after sending signal
  
@@ -829,8 +828,7 @@
     
 }
 
-// TODO 07.15.20 if statements for what is input
-// 07.20.20 this is only checking the float value, not the object that we are aiming to change
+// 07.20.20 calculate value for given value
 -(float)equate:(FloatValueObject*)currentValue {
     float equationValue = 0;
     
@@ -840,19 +838,19 @@
         NSLog(@"This is the INTERVAL here!");
         equationValue = ((self.minutesValue.valueOf*60)/self.secondsValue.valueOf)/self.FPSValue.valueOf;
     }
-    if (currentValue == self.secondsValue) {
+    else if (currentValue == self.secondsValue) {
         NSLog(@"This is the SECONDS here!");
         equationValue = ((self.minutesValue.valueOf*60)/self.intervalValue.valueOf)/self.FPSValue.valueOf;
     }
-    if (currentValue == self.FPSValue) {
+    else if (currentValue == self.FPSValue) {
         NSLog(@"This is the FPS here!");
         equationValue = ((self.minutesValue.valueOf*60)/self.secondsValue.valueOf)/self.intervalValue.valueOf;
     }
-    if (currentValue == self.minutesValue) {
+    else if (currentValue == self.minutesValue) {
         NSLog(@"This is the MINUTES here!");
         equationValue = ((self.intervalValue.valueOf/60)*self.secondsValue.valueOf)*self.FPSValue.valueOf;
     }
-    // if statement, or case? Discover which one we are working with
+    
     NSLog(@"The value necessary would be %f",equationValue);
     NSString *textForLabel = [NSString stringWithFormat:@"Values %.02f: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f", equationValue,self.intervalValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
     ;
@@ -863,7 +861,7 @@
 }
 
 -(int)findIndexForArray:(NSMutableArray *)currentArray forEquationValue:(float)equationValue {
-    int indexToAssign = (int)currentArray.count - 1; // most likely, make this its own method
+    int indexToAssign = (int)currentArray.count - 1; // most likely, make this its own method (07.22.20 I don't think necessary. Just keep here)
     for (int i = indexToAssign; i >= 0; i--) {
         NSLog(@"%f",[[currentArray[i] valueForKey:@"value"]floatValue]);
         indexToAssign = i;
@@ -877,7 +875,7 @@
 //            indexToAssign = i;
             // check as long as it is not the top of the array, add 1
             if (indexToAssign != currentArray.count - 1) {
-            indexToAssign = i+1;
+                indexToAssign = i+1;
             }
             // check if counter is 0, because if it is, don't increase by 1. Also, ensure it is actually LESS THAN index 0 [.66 between .5 and 1 would not be zero index]
             if (i == 0 &&

@@ -64,6 +64,8 @@
 - (void)sendCurrentURL:(CommandPathObject*)object;
 
 #pragma mark - Video Available
+
+- (NSMutableArray *)getModeOptions;
 // Available VIDEO
 
 - (NSMutableArray *)getVideoSubMode;
