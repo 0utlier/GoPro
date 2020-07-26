@@ -14,6 +14,7 @@
 /*An object that can be passed through and confirmed as right one, with a float value*/
 @interface FloatValueObject : NSObject
 @property float valueOf;
+@property BOOL locked;
 - (id)init;
 @end
 @implementation FloatValueObject
@@ -42,15 +43,19 @@
 //@property (weak, nonatomic) NSMutableArray *currentSettingsArray; // 07.22.20 removed from code. Why have it?
 
 @property BOOL testForHardCode;
+@property BOOL intervalOrExposure;
 
-// if user chooses to lock current value [button on UIPickerView] this BOOL will be checked so that equation can be implemented with that in mind
-@property BOOL lockedForMinutes;
-@property BOOL lockedForSeconds;
-@property BOOL lockedForFPS;
-@property BOOL lockedForIntervalExposure;
+/* // removed 07.26.20 as per handling the floatValueObject with BOOL value
+ // if user chooses to lock current value [button on UIPickerView] this BOOL will be checked so that equation can be implemented with that in mind
+ @property BOOL lockedForMinutes;
+ @property BOOL lockedForSeconds;
+ @property BOOL lockedForFPS;
+ @property BOOL lockedForIntervalExposure;
+*/
+
 
 // equation values - to be set and used for the assignment of others
-@property FloatValueObject* intervalValue;
+@property FloatValueObject* intervalExposureValue;
 @property FloatValueObject* minutesValue;
 @property FloatValueObject* FPSValue;
 @property FloatValueObject* secondsValue;
@@ -97,19 +102,34 @@
     NSLog(@"device is object %@", self.methodManager.deviceCurrent);
     self.view.backgroundColor = [UIColor darkGrayColor];
     
+    self.intervalOrExposure = NO; // unless it is. Check here
+    /*CHECK IF NIGHT TIME EXPOSURE!*/
+    if ([self.methodManager.deviceCurrent.heroDAO.currentMode isEqualToString:@"MultiShot"]) {
+        // check sub mode, since may be Time Lapse photo OR Time Lapse Night Photo
+        NSMutableArray *currentPhotoSettingsArray = [self.methodManager.deviceCurrent.heroDAO assignCurrentMultiShotSettingsArray];
+        for (SettingsObject *currentPhotoSubMode in currentPhotoSettingsArray) {
+            if ([currentPhotoSubMode.value isEqualToString:@"Night Lapse"]) {
+                NSLog(@"User is in Night Lapse mode for MultiShot");
+                self.intervalOrExposure = YES;
+//                return;
+            }
+        }
+    }
+
     /*This is where the assignment comes in*/
     [self assignAvailable];
     //    NSLog(@"TLSettings Page Loading for %@", self.availableFPS);
     [self createRefreshButton];
     [self createSubmitButton];
+    [self createAllLockedButton];
     [self createValueLabel];
-
+    
     // buttons for testing locked binaries for settings
     [self createLockIntervalButton];
     [self createLockMinutesButton];
     [self createLockSecondsButton];
     [self createLockFPSButton];
-
+    
     /* in case we need hard code 03.19.18 */ /*removed 07.15.20*/
     //     [self makeHardCodeTestData];
     
@@ -122,20 +142,23 @@
 }
 
 -(void) assignAvailable {
-
+    
     // allocate the float objects in memory
-    self.intervalValue = [[FloatValueObject alloc]init];
+    self.intervalExposureValue = [[FloatValueObject alloc]init];
     self.minutesValue = [[FloatValueObject alloc]init];
     self.FPSValue = [[FloatValueObject alloc]init];
     self.secondsValue = [[FloatValueObject alloc]init];
     
     // obtain all available intervals of Time Lapse [video 07.18.20] // may need to get MSTLInterval as well
-    self.availableInterval = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];
-    if ([self.availableInterval count] == 0) {
+    if (self.intervalOrExposure == YES) {
+        self.availableIntervalExposure = [self.methodManager.deviceCurrent.heroDAO getMSNightExposure];
+    }
+    else {    self.availableIntervalExposure = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];}
+    if ([self.availableIntervalExposure count] == 0) {
         NSLog(@"The Interval Array is EMPTY! Make hardcode");
         self.testForHardCode = YES;
         // still causes crash if GoPro is not connected
-        self.availableInterval = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", nil];
+        self.availableIntervalExposure = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"3", @"10", @"30", @"60", nil];
         
     }
     
@@ -145,8 +168,19 @@
     //    self.availableQuality = [self.methodManager.deviceCurrent.heroDAO getVideoResolution]; // 07.13.20 this is going to get ALL resolution qualities, and not JUST Time Lapse qualities [TODO figure out if new method required (e.g. GetVideoTLResolition)]
     
     // hard code these two, as it is up to user and NOT determined by the GoPro
-    self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // available to shoot
-    self.availableSeconds = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil]; // post after creation
+    self.availableMinutes = [[NSMutableArray alloc]init];// available to shoot
+    // initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
+    for (int i = 1; i <= 10; i++) {
+        NSString *numberStringToAdd = [NSString stringWithFormat:@"%d",i];
+        [self.availableMinutes addObject:numberStringToAdd];
+    }
+    self.availableSeconds = [[NSMutableArray alloc]init];// post after creation
+    // initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
+    for (int i = 1; i <= 10; i++) {
+        NSString *numberStringToAdd = [NSString stringWithFormat:@"%d",i];
+        [self.availableSeconds addObject:numberStringToAdd];
+    }
+    //    self.availableSeconds = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
     self.availableFPS = [[NSMutableArray alloc]initWithObjects:@"24", @"30", @"60", nil]; // post after creation
     
     self.availableSize = [[NSMutableArray alloc]initWithObjects:@"standard", @"wide", nil]; // need to set in protocol and DAO
@@ -156,7 +190,11 @@
 
 - (void) makeHardCodeTestData{ // NOT CURRENTLY BEING USED 07.15.20
     // Initialize Data
-    self.availableInterval = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", nil];
+    if (self.intervalOrExposure) { // exposure
+        self.availableIntervalExposure = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"5", nil];
+    }
+    else { // intervals
+        self.availableIntervalExposure = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", nil];}
     self.availableQuality = [[NSMutableArray alloc]initWithObjects:@"2.7K 4:3", @"4K", nil];
     
     self.availableMinutes = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"3", @"4", @"5", @"6", nil];
@@ -176,10 +214,14 @@
     // assign array to be used from DAO
     NSMutableArray *videoSettings = [self.methodManager.deviceCurrent.heroDAO assignCurrentVideoSettingsArray];
     NSString *currentIntervalValue = [[NSString alloc]init];
-    
+    NSString *intervalOrExposureString = @"Time Lapse Interval";
+    if (self.intervalOrExposure == YES) {
+        intervalOrExposureString = @"Night Lapse Interval";
+        videoSettings = [self.methodManager.deviceCurrent.heroDAO assignCurrentMultiShotSettingsArray];
+    }
     // obtain current SettingsObject.value that is Time Lapse Interval
     for (SettingsObject *timeLapseInterval in videoSettings) {
-        if ([timeLapseInterval.title isEqualToString:@"Time Lapse Interval"]) {
+        if ([timeLapseInterval.title isEqualToString:intervalOrExposureString]) {
             NSLog(@"we found it %@", timeLapseInterval.value);
             currentIntervalValue = timeLapseInterval.value;
             break;
@@ -193,14 +235,14 @@
     int indexForTL = 0; // assign the index of current
     
     if (self.testForHardCode == NO) {
-        for (CommandPathObject *fpsAvailable in self.availableInterval) {
+        for (CommandPathObject *fpsAvailable in self.availableIntervalExposure) {
             if ([fpsAvailable.value isEqualToString:currentIntervalValue]) {
                 NSLog(@"%@ at index: %d",fpsAvailable.value, indexForTL);
                 break;
             }
             indexForTL++;
         }
-
+        
     }    //    NSLog(@"Time Lapse interval value: %d",self.IntervalExposureIndex);
     // ASSIGNED
     [self.IntervalExposure selectRow:indexForTL inComponent:0 animated:YES];
@@ -278,8 +320,8 @@
 - (void) createSubmitButton {
     UIButton *submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [submitButton addTarget:self
-                      action:@selector(submitButtonPressed:)
-            forControlEvents:UIControlEventTouchUpInside];
+                     action:@selector(submitButtonPressed:)
+           forControlEvents:UIControlEventTouchUpInside];
     [submitButton setTitle:@"Submit" forState:UIControlStateNormal];
     submitButton.frame = CGRectMake(280.0, 340.0, 100.0, 40.0);
     submitButton.backgroundColor = [UIColor greenColor];
@@ -298,13 +340,13 @@
     [submit setTitle:@"STOP" forState:(UIControlStateNormal)];
     // obtain currently assigned value for picker, using row as the index
     int indexForObject = (int)[self.IntervalExposure selectedRowInComponent:0];
-    NSString *currentValueOfIntervalExposure = self.availableInterval[indexForObject];
+    NSString *currentValueOfIntervalExposure = self.availableIntervalExposure[indexForObject];
     NSLog(@"works, submit picker value for Interval/Exposure %@", currentValueOfIntervalExposure);
     if (self.testForHardCode == YES) {
         NSLog(@"Hardcoded, so no value sent for %@",currentValueOfIntervalExposure);
         return;}
     
-    CommandPathObject *objectAtIndex = [self.availableInterval objectAtIndex:indexForObject];
+    CommandPathObject *objectAtIndex = [self.availableIntervalExposure objectAtIndex:indexForObject];
     NSLog(@"User selected %@", objectAtIndex.value);
     // send signal to GoPro
     [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:objectAtIndex];
@@ -319,7 +361,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"mm:ss"];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0.0]];
-
+    
     self.dateFormatter = dateFormatter;
     [self startTimer];
 }
@@ -329,7 +371,7 @@
     // Create date from the elapsed time
     NSDate *currentDate = [NSDate date];
     NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:self.startDate];
-//    NSLog(@"time interval %f",timeInterval); // will print out elapsed time
+    //    NSLog(@"time interval %f",timeInterval); // will print out elapsed time
     // stop timer once seconds has been hit
     if (timeInterval > self.timerSeconds) {
         NSLog(@"We are done!");
@@ -382,7 +424,7 @@
     [lockIntervalButton addTarget:self
                            action:@selector(lockIntervalButtonPressed:)
                  forControlEvents:UIControlEventTouchUpInside];
-    if (self.lockedForIntervalExposure == YES) {
+    if (self.intervalExposureValue.locked == YES) {
         [lockIntervalButton setTitle:@"Interval is Locked" forState:UIControlStateNormal];}
     else {[lockIntervalButton setTitle:@"Interval Not Locked" forState:UIControlStateNormal];}
     
@@ -395,15 +437,17 @@
 }
 
 -(void)lockIntervalButtonPressed:(UIButton *)locked {
-    if (self.lockedForIntervalExposure == YES) {
+    if (self.intervalExposureValue.locked == YES) {
         //        NSLog(@"works, Interval Locked no longer");
         [locked setTitle:@"Interval Not Locked" forState:UIControlStateNormal];
-        self.lockedForIntervalExposure = NO;
+        self.intervalExposureValue.locked = NO;
+        [self updateValuesWithEquation];
         return;
     }
     //    NSLog(@"works, Interval Now Locked");
     [locked setTitle:@"Interval is Locked" forState:UIControlStateNormal];
-    self.lockedForIntervalExposure = YES;
+    self.intervalExposureValue.locked = YES;
+    [self updateValuesWithEquation];
 }
 
 // button for testing the BOOL of Minutes being locked or not
@@ -412,7 +456,7 @@
     [lockMinutesButton addTarget:self
                           action:@selector(lockMinuteButtonPressed:)
                 forControlEvents:UIControlEventTouchUpInside];
-    if (self.lockedForMinutes == YES) {
+    if (self.minutesValue.locked == YES) {
         [lockMinutesButton setTitle:@"Minutes is Locked" forState:UIControlStateNormal];}
     else {[lockMinutesButton setTitle:@"Minute Not Locked" forState:UIControlStateNormal];}
     
@@ -425,15 +469,15 @@
 }
 
 -(void)lockMinuteButtonPressed:(UIButton *)locked {
-    if (self.lockedForMinutes == YES) {
+    if (self.minutesValue.locked == YES) {
         //        NSLog(@"works, Interval Locked no longer");
         [locked setTitle:@"Minute Not Locked" forState:UIControlStateNormal];
-        self.lockedForMinutes = NO;
+        self.minutesValue.locked = NO;
         return;
     }
     //    NSLog(@"works, Interval Now Locked");
     [locked setTitle:@"Minutes is Locked" forState:UIControlStateNormal];
-    self.lockedForMinutes = YES;
+    self.minutesValue.locked = YES;
 }
 
 // button for testing the BOOL of Seconds being locked or not
@@ -442,7 +486,7 @@
     [lockSecondsButton addTarget:self
                           action:@selector(lockSecondButtonPressed:)
                 forControlEvents:UIControlEventTouchUpInside];
-    if (self.lockedForSeconds == YES) {
+    if (self.secondsValue.locked == YES) {
         [lockSecondsButton setTitle:@"Seconds is Locked" forState:UIControlStateNormal];}
     else {[lockSecondsButton setTitle:@"Second Not Locked" forState:UIControlStateNormal];}
     
@@ -455,24 +499,24 @@
 }
 
 -(void)lockSecondButtonPressed:(UIButton *)locked {
-    if (self.lockedForSeconds == YES) {
+    if (self.secondsValue.locked == YES) {
         //        NSLog(@"works, Interval Locked no longer");
         [locked setTitle:@"Second Not Locked" forState:UIControlStateNormal];
-        self.lockedForSeconds = NO;
+        self.secondsValue.locked = NO;
         return;
     }
     //    NSLog(@"works, Interval Now Locked");
     [locked setTitle:@"Seconds is Locked" forState:UIControlStateNormal];
-    self.lockedForSeconds = YES;
+    self.secondsValue.locked = YES;
 }
 
 // button for testing the BOOL of FPS being locked or not
 - (void) createLockFPSButton {
     UIButton *lockFPSButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [lockFPSButton addTarget:self
-                          action:@selector(lockFPSButtonPressed:)
-                forControlEvents:UIControlEventTouchUpInside];
-    if (self.lockedForFPS == YES) {
+                      action:@selector(lockFPSButtonPressed:)
+            forControlEvents:UIControlEventTouchUpInside];
+    if (self.FPSValue.locked == YES) {
         [lockFPSButton setTitle:@"FPS is Locked" forState:UIControlStateNormal];}
     else {[lockFPSButton setTitle:@"FPS Not Locked" forState:UIControlStateNormal];}
     
@@ -485,18 +529,68 @@
 }
 
 -(void)lockFPSButtonPressed:(UIButton *)locked {
-    if (self.lockedForFPS == YES) {
+    if (self.FPSValue.locked == YES) {
         //        NSLog(@"works, Interval Locked no longer");
         [locked setTitle:@"FPS Not Locked" forState:UIControlStateNormal];
-        self.lockedForFPS = NO;
+        self.FPSValue.locked = NO;
         return;
     }
     //    NSLog(@"works, Interval Now Locked");
     [locked setTitle:@"FPS is Locked" forState:UIControlStateNormal];
-    self.lockedForFPS = YES;
+    self.FPSValue.locked = YES;
 }
 
+// button for showing if ALL locked, NONE locked
+- (void) createAllLockedButton {
+    UIButton *allLockedButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [allLockedButton addTarget:self
+                        action:@selector(allLockedButtonButtonPressed:)
+              forControlEvents:UIControlEventTouchUpInside];
+    if (self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked) {
+        [allLockedButton setTitle:@"ALL Locked" forState:UIControlStateNormal];}
+    else if (!self.intervalExposureValue.locked && !self.minutesValue.locked && !self.secondsValue.locked && !self.FPSValue.locked) {
+        [allLockedButton setTitle:@"NONE Locked" forState:UIControlStateNormal];}
+    else {
+        [allLockedButton setTitle:@"LOCK ALL" forState:UIControlStateNormal];
+    }
+    if (self.testForHardCode == YES) {
+        //        [lockIntervalButton setTitle:@"HARDCODE [x2]" forState:UIControlStateNormal];
+    }
+    allLockedButton.frame = CGRectMake(0.0, 340.0, 120.0, 40.0);
+    allLockedButton.backgroundColor = [UIColor orangeColor];
+    [self.view addSubview:allLockedButton];
+}
 
+-(void)allLockedButtonButtonPressed:(UIButton *)lockedOrNot {
+    if (self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked) {
+        [lockedOrNot setTitle:@"NONE Locked" forState:UIControlStateNormal];
+        self.intervalExposureValue.locked = NO;
+        self.minutesValue.locked = NO;
+        self.secondsValue.locked = NO;
+        self.FPSValue.locked = NO;
+        NSLog(@"TODO 07.23.20 update button labels for BINARIES");
+        return;
+    }
+    /*  // these are the same thing, and can be joined [using the below OR instead of AND]
+     else if (!(self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked)) {
+     [lockedOrNot setTitle:@"ALL Locked" forState:UIControlStateNormal];
+     self.intervalExposureValue.locked = YES;
+     self.minutesValue.locked = YES;
+     self.secondsValue.locked = YES;
+     self.FPSValue.locked = YES;
+     NSLog(@"TODO 07.23.20 update button labels");
+     return;
+     }*/
+    //    else if ((self.intervalExposureValue.locked || self.minutesValue.locked || self.secondsValue.locked || self.FPSValue.locked)) { // if ANY are locked, lock all
+    [lockedOrNot setTitle:@"ALL Locked" forState:UIControlStateNormal];
+    self.intervalExposureValue.locked = YES;
+    self.minutesValue.locked = YES;
+    self.secondsValue.locked = YES;
+    self.FPSValue.locked = YES;
+    NSLog(@"TODO 07.23.20 update button labels for BINARIES");
+    return;
+    //    }
+}
 #pragma mark - UIPickerDelegate
 
 - (void) delegateForUIPickers{
@@ -617,7 +711,7 @@
         
     }
     else if (pickerView == self.IntervalExposure) {
-        return (int)self.availableInterval.count;
+        return (int)self.availableIntervalExposure.count;
         
     }
     else if (pickerView == self.Size) {
@@ -653,10 +747,10 @@
     }
     else if (pickerView == self.IntervalExposure) {
         if (self.testForHardCode == YES) {
-            return self.availableInterval[row];
+            return self.availableIntervalExposure[row];
         }
         // since it is an array of commandObjects, we want the value for display
-        return [self.availableInterval[row] valueForKey:@"value"];
+        return [self.availableIntervalExposure[row] valueForKey:@"value"];
         
     }
     else if (pickerView == self.Size) {
@@ -700,11 +794,11 @@
     }
     else if (pickerView == self.IntervalExposure) {
         if (self.testForHardCode == YES) {
-            NSLog(@"Interval [hardcode] set to %@", self.availableInterval[row]);
+            NSLog(@"Interval [hardcode] set to %@", self.availableIntervalExposure[row]);
             return;
         }
         // since it is an array of commandObjects, we want the value for display
-        NSLog(@"Interval set to %@", [self.availableInterval[row] valueForKey:@"value"]);
+        NSLog(@"Interval set to %@", [self.availableIntervalExposure[row] valueForKey:@"value"]);
         //        [self updateValuesWithEquation];
     }
     else if (pickerView == self.Size) {
@@ -740,13 +834,17 @@
     NSInteger row;
     row = [pickerView selectedRowInComponent:0];
     // obtain value of currentSelectedRow
-    NSString *currentlyAssignedValue = currentlyAssignedValue = [availableArray objectAtIndex:row];
+    NSString *currentlyAssignedValue = [availableArray objectAtIndex:row];
     // check if array has objects. Necessary to get "value" key
     //    if (pickerView == self.IntervalExposure) { //refactor, so that not hardcoded [check if obtains objects]
     if (![availableArray[0] isKindOfClass:[NSString class]]) {
         
         
         currentlyAssignedValue = [[availableArray objectAtIndex:row]valueForKey:@"value"];
+    }
+    if ([currentlyAssignedValue isEqualToString:@"Auto"]) {
+        NSLog(@"Don't make me a float! %@", currentlyAssignedValue);
+        return 4; // TODO 07.26.20 give better estimation or take from last shot [if ever collected]
     }
     float currentValue = [currentlyAssignedValue floatValue];
     NSLog(@"row %d AND object value %f", (int)row, currentValue);
@@ -758,16 +856,18 @@
     
     // testing purposes - change each picker depending on what values are changed. How to determine which one to change first? What is prioritized? Or decided by user? [keep minutes, keep FPS, etc. - now do we change the seconds or the interval?]
     // obtain current index/value of each of the pickers
-    self.intervalValue.valueOf = [self currentValueForPicker:self.IntervalExposure ofArray:self.availableInterval];
+    self.intervalExposureValue.valueOf = [self currentValueForPicker:self.IntervalExposure ofArray:self.availableIntervalExposure];
     self.minutesValue.valueOf = [self currentValueForPicker:self.X_Minutes ofArray:self.availableMinutes];
     self.FPSValue.valueOf = [self currentValueForPicker:self.Y_FPS ofArray:self.availableFPS];
     self.secondsValue.valueOf = [self currentValueForPicker:self.Z_Seconds ofArray:self.availableSeconds];
-    NSLog(@"print correct value: I=%f, X=%f, Y=%f, Z=%f",self.intervalValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf);
+    NSLog(@"print correct value: I=%f, X=%f, Y=%f, Z=%f",self.intervalExposureValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf);
     
-    NSString *textForLabel = [NSString stringWithFormat:@"Values: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f",self.intervalValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
-    ;
+    NSString *textForLabel = [NSString stringWithFormat:@"Values: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f",self.intervalExposureValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
+    //    ;
     [self.displayValues setText:textForLabel];
-
+    if (!(self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked)) { // if NONE of them are selected
+        NSLog(@"NONE are selected, free for all!");
+    }
     /*07.20.20 PRIORITY for values: // in case locked is NOT for 3 values [need to determine 2 values]
      (0) FPS [30 default]
      (1) Minutes [6 default]
@@ -776,106 +876,106 @@
      */
     
     /* // hardcode testing 07.20.20
-     self.lockedForSeconds = YES;
-     self.lockedForMinutes = YES;
-     self.lockedForFPS = YES;
-     self.lockedForIntervalExposure = NO;*/
+     self.secondsValue.locked = YES;
+     self.minutesValue.locked = YES;
+     self.FPSValue.locked = YES;
+     self.intervalExposureValue.locked = NO;*/
     
     /*For values that are not locked, follow the priority list above. Assign until there is only one value NOT locked. Once assigned, unlock previously changed. 07.22.20 maybe consider a notification if ONLY one of the values is unlocked, that it cannot be changed without unlocking a different value */
     
     /*07.15.20 this is where the decision about which value is locked and which is calculated*/
-    if (self.lockedForIntervalExposure) {// Interval is locked
-        if (self.lockedForFPS) {// Interval AND FPS is locked
-            if (self.lockedForMinutes) {// Interval AND FPS AND Minutes ONLY is locked
+    if (self.intervalExposureValue.locked) {// Interval is locked
+        if (self.FPSValue.locked) {// Interval AND FPS is locked
+            if (self.minutesValue.locked) {// Interval AND FPS AND Minutes ONLY is locked
                 [self equationForTimeLapse:self.availableSeconds forCurrentValue:self.secondsValue];
                 return;
             }
-            else if (self.lockedForSeconds) {// Interval AND FPS AND Seconds ONLY is locked
+            else if (self.secondsValue.locked) {// Interval AND FPS AND Seconds ONLY is locked
                 [self equationForTimeLapse:self.availableMinutes forCurrentValue:self.minutesValue];
                 return;
             }
             // Interval AND FPS ONLY is locked
-            self.lockedForMinutes = YES; // lock Minutes due to priority list
+            self.minutesValue.locked = YES; // lock Minutes due to priority list
             [self equationForTimeLapse:self.availableSeconds forCurrentValue:self.secondsValue];
-            self.lockedForMinutes = NO; // lock Minutes due to priority list
+            self.minutesValue.locked = NO; // lock Minutes due to priority list
             return;
         }
-        else if (self.lockedForMinutes) {// Interval AND Minutes is locked
-            if (self.lockedForSeconds) {// Interval AND Minutes AND Seconds ONLY is locked
+        else if (self.minutesValue.locked) {// Interval AND Minutes is locked
+            if (self.secondsValue.locked) {// Interval AND Minutes AND Seconds ONLY is locked
                 [self equationForTimeLapse:self.availableFPS forCurrentValue:self.FPSValue];
-            return;
+                return;
             }
             // Interval and Minutes ONLY locked
-            self.lockedForFPS = YES; // lock FPS due to priority list
+            self.FPSValue.locked = YES; // lock FPS due to priority list
             [self equationForTimeLapse:self.availableSeconds forCurrentValue:self.secondsValue];
-            self.lockedForFPS = NO; // lock FPS due to priority list
+            self.FPSValue.locked = NO; // lock FPS due to priority list
             return;
         }
         
-        else if (self.lockedForSeconds) {// Interval AND Seconds ONLY is locked
-            self.lockedForFPS = YES; // lock FPS due to priority list
+        else if (self.secondsValue.locked) {// Interval AND Seconds ONLY is locked
+            self.FPSValue.locked = YES; // lock FPS due to priority list
             [self equationForTimeLapse:self.availableMinutes forCurrentValue:self.minutesValue];
-            self.lockedForFPS = NO; // lock FPS due to priority list
+            self.FPSValue.locked = NO; // lock FPS due to priority list
             return;
         }
         // Interval ONLY is locked
-        self.lockedForFPS = YES; // lock FPS due to priority list
-        self.lockedForMinutes = YES; // lock Minutes due to priority list
+        self.FPSValue.locked = YES; // lock FPS due to priority list
+        self.minutesValue.locked = YES; // lock Minutes due to priority list
         [self equationForTimeLapse:self.availableSeconds forCurrentValue:self.secondsValue];
-        self.lockedForFPS = NO; // lock FPS due to priority list
-        self.lockedForMinutes = NO; // lock Minutes due to priority list
+        self.FPSValue.locked = NO; // lock FPS due to priority list
+        self.minutesValue.locked = NO; // lock Minutes due to priority list
         return;
     }
     
-    else if (self.lockedForMinutes) {// Minutes is locked
-        if (self.lockedForSeconds) {// Minutes AND Seconds is locked
-            if (self.lockedForFPS) {// Minutes AND Seconds AND FPS ONLY is locked
-                [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
+    else if (self.minutesValue.locked) {// Minutes is locked
+        if (self.secondsValue.locked) {// Minutes AND Seconds is locked
+            if (self.FPSValue.locked) {// Minutes AND Seconds AND FPS ONLY is locked
+                [self equationForTimeLapse:self.availableIntervalExposure forCurrentValue:self.intervalExposureValue];
                 return;
             }
             // Minutes AND Seconds ONLY is locked
-            self.lockedForFPS = YES; // lock FPS due to priority list
-            [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
-            self.lockedForFPS = NO; // lock FPS due to priority list
+            self.FPSValue.locked = YES; // lock FPS due to priority list
+            [self equationForTimeLapse:self.availableIntervalExposure forCurrentValue:self.intervalExposureValue];
+            self.FPSValue.locked = NO; // lock FPS due to priority list
             return;
         }
-        else if (self.lockedForFPS) {// Minutes AND FPS ONLY is locked
-            self.lockedForSeconds = YES; // lock seconds due to priority list
-            [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
-            self.lockedForSeconds = NO; // lock seconds due to priority list
+        else if (self.FPSValue.locked) {// Minutes AND FPS ONLY is locked
+            self.secondsValue.locked = YES; // lock seconds due to priority list
+            [self equationForTimeLapse:self.availableIntervalExposure forCurrentValue:self.intervalExposureValue];
+            self.secondsValue.locked = NO; // lock seconds due to priority list
             return;
         }
         // Minutes is ONLY locked
-        self.lockedForFPS = YES; // lock FPS due to priority list
-        self.lockedForSeconds = YES; // lock Seconds due to priority list
-        [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
-        self.lockedForFPS = NO; // lock FPS due to priority list
-        self.lockedForSeconds = NO; // lock Seconds due to priority list
+        self.FPSValue.locked = YES; // lock FPS due to priority list
+        self.secondsValue.locked = YES; // lock Seconds due to priority list
+        [self equationForTimeLapse:self.availableIntervalExposure forCurrentValue:self.intervalExposureValue];
+        self.FPSValue.locked = NO; // lock FPS due to priority list
+        self.secondsValue.locked = NO; // lock Seconds due to priority list
         return;
     }
-    else if (self.lockedForFPS) {// FPS is locked
+    else if (self.FPSValue.locked) {// FPS is locked
         
-        if (self.lockedForSeconds) {// FPS AND Seconds ONLY is locked
-            self.lockedForMinutes = YES; // lock Minutes due to priority list
-            [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
-            self.lockedForMinutes = NO; // lock Minutes due to priority list
+        if (self.secondsValue.locked) {// FPS AND Seconds ONLY is locked
+            self.minutesValue.locked = YES; // lock Minutes due to priority list
+            [self equationForTimeLapse:self.availableIntervalExposure forCurrentValue:self.intervalExposureValue];
+            self.minutesValue.locked = NO; // lock Minutes due to priority list
             return;
         }
         // FPS is ONLY locked
-        self.lockedForMinutes = YES; // lock Minutes due to priority list
-        self.lockedForSeconds = YES; // lock Seconds due to priority list
-        [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
-        self.lockedForMinutes = NO; // lock Minutes due to priority list
-        self.lockedForSeconds = NO; // lock Seconds due to priority list
+        self.minutesValue.locked = YES; // lock Minutes due to priority list
+        self.secondsValue.locked = YES; // lock Seconds due to priority list
+        [self equationForTimeLapse:self.availableIntervalExposure forCurrentValue:self.intervalExposureValue];
+        self.minutesValue.locked = NO; // lock Minutes due to priority list
+        self.secondsValue.locked = NO; // lock Seconds due to priority list
         return;
     }
     
-    else if (self.lockedForSeconds) {// Seconds ONLY is locked
-        self.lockedForFPS = YES; // lock FPS due to priority list
-        self.lockedForMinutes = YES; // lock Minutes due to priority list
-        [self equationForTimeLapse:self.availableInterval forCurrentValue:self.intervalValue];
-        self.lockedForFPS = NO; // unlock FPS due to priority list
-        self.lockedForMinutes = NO; // unlock Minutes due to priority list
+    else if (self.secondsValue.locked) {// Seconds ONLY is locked
+        self.FPSValue.locked = YES; // lock FPS due to priority list
+        self.minutesValue.locked = YES; // lock Minutes due to priority list
+        [self equationForTimeLapse:self.availableIntervalExposure forCurrentValue:self.intervalExposureValue];
+        self.FPSValue.locked = NO; // unlock FPS due to priority list
+        self.minutesValue.locked = NO; // unlock Minutes due to priority list
         return;
     }
     
@@ -890,20 +990,23 @@
     int indexToAssign = 0;
     
     if (self.testForHardCode == YES) {//testing purposes
-        [self.IntervalExposure selectRow:2 inComponent:0 animated:YES];
+        //        [self.IntervalExposure selectRow:1 inComponent:0 animated:YES];
+        equationValue = [self equate:self.intervalExposureValue];
+        indexToAssign = [self findIndexForArrayForHardCodedValues:currentArray forEquationValue:equationValue];
+        [self.IntervalExposure selectRow:indexToAssign inComponent:0 animated:YES];
         return;
     }
-
+    
     /*Obtain which value is to be equated
      Find assigned value
      Find index in array
      Assign the UIPickerView index/row*/
     
-    if (currentValue == self.intervalValue) { // change interval Value
-        equationValue = [self equate:self.intervalValue];
+    if (currentValue == self.intervalExposureValue) { // change interval Value
+        equationValue = [self equate:self.intervalExposureValue];
         indexToAssign = [self findIndexForArray:currentArray forEquationValue:equationValue];
         [self.IntervalExposure selectRow:indexToAssign inComponent:0 animated:YES];
-//        return; // row is set for Interval, no need to go forward
+        //        return; // row is set for Interval, no need to go forward
     }
     
     else if (currentValue == self.minutesValue) { // change minute Value
@@ -932,28 +1035,28 @@
     
     /* ZYI/60 = X */
     // I have 6 minutes to shoot. I want 30fps in post. I want 6 seconds of footage in post. What is my interval
-    if (currentValue == self.intervalValue) {
+    if (currentValue == self.intervalExposureValue) {
         NSLog(@"This is the INTERVAL here!");
         equationValue = ((self.minutesValue.valueOf*60)/self.secondsValue.valueOf)/self.FPSValue.valueOf;
     }
     else if (currentValue == self.secondsValue) {
         NSLog(@"This is the SECONDS here!");
-        equationValue = ((self.minutesValue.valueOf*60)/self.intervalValue.valueOf)/self.FPSValue.valueOf;
+        equationValue = ((self.minutesValue.valueOf*60)/self.intervalExposureValue.valueOf)/self.FPSValue.valueOf;
     }
     else if (currentValue == self.FPSValue) {
         NSLog(@"This is the FPS here!");
-        equationValue = ((self.minutesValue.valueOf*60)/self.secondsValue.valueOf)/self.intervalValue.valueOf;
+        equationValue = ((self.minutesValue.valueOf*60)/self.secondsValue.valueOf)/self.intervalExposureValue.valueOf;
     }
     else if (currentValue == self.minutesValue) {
         NSLog(@"This is the MINUTES here!");
-        equationValue = ((self.intervalValue.valueOf/60)*self.secondsValue.valueOf)*self.FPSValue.valueOf;
+        equationValue = ((self.intervalExposureValue.valueOf/60)*self.secondsValue.valueOf)*self.FPSValue.valueOf;
     }
     
     NSLog(@"The value necessary would be %f",equationValue);
-    NSString *textForLabel = [NSString stringWithFormat:@"Values %.02f: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f", equationValue,self.intervalValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
+    NSString *textForLabel = [NSString stringWithFormat:@"Values %.02f: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f", equationValue,self.intervalExposureValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
     ;
     [self.displayValues setText:textForLabel];
-
+    
     return equationValue;
     
 }
@@ -970,7 +1073,7 @@
                 indexToAssign = i; // i think ok to remove 07.21.20
                 break;
             }
-//            indexToAssign = i;
+            //            indexToAssign = i;
             // check as long as it is not the top of the array, add 1
             if (indexToAssign != currentArray.count - 1) {
                 indexToAssign = i+1;

@@ -20,8 +20,8 @@
 
 // available - to be set by MM, through the DAO
 @property (nonatomic, retain) NSMutableArray *availableQuality;
-@property (nonatomic, retain) NSMutableArray *availableInterval;
-@property (nonatomic, retain) NSMutableArray *availableExposure;
+@property (nonatomic, retain) NSMutableArray *availableIntervalExposure;
+//@property (nonatomic, retain) NSMutableArray *availableExposure; //removed 07.26.20 use IntervalExposure as 1
 @property (nonatomic, retain) NSMutableArray *availableSize; // wide vs standard
 
 // available - to be hardcoded, since it will be "User Chosen"
