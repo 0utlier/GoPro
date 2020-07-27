@@ -43,25 +43,28 @@
 //@property (weak, nonatomic) NSMutableArray *currentSettingsArray; // 07.22.20 removed from code. Why have it?
 
 @property BOOL testForHardCode;
-@property BOOL intervalOrExposure;
 
-/* // removed 07.26.20 as per handling the floatValueObject with BOOL value
- // if user chooses to lock current value [button on UIPickerView] this BOOL will be checked so that equation can be implemented with that in mind
- @property BOOL lockedForMinutes;
- @property BOOL lockedForSeconds;
- @property BOOL lockedForFPS;
- @property BOOL lockedForIntervalExposure;
-*/
-
+typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
+    VIDEOTL = 0,
+    PHOTOTL = 1,
+    NIGHTTL = 2
+} CurrentTLMode;
+@property(nonatomic) CurrentTLMode currentTLMode;
 
 // equation values - to be set and used for the assignment of others
 @property FloatValueObject* intervalExposureValue;
 @property FloatValueObject* minutesValue;
-@property FloatValueObject* FPSValue;
 @property FloatValueObject* secondsValue;
+@property FloatValueObject* FPSValue;
+
+// buttons to lock values in place
+@property UIButton* lockIntervalButton;
+@property UIButton* lockMinutesButton;
+@property UIButton* lockSecondsButton;
+@property UIButton* lockFPSButton;
 
 @property UILabel* displayValues;
-@property UIButton* submitButton; 
+@property UIButton* submitButton; //start timer after sending signal to change and start shooting
 
 // properties of the timer
 @property int timerSeconds;
@@ -70,10 +73,7 @@
 @property NSDateFormatter* dateFormatter;
 @property BOOL timerIsCountingDown;
 /*
- 
- 
- 07.13.20
- Check if NightMode Time Lapse [interval becomes exposure!]
+ TODO
  
  
  07.02.18
@@ -96,7 +96,9 @@
     NSLog(@"device is object %@", self.methodManager.deviceCurrent);
     self.view.backgroundColor = [UIColor darkGrayColor];
     
-    self.intervalOrExposure = [self checkIntervalOrExposure];
+//    self.intervalOrExposure = [self checkIntervalOrExposure];
+    self.currentTLMode = [self checkTLMode];
+    
 
     /*This is where the assignment comes in*/
     [self assignAvailable];
@@ -123,20 +125,23 @@
     
 }
 
--(BOOL) checkIntervalOrExposure {
-    /*CHECK IF NIGHT TIME EXPOSURE!*/
+-(int) checkTLMode { // for other cameras, this will most likely have to change 07.27.20
+    /*CHECK IF NIGHT TIME EXPOSURE! VIDEO Time Lapse! PHOTO Time Lapse*/
     if ([self.methodManager.deviceCurrent.heroDAO.currentMode isEqualToString:@"MultiShot"]) {
         // check sub mode, since may be Time Lapse photo OR Time Lapse Night Photo
         NSMutableArray *currentPhotoSettingsArray = [self.methodManager.deviceCurrent.heroDAO assignCurrentMultiShotSettingsArray];
         for (SettingsObject *currentPhotoSubMode in currentPhotoSettingsArray) {
+            if ([currentPhotoSubMode.value isEqualToString:@"Time Lapse"]) {
+                NSLog(@"User is in Time Lapse mode for MultiShot");
+                return PHOTOTL;
+            }
             if ([currentPhotoSubMode.value isEqualToString:@"Night Lapse"]) {
                 NSLog(@"User is in Night Lapse mode for MultiShot");
-//                self.intervalOrExposure = YES;
-                return YES;
-            }
+                return NIGHTTL;}
         }
     }
-    return NO;
+    NSLog(@"User is in Time Lapse mode for Video");
+    return VIDEOTL;
 }
 
 -(void) assignAvailable {
@@ -146,14 +151,17 @@
     if (self.intervalExposureValue.locked == NO) {
         self.intervalExposureValue = [[FloatValueObject alloc]init];
         // obtain all available intervals of Time Lapse [video 07.18.20] // may need to get MSTLInterval as well
-        if (self.intervalOrExposure == YES) {
+        if (self.currentTLMode == PHOTOTL) {//Time Lapse
+            self.availableIntervalExposure = [self.methodManager.deviceCurrent.heroDAO getMSTLInterval];
+        }
+        else if (self.currentTLMode == NIGHTTL) {// Night Lapse
             self.availableIntervalExposure = [self.methodManager.deviceCurrent.heroDAO getMSNightExposure];
         }
         else {self.availableIntervalExposure = [self.methodManager.deviceCurrent.heroDAO getVideoTLInterval];}
+        // if empty, hardcode!
         if ([self.availableIntervalExposure count] == 0) {
             NSLog(@"The Interval Array is EMPTY! Make hardcode");
             self.testForHardCode = YES;
-            // still causes crash if GoPro is not connected
             self.availableIntervalExposure = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", @"3", @"10", @"30", @"60", nil];
         }
     }
@@ -182,7 +190,7 @@
     // obtain all available qualities of Time Lapse
     // 07.15.20 HARDCODE for now, because it seems limited in qualities for Time Lapse [at least on H4]
     self.availableQuality = [[NSMutableArray alloc]initWithObjects:@"2.7K 4:3", @"4K", nil];
-    if (self.intervalOrExposure == YES) {
+    if (!(self.currentTLMode == VIDEOTL)) { // NOT Video Time Lapse, since same MP count
         self.availableQuality = [self.methodManager.deviceCurrent.heroDAO getMSMegaPixels];
     }
  // 07.13.20 this is going to get ALL resolution qualities, and not JUST Time Lapse qualities [TODO figure out if new method required (e.g. GetVideoTLResolition)]
@@ -199,10 +207,10 @@
 
 - (void) makeHardCodeTestData{ // NOT CURRENTLY BEING USED 07.15.20
     // Initialize Data
-    if (self.intervalOrExposure) { // exposure
+    if (self.currentTLMode == NIGHTTL) { // Night Lapse
         self.availableIntervalExposure = [[NSMutableArray alloc]initWithObjects:@"1", @"2", @"5", nil];
     }
-    else { // intervals
+    else { // intervals for video and photo
         self.availableIntervalExposure = [[NSMutableArray alloc]initWithObjects:@".5", @"1", @"2", nil];}
     self.availableQuality = [[NSMutableArray alloc]initWithObjects:@"2.7K 4:3", @"4K", nil];
     
@@ -230,12 +238,13 @@
     NSString *resolutionOrMegapixel = @"Resolution";
     // assign array of Time Lapse Interval to be used from DAO
     NSMutableArray *qualitySettings = [self.methodManager.deviceCurrent.heroDAO getVideoResolution];
-
-    if (self.intervalOrExposure == YES) {
-        intervalOrExposureString = @"Night Exposure Interval";
+    
+    if (!(self.currentTLMode == VIDEOTL)) { // NOT Video Time Lapse
+        intervalOrExposureString = @"Time Lapse Interval";
         resolutionOrMegapixel = @"Megapixels";
         videoSettings = [self.methodManager.deviceCurrent.heroDAO assignCurrentMultiShotSettingsArray];
         qualitySettings = [self.methodManager.deviceCurrent.heroDAO getMSMegaPixels];
+                if (self.currentTLMode == NIGHTTL) { /*Night Lapse*/ intervalOrExposureString = @"Night Exposure Interval";}
     }
     // obtain current SettingsObject.value that is Time Lapse Interval OR Night Exposure Interval
     for (SettingsObject *timeLapseInterval in videoSettings) {
@@ -321,7 +330,7 @@
     
     // refresh the GoPro settings [JSON] and refresh initial index for UIPickerViews [only the ones that are assigned by the camera]
     [self.methodManager.deviceCurrent.heroDAO splitJSON];
-    self.intervalOrExposure = [self checkIntervalOrExposure];
+    self.currentTLMode = [self checkTLMode];
     // TODO 07.15.20 Needs "listener" here, so that it can refresh once done!
     [self assignAvailable];
     [self assignInitialValues];
@@ -388,7 +397,7 @@
     // Create date from the elapsed time
     NSDate *currentDate = [NSDate date];
     NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:self.startDate];
-    //    NSLog(@"time interval %f",timeInterval); // will print out elapsed time
+        NSLog(@"time interval %f",timeInterval); // will print out elapsed time
     // stop timer once seconds has been hit
     if (timeInterval > self.timerSeconds) {
         NSLog(@"We are done!");
@@ -415,7 +424,7 @@
 }
 
 - (void)stopTimer {
-    // send signal to STOP /*TODO 07.23.20*/
+    // send URL signal to GoPro* to STOP /*TODO 07.23.20*/
     [self.stopWatchTimer invalidate];
     self.stopWatchTimer = nil;
     [self.submitButton setTitle:@"Submit" forState:(UIControlStateNormal)];
@@ -450,7 +459,8 @@
     }
     lockIntervalButton.frame = CGRectMake(120.0, 450.0, 160.0, 40.0);
     lockIntervalButton.backgroundColor = [UIColor purpleColor];
-    [self.view addSubview:lockIntervalButton];
+    self.lockIntervalButton = lockIntervalButton;
+    [self.view addSubview:self.lockIntervalButton];
 }
 
 -(void)lockIntervalButtonPressed:(UIButton *)locked {
@@ -471,7 +481,7 @@
 - (void) createLockMinutesButton {
     UIButton *lockMinutesButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [lockMinutesButton addTarget:self
-                          action:@selector(lockMinuteButtonPressed:)
+                          action:@selector(lockMinutesButtonPressed:)
                 forControlEvents:UIControlEventTouchUpInside];
     if (self.minutesValue.locked == YES) {
         [lockMinutesButton setTitle:@"Minutes is Locked" forState:UIControlStateNormal];}
@@ -482,10 +492,11 @@
     }
     lockMinutesButton.frame = CGRectMake(0.0, 200.0, 160.0, 40.0);
     lockMinutesButton.backgroundColor = [UIColor purpleColor];
-    [self.view addSubview:lockMinutesButton];
+    self.lockMinutesButton = lockMinutesButton;
+    [self.view addSubview:self.lockMinutesButton];
 }
 
--(void)lockMinuteButtonPressed:(UIButton *)locked {
+-(void)lockMinutesButtonPressed:(UIButton *)locked {
     if (self.minutesValue.locked == YES) {
         //        NSLog(@"works, Interval Locked no longer");
         [locked setTitle:@"Minute Not Locked" forState:UIControlStateNormal];
@@ -503,7 +514,7 @@
 - (void) createLockSecondsButton {
     UIButton *lockSecondsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [lockSecondsButton addTarget:self
-                          action:@selector(lockSecondButtonPressed:)
+                          action:@selector(lockSecondsButtonPressed:)
                 forControlEvents:UIControlEventTouchUpInside];
     if (self.secondsValue.locked == YES) {
         [lockSecondsButton setTitle:@"Seconds is Locked" forState:UIControlStateNormal];}
@@ -514,10 +525,11 @@
     }
     lockSecondsButton.frame = CGRectMake(240.0, 200.0, 160.0, 40.0);
     lockSecondsButton.backgroundColor = [UIColor purpleColor];
-    [self.view addSubview:lockSecondsButton];
+    self.lockSecondsButton = lockSecondsButton;
+    [self.view addSubview:self.lockSecondsButton];
 }
 
--(void)lockSecondButtonPressed:(UIButton *)locked {
+-(void)lockSecondsButtonPressed:(UIButton *)locked {
     if (self.secondsValue.locked == YES) {
         //        NSLog(@"works, Interval Locked no longer");
         [locked setTitle:@"Second Not Locked" forState:UIControlStateNormal];
@@ -546,7 +558,8 @@
     }
     lockFPSButton.frame = CGRectMake(120.0, 260.0, 160.0, 40.0);
     lockFPSButton.backgroundColor = [UIColor purpleColor];
-    [self.view addSubview:lockFPSButton];
+    self.lockFPSButton = lockFPSButton;
+    [self.view addSubview:self.lockFPSButton];
 }
 
 -(void)lockFPSButtonPressed:(UIButton *)locked {
@@ -584,34 +597,33 @@
 }
 
 -(void)allLockedButtonButtonPressed:(UIButton *)lockedOrNot {
+    // if ALL are LOCKED, unlock
     if (self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked) {
         [lockedOrNot setTitle:@"NONE Locked" forState:UIControlStateNormal];
-        self.intervalExposureValue.locked = NO;
-        self.minutesValue.locked = NO;
-        self.secondsValue.locked = NO;
-        self.FPSValue.locked = NO;
+        self.intervalExposureValue.locked = YES;
+        self.minutesValue.locked = YES;
+        self.secondsValue.locked = YES;
+        self.FPSValue.locked = YES;
         NSLog(@"TODO 07.23.20 update button labels for BINARIES NONE");
+        [self lockIntervalButtonPressed:self.lockIntervalButton];
+        [self lockMinutesButtonPressed:self.lockMinutesButton];
+        [self lockSecondsButtonPressed:self.lockSecondsButton];
+        [self lockFPSButtonPressed:self.lockFPSButton];
+        // I believe I will need all buttons to be properties for me to access their titles
         return;
     }
-    /*  // these are the same thing, and can be joined [using the below OR instead of AND]
-     else if (!(self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked)) {
-     [lockedOrNot setTitle:@"ALL Locked" forState:UIControlStateNormal];
-     self.intervalExposureValue.locked = YES;
-     self.minutesValue.locked = YES;
-     self.secondsValue.locked = YES;
-     self.FPSValue.locked = YES;
-     NSLog(@"TODO 07.23.20 update button labels");
-     return;
-     }*/
-    //    else if ((self.intervalExposureValue.locked || self.minutesValue.locked || self.secondsValue.locked || self.FPSValue.locked)) { // if ANY are locked, lock all
+    // if ANY are LOCKED, lock all
     [lockedOrNot setTitle:@"ALL Locked" forState:UIControlStateNormal];
-    self.intervalExposureValue.locked = YES;
-    self.minutesValue.locked = YES;
-    self.secondsValue.locked = YES;
-    self.FPSValue.locked = YES;
+    self.intervalExposureValue.locked = NO;
+    self.minutesValue.locked = NO;
+    self.secondsValue.locked = NO;
+    self.FPSValue.locked = NO;
     NSLog(@"TODO 07.23.20 update button labels for BINARIES ALL");
+    [self lockIntervalButtonPressed:self.lockIntervalButton];
+    [self lockMinutesButtonPressed:self.lockMinutesButton];
+    [self lockSecondsButtonPressed:self.lockSecondsButton];
+    [self lockFPSButtonPressed:self.lockFPSButton];
     return;
-    //    }
 }
 #pragma mark - UIPickerDelegate
 
@@ -760,10 +772,10 @@
         
     }
     else if (pickerView == self.Quality) {
-        if (self.intervalOrExposure == NO) {
+        if (self.currentTLMode == VIDEOTL) {
             return self.availableQuality[row];
         }
-        return [self.availableQuality[row] valueForKey:@"value"];
+        return [self.availableQuality[row] valueForKey:@"value"]; //  we do this for "Auto" exposure, since it is a string
         /*
          // 07.15.20 hardcoded because not all video qualities are available for Time Lapse
          // since it is an array of commandObjects, we want the value for display
@@ -812,7 +824,7 @@
         
     }
     else if (pickerView == self.Quality) {
-        if (self.intervalOrExposure == NO) {
+        if (self.currentTLMode == VIDEOTL) {
             NSLog(@"Quality set to %@", self.availableQuality[row]);
         }
         else {
