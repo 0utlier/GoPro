@@ -72,13 +72,13 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
 @property NSTimer* stopWatchTimer;
 @property NSDateFormatter* dateFormatter;
 @property BOOL timerIsCountingDown;
+
 /*
  TODO
  
  
  07.02.18
  set up live stream
- make button on Time Lapse page: set view
  */
 
 
@@ -600,11 +600,12 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
     // if ALL are LOCKED, unlock
     if (self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked) {
         [lockedOrNot setTitle:@"NONE Locked" forState:UIControlStateNormal];
+        // change to all locked, so when button is pressed, it will reverse it and update the title
         self.intervalExposureValue.locked = YES;
         self.minutesValue.locked = YES;
         self.secondsValue.locked = YES;
         self.FPSValue.locked = YES;
-        NSLog(@"TODO 07.23.20 update button labels for BINARIES NONE");
+        NSLog(@"Update button labels for BINARIES NONE");
         [self lockIntervalButtonPressed:self.lockIntervalButton];
         [self lockMinutesButtonPressed:self.lockMinutesButton];
         [self lockSecondsButtonPressed:self.lockSecondsButton];
@@ -614,11 +615,12 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
     }
     // if ANY are LOCKED, lock all
     [lockedOrNot setTitle:@"ALL Locked" forState:UIControlStateNormal];
+    // change to all NOT locked, so when button is pressed, it will reverse it and update the title
     self.intervalExposureValue.locked = NO;
     self.minutesValue.locked = NO;
     self.secondsValue.locked = NO;
     self.FPSValue.locked = NO;
-    NSLog(@"TODO 07.23.20 update button labels for BINARIES ALL");
+    NSLog(@"Update button labels for BINARIES ALL");
     [self lockIntervalButtonPressed:self.lockIntervalButton];
     [self lockMinutesButtonPressed:self.lockMinutesButton];
     [self lockSecondsButtonPressed:self.lockSecondsButton];
@@ -681,41 +683,21 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
     [self.view addSubview:lblFPS];
     
     
-    /* // tried adding a label to test against
-     
-     NSString *strMinutes = @"Minutes";
-     float lblWidthMin = self.X_Minutes.frame.size.width/2;// / self.Y_FPS.numberOfComponents;
-     float lblXpositionMin = self.X_Minutes.frame.origin.x;
-     float lblYpositionMin = (self.X_Minutes.frame.origin.y);
-     
-     UILabel *lblMin = [[UILabel alloc] initWithFrame:CGRectMake(lblXpositionMin,
-     lblYpositionMin,
-     lblWidthMin,
-     100)];
-     [lblMin setText:strMinutes];
-     [lblMin setTextAlignment:NSTextAlignmentCenter];
-     
-     [self.view addSubview:lblMin];
-     
-     */
 }
 
 /*If I want EACH item to have the description following (i.e. 1 minutes, 2 minutes, 3 minutes)
  - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
- 
  UIView *pickerviewtemp=[[UIView alloc] initWithFrame:CGRectZero];
  
  UILabel *labelForMinutes=[[UILabel alloc] initWithFrame:CGRectMake(30, 0, 100, 50)];
  [labelForMinutes setBackgroundColor:[UIColor clearColor]];
  [labelForMinutes setText:[NSString stringWithFormat:@"%@ Minutes", self.availableMinutes[row]]];
+ // if availableMinutes == 1, "Minute" should be used, etc. Or "Auto" exposure seconds
  [labelForMinutes setFont:[UIFont boldSystemFontOfSize:16]];
  [pickerviewtemp addSubview:labelForMinutes];
  
  return pickerviewtemp;
- 
- }
- 
- */
+  } */
 
 
 
@@ -808,20 +790,14 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
         
         if (self.testForHardCode == NO) {
             // 07.12.20 TODO using equation, find other values due to this selection
-            //            [self updateValuesWithEquation];
-            //        [self.Y_FPS selectRow:2 inComponent:0 animated:YES]; // testing purposes
+            // 07.28.20not sure what this means. Please clarify
         }
-        //        [self updateValuesWithEquation];
     }
     else if (pickerView == self.Y_FPS) {
         NSLog(@"FPS set to %@", self.availableFPS[row]);
-        //        [self updateValuesWithEquation];
-        
     }
     else if (pickerView == self.Z_Seconds) {
         NSLog(@"Seconds set to %@", self.availableSeconds[row]);
-        //        [self updateValuesWithEquation];
-        
     }
     else if (pickerView == self.Quality) {
         if (self.currentTLMode == VIDEOTL) {
@@ -829,17 +805,15 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
         }
         else {
             NSLog(@"Quality set to %@", [self.availableQuality[row] valueForKey:@"value"]);}
-        /*        // since it is an array of commandObjects, we want the value for display
-         NSLog(@"Quality set to %@", [self.availableQuality[row] valueForKey:@"value"]);*/
+                // since it is an array of commandObjects, we want the value for display
     }
     else if (pickerView == self.IntervalExposure) {
         if (self.testForHardCode == YES) {
             NSLog(@"Interval [hardcode] set to %@", self.availableIntervalExposure[row]);
-            return;
+            return; // 07.28.20 is this supposed to be here? Why exit without updating values?
         }
         // since it is an array of commandObjects, we want the value for display
         NSLog(@"Interval set to %@", [self.availableIntervalExposure[row] valueForKey:@"value"]);
-        //        [self updateValuesWithEquation];
     }
     else if (pickerView == self.Size) {
         NSLog(@"Width set to %@", self.availableSize[row]);
@@ -876,38 +850,42 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
     row = [pickerView selectedRowInComponent:0];
     // obtain value of currentSelectedRow
     NSString *currentlyAssignedValue = [availableArray objectAtIndex:row];
-    // check if array has objects. Necessary to get "value" key
+    // ======================currenlty hard coded for string/int======================== //
+    // check if array has objects. Necessary to get "value" key (e.g. "Auto" for exposure)
     //    if (pickerView == self.IntervalExposure) { //refactor, so that not hardcoded [check if obtains objects]
-    if (![availableArray[0] isKindOfClass:[NSString class]]) {
-        
-        
+    if (![availableArray[0] isKindOfClass:[NSString class]]) { // if NOT a string
         currentlyAssignedValue = [[availableArray objectAtIndex:row]valueForKey:@"value"];
     }
-    if ([currentlyAssignedValue isEqualToString:@"Auto"]) {
+    if ([currentlyAssignedValue isEqualToString:@"Auto"]) { // the question, is there anything BESIDES auto?
         NSLog(@"Don't make me a float! %@", currentlyAssignedValue);
         return 4; // TODO 07.26.20 give better estimation or take from last shot [if ever collected]
     }
+    // ======================see above======================== //
     float currentValue = [currentlyAssignedValue floatValue];
     NSLog(@"row %d AND object value %f", (int)row, currentValue);
     return currentValue;
 }
 
--(void) updateValuesWithEquation {
+-(void) updateValuesWithEquation { // find what is locked, and assign unlocked values, by priority
     NSLog(@"Changing values for properties - do I return a property or set it?");
     
-    // testing purposes - change each picker depending on what values are changed. How to determine which one to change first? What is prioritized? Or decided by user? [keep minutes, keep FPS, etc. - now do we change the seconds or the interval?]
     // obtain current index/value of each of the pickers
     self.intervalExposureValue.valueOf = [self currentValueForPicker:self.IntervalExposure ofArray:self.availableIntervalExposure];
     self.minutesValue.valueOf = [self currentValueForPicker:self.X_Minutes ofArray:self.availableMinutes];
     self.FPSValue.valueOf = [self currentValueForPicker:self.Y_FPS ofArray:self.availableFPS];
     self.secondsValue.valueOf = [self currentValueForPicker:self.Z_Seconds ofArray:self.availableSeconds];
-    NSLog(@"print correct value: I=%f, X=%f, Y=%f, Z=%f",self.intervalExposureValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf);
+//    NSLog(@"print correct value: I=%f, X=%f, Y=%f, Z=%f",self.intervalExposureValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf);
     
-    NSString *textForLabel = [NSString stringWithFormat:@"Values: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f",self.intervalExposureValue.valueOf, self.minutesValue.valueOf, self.FPSValue.valueOf, self.secondsValue.valueOf];
-    //    ;
+    NSString *textForLabel = [NSString stringWithFormat:@"Values: I=%.02f, X=%.02f, Y=%.02f, Z=%.02f",self.intervalExposureValue.valueOf,
+                              self.minutesValue.valueOf,
+                              self.FPSValue.valueOf,
+                              self.secondsValue.valueOf];
     [self.displayValues setText:textForLabel];
+    NSLog(@"%@",textForLabel); // just for visual purposes
+
     if (!(self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked)) { // if NONE of them are selected
         NSLog(@"NONE are selected, free for all!");
+//        return;
     }
     /*07.20.20 PRIORITY for values: // in case locked is NOT for 3 values [need to determine 2 values]
      (0) FPS [30 default]
@@ -915,13 +893,6 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
      (2) Seconds [6 default]
      (3) Interval [determined by camera]
      */
-    
-    /* // hardcode testing 07.20.20
-     self.secondsValue.locked = YES;
-     self.minutesValue.locked = YES;
-     self.FPSValue.locked = YES;
-     self.intervalExposureValue.locked = NO;*/
-    
     
     if (self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked) {
         NSLog(@"EVERYONE IS LOCKED AND WE DID NOT CONSIDER");
@@ -1031,12 +1002,12 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
 
 
 // 07.15.20 this is to take which array is being changed // look for locked/prioritized currentSettings and base new value from there
+// 07.28.20 I thought unnecessary to have the if statement. It is, EXCEPT for which picked to use.
 -(void)equationForTimeLapse:(NSMutableArray*)currentArray forCurrentValue:(FloatValueObject*)currentValue {
     float equationValue = 0;
     int indexToAssign = 0;
     
-    if (self.testForHardCode == YES) {//testing purposes
-        //        [self.IntervalExposure selectRow:1 inComponent:0 animated:YES];
+    if (self.testForHardCode == YES) {//testing purposes, if values not available
         equationValue = [self equate:self.intervalExposureValue];
         indexToAssign = [self findIndexForArrayForHardCodedValues:currentArray forEquationValue:equationValue];
         [self.IntervalExposure selectRow:indexToAssign inComponent:0 animated:YES];
@@ -1047,30 +1018,27 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
      Find assigned value
      Find index in array
      Assign the UIPickerView index/row*/
-    
+    equationValue = [self equate:currentValue];
+
     if (currentValue == self.intervalExposureValue) { // change interval Value
-        equationValue = [self equate:self.intervalExposureValue];
         indexToAssign = [self findIndexForArray:currentArray forEquationValue:equationValue];
         [self.IntervalExposure selectRow:indexToAssign inComponent:0 animated:YES];
         //        return; // row is set for Interval, no need to go forward
     }
     
     else if (currentValue == self.minutesValue) { // change minute Value
-        equationValue = [self equate:self.minutesValue];
         indexToAssign = [self findIndexForArrayForHardCodedValues:currentArray forEquationValue:equationValue];
-        [self.X_Minutes selectRow:indexToAssign inComponent:0 animated:YES]; //testing purposes
+        [self.X_Minutes selectRow:indexToAssign inComponent:0 animated:YES];
     }
     
     else if (currentValue == self.secondsValue) { // change seconds Value
-        equationValue = [self equate:self.secondsValue];
         indexToAssign = [self findIndexForArrayForHardCodedValues:currentArray forEquationValue:equationValue];
-        [self.Z_Seconds selectRow:indexToAssign inComponent:0 animated:YES]; //testing purposes
+        [self.Z_Seconds selectRow:indexToAssign inComponent:0 animated:YES];
     }
     
     else if (currentValue == self.FPSValue) { // change FPS Value
-        equationValue = [self equate:self.FPSValue];
         indexToAssign = [self findIndexForArrayForHardCodedValues:currentArray forEquationValue:equationValue];
-        [self.Y_FPS selectRow:indexToAssign inComponent:0 animated:YES]; //testing purposes
+        [self.Y_FPS selectRow:indexToAssign inComponent:0 animated:YES];
     }
     
 }
