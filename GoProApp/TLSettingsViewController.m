@@ -358,6 +358,7 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
 -(void)submitButtonPressed:(UIButton *)submit {
     // if timer is already running, reset timer, bool and title
     if (self.timerIsCountingDown == YES) {
+        // TODO 07.28.20 prompt with alert "Are you sure you want to stop?"
         [self stopTimer];
         return;
     }
@@ -754,7 +755,7 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
         
     }
     else if (pickerView == self.Quality) {
-        if (self.currentTLMode == VIDEOTL) {
+        if (self.currentTLMode == VIDEOTL) { // change once not hardcoded [see below note 07.15.20]
             return self.availableQuality[row];
         }
         return [self.availableQuality[row] valueForKey:@"value"]; //  we do this for "Auto" exposure, since it is a string
@@ -787,11 +788,6 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
     // The parameter named row and component represents what was selected.
     if (pickerView == self.X_Minutes) {
         NSLog(@"Minutes set to %@", self.availableMinutes[row]);
-        
-        if (self.testForHardCode == NO) {
-            // 07.12.20 TODO using equation, find other values due to this selection
-            // 07.28.20not sure what this means. Please clarify
-        }
     }
     else if (pickerView == self.Y_FPS) {
         NSLog(@"FPS set to %@", self.availableFPS[row]);
@@ -800,18 +796,18 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
         NSLog(@"Seconds set to %@", self.availableSeconds[row]);
     }
     else if (pickerView == self.Quality) {
-        if (self.currentTLMode == VIDEOTL) {
+        if (self.currentTLMode == VIDEOTL) { // just numbers, no objects
             NSLog(@"Quality set to %@", self.availableQuality[row]);
         }
-        else {
+        else { // since it is an array of commandObjects, we want the value for display
             NSLog(@"Quality set to %@", [self.availableQuality[row] valueForKey:@"value"]);}
-                // since it is an array of commandObjects, we want the value for display
     }
     else if (pickerView == self.IntervalExposure) {
-        if (self.testForHardCode == YES) {
-            NSLog(@"Interval [hardcode] set to %@", self.availableIntervalExposure[row]);
-            return; // 07.28.20 is this supposed to be here? Why exit without updating values?
-        }
+         /*        if (self.testForHardCode == YES) {
+         NSLog(@"Interval [hardcode] set to %@", self.availableIntervalExposure[row]);
+         return; // 07.28.20 is this supposed to be here? Why exit without updating values?
+         } // removed 07.28.20 if i check for hardcode, i should do so before we enter the pickers
+         */
         // since it is an array of commandObjects, we want the value for display
         NSLog(@"Interval set to %@", [self.availableIntervalExposure[row] valueForKey:@"value"]);
     }
@@ -1084,10 +1080,9 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
         if (equationValue >= [[currentArray[i] valueForKey:@"value"]intValue]) {
             if (equationValue == [[currentArray[i] valueForKey:@"value"]floatValue]) {
                 NSLog(@"The value is the SAME! Index: %d, value of row %@",i, [currentArray[i] valueForKey:@"value"]);
-                indexToAssign = i; // i think ok to remove 07.21.20
                 break;
             }
-            //            indexToAssign = i;
+            // since it is not equal, it needs to be the index above
             // check as long as it is not the top of the array, add 1
             if (indexToAssign != currentArray.count - 1) {
                 indexToAssign = i+1;
@@ -1095,40 +1090,41 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
             // check if counter is 0, because if it is, don't increase by 1. Also, ensure it is actually LESS THAN index 0 [.66 between .5 and 1 would not be zero index]
             if (i == 0 &&
                 equationValue < [[currentArray[i] valueForKey:@"value"]floatValue]) {
-                indexToAssign = i; // i think ok to remove 07.21.20
+                indexToAssign = i; // keep at 0 index, because value is less than index 1
             }
             NSLog(@"The value is %f, so assign the value to above current: %@",equationValue, [currentArray[indexToAssign] valueForKey:@"value"]);
-            // since it is not equal, it needs to be the index above
             break;
         }
     }
     return indexToAssign;
 }
 
+/*07.28.20 changed the currVal property instead of having the "floatvalue written every time"*/
 -(int)findIndexForArrayForHardCodedValues:(NSMutableArray *)currentArray forEquationValue:(float)equationValue {
+    float currVal = 0;
     int indexToAssign = (int)currentArray.count - 1; // most likely, make this its own method
     for (int i = indexToAssign; i >= 0; i--) {
-        NSLog(@"%f",[currentArray[i]floatValue]);
+        currVal = [currentArray[i]floatValue];
+//        NSLog(@"%f",[currentArray[i]floatValue]);
+        NSLog(@"%f",currVal);
         indexToAssign = i; // only needs changning if +1 for 0 value
         /*check if above zero using intValue*/
-        if (equationValue >= [currentArray[i]intValue]) {
-            if (equationValue == [currentArray[i]floatValue]) {
+        if (equationValue >= (int)currVal) {
+            if (equationValue == currVal) {
                 NSLog(@"The value is the SAME! Index: %d, value of row %@",i, currentArray[i]);
-                indexToAssign = i;// i think ok to remove 07.21.20
-                break;
+                return indexToAssign; //break; // originally break, but why not just return a value 07.28.20
             }
-            indexToAssign = i; // i think ok to remove 07.21.20
+            // since it is not equal, it needs to be the index above
             // if it is larger than the largest value, do not add 1. Keep as is
             if (indexToAssign != currentArray.count - 1) {
                 indexToAssign = i+1;
             }
             // check if counter is 0, because if it is, don't increase by 1. Also, ensure it is actually LESS THAN index 0 [.66 between .5 and 1 would not be zero index]
             if (i == 0 &&
-                equationValue < [currentArray[i]floatValue]) {
-                indexToAssign = i;// i think ok to remove 07.21.20
+                equationValue < currVal) {
+                indexToAssign = i;
             }
             NSLog(@"The value is %f, so assign the value to above current: %@",equationValue, currentArray[indexToAssign]);
-            // since it is not equal, it needs to be the index above
             break;
         }
     }
