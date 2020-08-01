@@ -3485,7 +3485,7 @@
 
 -(void)printCurrentURL {
     NSLog(@"The DevCall %@",self.urlForCurrentCall);
-    [self splitJSON];
+    [self splitJSON]; 
 }
 
 -(void)sendCurrentURL:(CommandPathObject *)object { // 12.11.18 should I pass through the object, or the string? probably object since I can add properties to check and handle differently here
