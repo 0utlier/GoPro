@@ -523,7 +523,7 @@
     qualWVGA.value = @"WVGA";
     qualWVGA.commandPath = @"2/13";
     
-    
+    // 08.02.20 create array first, then set if statements, depending on FPS or sub mode [Time Lapse]
     
     NSMutableArray *myResolutions = [[NSMutableArray alloc]initWithObjects:qual4KSV, qual4K, qual27KSV, qual27K, qual27K_4_3, qual1440, qual1080SV, qual1080, qual960, qual720SV, qual720, qualWVGA, nil ];
     
