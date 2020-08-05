@@ -17,6 +17,10 @@
     
 }
 
+-(void)testForStreamVLC {
+    // this is where the stream will go
+}
+
 # pragma mark - DICTIONARIES HARDCODE ASSIGN
 
 // this is for comparison to the JSON that comes in. It will make that readable
