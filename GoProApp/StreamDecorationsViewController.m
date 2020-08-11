@@ -51,7 +51,7 @@
     [self.rowView removeFromSuperview];
     
     if (self.gridCount > 5) { //|| self.gridCount == 0) {
-        self.gridCount = 0; 
+        self.gridCount = 0;
     }
     self.gridCount += 1;
 
