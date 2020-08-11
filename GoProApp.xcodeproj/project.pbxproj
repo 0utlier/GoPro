@@ -31,6 +31,7 @@
 		43B045F0219BC30700284F34 /* SettingsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B045EF219BC30700284F34 /* SettingsObject.m */; };
 		43B9A10C21A9461A00C0468E /* OptionsCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B9A10B21A9461A00C0468E /* OptionsCVC.m */; };
 		43B9A11821A9AC3E00C0468E /* OptionsCVCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B9A11721A9AC3E00C0468E /* OptionsCVCCell.m */; };
+		5FB3228E24E27325009BFE6E /* StreamDecorationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB3228D24E27325009BFE6E /* StreamDecorationsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +78,8 @@
 		43B9A10B21A9461A00C0468E /* OptionsCVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptionsCVC.m; sourceTree = "<group>"; };
 		43B9A11621A9AC3E00C0468E /* OptionsCVCCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OptionsCVCCell.h; sourceTree = "<group>"; };
 		43B9A11721A9AC3E00C0468E /* OptionsCVCCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptionsCVCCell.m; sourceTree = "<group>"; };
+		5FB3228C24E27325009BFE6E /* StreamDecorationsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StreamDecorationsViewController.h; path = GoProApp/StreamDecorationsViewController.h; sourceTree = SOURCE_ROOT; };
+		5FB3228D24E27325009BFE6E /* StreamDecorationsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = StreamDecorationsViewController.m; path = GoProApp/StreamDecorationsViewController.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +151,7 @@
 				31A13C6C1FA6C5FF0012EC68 /* ViewController */,
 				31A13C6B1FA6BFD20012EC68 /* SettingsVC */,
 				312BC85C204E312900D4CDC6 /* TLSettingsVC */,
+				5FB3228B24E2721D009BFE6E /* StreamDecorationsVC */,
 				31C2871E20EB13F400259049 /* StreamVC */,
 				43DBCB272156DE3E00DBDD42 /* SettingsObject */,
 				31A13C5D1FA6B5860012EC68 /* Assets.xcassets */,
@@ -270,6 +274,15 @@
 			name = SettingsObject;
 			sourceTree = "<group>";
 		};
+		5FB3228B24E2721D009BFE6E /* StreamDecorationsVC */ = {
+			isa = PBXGroup;
+			children = (
+				5FB3228C24E27325009BFE6E /* StreamDecorationsViewController.h */,
+				5FB3228D24E27325009BFE6E /* StreamDecorationsViewController.m */,
+			);
+			path = StreamDecorationsVC;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -348,6 +361,7 @@
 				43B045F0219BC30700284F34 /* SettingsObject.m in Sources */,
 				43B9A10C21A9461A00C0468E /* OptionsCVC.m in Sources */,
 				312BC85B204E312100D4CDC6 /* TLSettingsViewController.m in Sources */,
+				5FB3228E24E27325009BFE6E /* StreamDecorationsViewController.m in Sources */,
 				31A13C591FA6B5860012EC68 /* ViewController.m in Sources */,
 				4354FFA421AA44C200C2F3D8 /* CommandPathObject.m in Sources */,
 				43AE1DE721A50C3300A68F6B /* HeroStrings.m in Sources */,

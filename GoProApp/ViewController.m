@@ -28,7 +28,7 @@
     // call methods to create all the buttons on the page
     [self createTimeLapseButton];
     [self createSettingsButton];
-//    [self createStreamButton]; //07.04.20 not using currently, since no stream is created
+    [self createStreamButton]; // currently pointed to decorations
     [self createTESTButton];
     [self createConnectButton];
     [self createSetDesiredButton];
@@ -78,6 +78,7 @@
     [self presentViewController:settingsController animated:YES completion:nil];
     
 }
+
 // eventually meant to stream the GoPro's visual
 - (void)createStreamButton {
     UIButton *openToStream = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -91,10 +92,15 @@
 }
 
 - (void)streamButtonPressed:(UIButton *)openToStream {
-    NSLog(@"works, opening stream page");
-    UIViewController *streamController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"StreamViewController"];
-    [self presentViewController:streamController animated:YES completion:nil];
-    
+//    NSLog(@"works, opening stream DECOR page");
+    UIViewController *streamDecorationsController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"StreamDecorationsViewController"];
+    [self presentViewController:streamDecorationsController animated:YES completion:nil];
+
+    // 08.11.20 when stream page is ready
+    /*    NSLog(@"works, opening stream page");
+     UIViewController *streamController = (UIViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"StreamViewController"];
+     [self presentViewController:streamController animated:YES completion:nil];
+*/
 }
 
 // this is a test button currently sends GoPro power off signal 03.05.18 [disabled and moved 07.02.20]
@@ -111,11 +117,12 @@
 
 -(void)testButtonPressed:(UIButton *)submitTestCode {
     NSLog(@"test pressed");
-    [self connectButtonPressed:nil];
+//    [self connectButtonPressed:nil];
     sleep(3); // PLEASE REPLACE TEMPORARY [sleep function] with listener to when it is done. maybe create a new function for JSON call with COMPLETION 11.24.18
-    NSLog(@"works, opening settings page [07.04.20 disabled - bring back]");
+//    NSLog(@"works, opening settings page [07.04.20 disabled - bring back]");
 //    [self performSegueWithIdentifier:@"showTestQ" sender:self]; //bring back 07.04.20
-    
+    NSLog(@"Test button pressed - 08.11.20 currently is not assigned");
+
 }
 
 // this is a test button to currently connect GoPro STRINGS to 09.22.18 to pull JSON 11.24.18

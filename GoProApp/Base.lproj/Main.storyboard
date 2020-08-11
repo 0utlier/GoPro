@@ -25,6 +25,7 @@
                     <connections>
                         <segue destination="kMF-bB-ymE" kind="show" identifier="showTest" id="Zp0-Iv-3pk"/>
                         <segue destination="4kQ-Ig-BeT" kind="show" identifier="showTestQ" id="jsh-RO-0x1"/>
+                        <segue destination="o5n-Bc-ynG" kind="show" id="u3T-Pk-O0M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -107,6 +108,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dds-Kw-L53" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="30" y="228.75"/>
+        </scene>
+        <!--Stream Decorations View Controller-->
+        <scene sceneID="5Od-R6-g6y">
+            <objects>
+                <viewController storyboardIdentifier="StreamDecorationsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="o5n-Bc-ynG" customClass="StreamDecorationsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PR0-34-Hie"/>
+                        <viewControllerLayoutGuide type="bottom" id="TFp-YD-odx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0O2-dR-vOl">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pu7-1p-arp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4663" y="239"/>
         </scene>
         <!--Stream View Controller-->
         <scene sceneID="OPh-Sk-bqk">
@@ -269,7 +288,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="FJv-DA-tMf"/>
+        <segue reference="jsh-RO-0x1"/>
         <segue reference="Zp0-Iv-3pk"/>
     </inferredMetricsTieBreakers>
 </document>
