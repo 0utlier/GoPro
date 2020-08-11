@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MethodManager.h"
+#import "MethodManager/MethodManager.h"
 #import "SettingsObject.h"
 
 @interface ValuesTVVC : UITableViewController

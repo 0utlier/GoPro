@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MethodManager.h"
+#import "MethodManager/MethodManager.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
