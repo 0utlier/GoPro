@@ -151,8 +151,8 @@
 				31A13C6C1FA6C5FF0012EC68 /* ViewController */,
 				31A13C6B1FA6BFD20012EC68 /* SettingsVC */,
 				312BC85C204E312900D4CDC6 /* TLSettingsVC */,
-				5FB3228B24E2721D009BFE6E /* StreamDecorationsVC */,
 				31C2871E20EB13F400259049 /* StreamVC */,
+				5FB3229124E28EA8009BFE6E /* StreamDecorationsVC */,
 				43DBCB272156DE3E00DBDD42 /* SettingsObject */,
 				31A13C5D1FA6B5860012EC68 /* Assets.xcassets */,
 				31A13C5A1FA6B5860012EC68 /* Main.storyboard */,
@@ -274,13 +274,13 @@
 			name = SettingsObject;
 			sourceTree = "<group>";
 		};
-		5FB3228B24E2721D009BFE6E /* StreamDecorationsVC */ = {
+		5FB3229124E28EA8009BFE6E /* StreamDecorationsVC */ = {
 			isa = PBXGroup;
 			children = (
 				5FB3228C24E27325009BFE6E /* StreamDecorationsViewController.h */,
 				5FB3228D24E27325009BFE6E /* StreamDecorationsViewController.m */,
 			);
-			path = StreamDecorationsVC;
+			name = StreamDecorationsVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

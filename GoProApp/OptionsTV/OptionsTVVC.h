@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MethodManager/MethodManager.h"
+#import "MethodManager.h"
 #import "SettingsObject.h"
 #import "ValuesTVVC.h"
 

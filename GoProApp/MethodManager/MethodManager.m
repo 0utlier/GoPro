@@ -6,7 +6,7 @@
 //  Copyright © 2017 JD Leonard. All rights reserved.
 //
 
-#import "MethodManager/MethodManager.h"
+#import "MethodManager.h"
 //AppDelegate *appDelegate;
 
 

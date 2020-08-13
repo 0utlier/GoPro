@@ -13,11 +13,19 @@
 
 @property (strong, nonatomic) MethodManager *methodManager;
 
-@property UIButton *openToSettings; // testing purposes 08.11.20
+@property UIButton *enableGrid; // testing purposes 08.11.20
 @property UIStackView *rowView; // view to remove or add 08.11.20
 //@property UIStackView *columnView;
 @property NSInteger gridCount;
 @property UILabel* displayValues;
+
+// have not decided if necessary 08.13.20
+typedef enum  { // current mode, to determine what arrays to call upon
+    VIDEO = 0,
+    PHOTO = 1,
+    MULTI = 2
+} CurrentMode;
+@property(nonatomic) CurrentMode currentMode;
 
 @end
 
@@ -32,14 +40,34 @@
     NSLog(@"device is object %@", self.methodManager.deviceCurrent);
 
     self.view.backgroundColor = [UIColor grayColor];
-    [self createTESTButton];
+    [self createGridButton];
+    [self createValueLabel];
 //    [self createLineForGrid:2];
+    self.currentMode = [self checkMode];
+    NSLog(@"Current mode is %d",self.currentMode);
+
 }
+
+-(int) checkMode { // for other cameras, this will most likely have to change 08.13.20
+    /*CHECK IF NIGHT TIME EXPOSURE! VIDEO Time Lapse! PHOTO Time Lapse*/
+    if ([self.methodManager.deviceCurrent.heroDAO.currentMode isEqualToString:@"Video"]) {
+        return VIDEO;
+    }
+    if ([self.methodManager.deviceCurrent.heroDAO.currentMode isEqualToString:@"Photo"]) {
+        return PHOTO;
+    }
+    if ([self.methodManager.deviceCurrent.heroDAO.currentMode isEqualToString:@"MultiShot"]) {
+        return MULTI;
+    }
+    return VIDEO;
+}
+
 
 -(void)createValueLabel {
     UILabel *valueLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 300, 400, 40)];
     valueLabel.backgroundColor = [UIColor redColor];
-    ;
+    valueLabel.text = @"testing";
+    [self.methodManager.deviceCurrent.heroDAO getVideoResolution];
     //    [valueLabel setText:textForLabel];
     self.displayValues = valueLabel;
     [[self view] addSubview:self.displayValues];
@@ -55,9 +83,11 @@
     }
     self.gridCount += 1;
 
-    
+    // change the gridCount value and label for button
     NSInteger n = self.gridCount;
-    NSLog(@"User chose %ld for the grid",(long)n);
+    NSString *labelForGridButton = [NSString stringWithFormat:@"GRID %ld", (long)n];
+   [self.enableGrid setTitle:labelForGridButton forState:UIControlStateNormal];
+//    NSLog(@"User chose %ld for the grid",(long)n);
 
     UIStackView *rowView = [[UIStackView alloc] init];
     rowView.translatesAutoresizingMaskIntoConstraints = false;
@@ -119,21 +149,21 @@
     [self.view addConstraints:@[preferredWidthConstraint, preferredHeightConstraint]];
 }
 
-- (void)createTESTButton {
-    UIButton *openToSettings = [UIButton buttonWithType:UIButtonTypeCustom];
-    [openToSettings addTarget:self
+- (void)createGridButton {
+    UIButton *enableGrid = [UIButton buttonWithType:UIButtonTypeCustom];
+    [enableGrid addTarget:self
                        action:@selector(testButtonPressed:)
              forControlEvents:UIControlEventTouchUpInside];
-    [openToSettings setTitle:@"TEST" forState:UIControlStateNormal];
-    openToSettings.frame = CGRectMake(80.0, 410.0, 160.0, 40.0);
-    openToSettings.backgroundColor = [UIColor redColor];
-    self.openToSettings = openToSettings;
-    [self.view addSubview:self.openToSettings];
+    [enableGrid setTitle:@"GRID" forState:UIControlStateNormal];
+    enableGrid.frame = CGRectMake(80.0, 410.0, 160.0, 40.0);
+    enableGrid.backgroundColor = [UIColor redColor];
+    self.enableGrid = enableGrid;
+    [self.view addSubview:self.enableGrid];
 }
 
 -(void)testButtonPressed:(UIButton *)submitTestCode {
     NSLog(@"test pressed");
-    self.openToSettings.backgroundColor = [UIColor blueColor];
+    self.enableGrid.backgroundColor = [UIColor blueColor];
     [self createLineForGrid];
 }
 
