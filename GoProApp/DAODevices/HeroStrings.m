@@ -152,8 +152,6 @@
     mode.title = @"Mode";
     mode.value = [self readableModeCurrent:[self compareStatusHardcode:@"modeCurrent"]];
     mode.paramType = @"typeSystemSettings";
-    // assign the property to base if-then's on
-    self.currentMode = mode.value;
     SettingsObject *sdCardPresent = [[SettingsObject alloc]init];
     sdCardPresent.title = @"SD Card";
     sdCardPresent.value = [self readableSDCard:[self compareStatusHardcode:@"sdCardPresent"]];
@@ -1966,12 +1964,15 @@
 - (NSString *) readableModeCurrent:(int)value {
     switch (value) {
         case 0:
+            self.currentMode = @"Video";
             return @"Video";
             break;
         case 1:
+            self.currentMode = @"Photo";
             return @"Photo";
             break;
         case 2:
+            self.currentMode = @"MultiShot";
             return @"MultiShot";
             break;
         case 5:

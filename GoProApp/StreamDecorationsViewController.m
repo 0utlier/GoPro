@@ -43,22 +43,31 @@ typedef enum  { // current mode, to determine what arrays to call upon
     [self createGridButton];
     [self createValueLabel];
 //    [self createLineForGrid:2];
-    self.currentMode = [self checkMode];
-    NSLog(@"Current mode is %d",self.currentMode);
+//    [self assignInitialValues];
+}
 
+-(void)assignInitialValues { // maybe useless, until there is something else that needs to be done outside of the checkMode method 08.13.20
 }
 
 -(int) checkMode { // for other cameras, this will most likely have to change 08.13.20
-    /*CHECK IF NIGHT TIME EXPOSURE! VIDEO Time Lapse! PHOTO Time Lapse*/
+    [self.methodManager.deviceCurrent.heroDAO splitJSON];
+// since this takes too long, button needs to be pressed twice.
+    
+//    NSLog(@"Current mode is %d",self.currentMode);
+
     if ([self.methodManager.deviceCurrent.heroDAO.currentMode isEqualToString:@"Video"]) {
+        self.displayValues.text = @"Video";
         return VIDEO;
     }
     if ([self.methodManager.deviceCurrent.heroDAO.currentMode isEqualToString:@"Photo"]) {
+        self.displayValues.text = @"Photo";
         return PHOTO;
     }
     if ([self.methodManager.deviceCurrent.heroDAO.currentMode isEqualToString:@"MultiShot"]) {
+        self.displayValues.text = @"MultiShot";
         return MULTI;
     }
+    self.displayValues.text = @"UNSURE";
     return VIDEO;
 }
 
@@ -66,15 +75,17 @@ typedef enum  { // current mode, to determine what arrays to call upon
 -(void)createValueLabel {
     UILabel *valueLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 300, 400, 40)];
     valueLabel.backgroundColor = [UIColor redColor];
-    valueLabel.text = @"testing";
+    valueLabel.text = @"unassigned?";
     [self.methodManager.deviceCurrent.heroDAO getVideoResolution];
     //    [valueLabel setText:textForLabel];
     self.displayValues = valueLabel;
+    self.currentMode = [self checkMode]; // will assign the text of the label as per value
     [[self view] addSubview:self.displayValues];
 }
 
 -(void)createLineForGrid {
-    
+    self.currentMode = [self checkMode]; // will assign the text of the label as per value
+
     // remove the view
     [self.rowView removeFromSuperview];
     
