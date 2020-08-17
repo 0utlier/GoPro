@@ -121,7 +121,68 @@
     sleep(3); // PLEASE REPLACE TEMPORARY [sleep function] with listener to when it is done. maybe create a new function for JSON call with COMPLETION 11.24.18
 //    NSLog(@"works, opening settings page [07.04.20 disabled - bring back]");
 //    [self performSegueWithIdentifier:@"showTestQ" sender:self]; //bring back 07.04.20
-    NSLog(@"Test button pressed - 08.11.20 currently is not assigned");
+//    NSLog(@"Test button pressed - 08.11.20 currently is not assigned");
+    
+    /*08.14.20 08.17.20
+     Work on building a collection of calls
+     5 sec shot
+     15 sec shot
+     30 sec shot
+     
+     SUDO CODE:
+     Test button [hard code for now]
+     Set GoPro to mode and settings
+     Shoot
+     Timer
+     Timer is done
+     REPEAT ABOVE
+     
+     
+*/
+    
+   
+    CommandPathObject *modePhoto = [[CommandPathObject alloc]init];
+    modePhoto.value = @"Photo";
+    modePhoto.commandPath = @"/mode?p=1";
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:modePhoto];
+    sleep(1);
+
+    CommandPathObject *subMPhotoNight = [[CommandPathObject alloc] init];
+    subMPhotoNight.value = @"Night";
+    subMPhotoNight.commandPath = @"1&sub_mode=2";
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:subMPhotoNight];
+    sleep(1);
+
+    CommandPathObject *shutterCall = [[CommandPathObject alloc]init];
+    shutterCall.commandPath = @"/shutter?p=1";
+
+    CommandPathObject *nightExposure2 = [[CommandPathObject alloc] init];
+    nightExposure2.value = @"2";
+    nightExposure2.commandPath = @"19/1";
+    CommandPathObject *nightExposure5 = [[CommandPathObject alloc] init];
+    nightExposure5.value = @"5";
+    nightExposure5.commandPath = @"19/2";
+    CommandPathObject *nightExposure10 = [[CommandPathObject alloc] init];
+    nightExposure10.value = @"10";
+    nightExposure10.commandPath = @"19/3";
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:nightExposure2];
+    sleep(1);
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:shutterCall];
+    sleep(6);
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:nightExposure5];
+    sleep(3);
+        [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:shutterCall];
+    sleep(10);
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:nightExposure10];
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:shutterCall];
+    [self.methodManager.deviceCurrent.heroDAO splitJSON];
+    
+    CommandPathObject *wifiOFF = [[CommandPathObject alloc]init];
+    wifiOFF.commandPath = @"63/0";
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:wifiOFF];
+
+    
+
 
 }
 

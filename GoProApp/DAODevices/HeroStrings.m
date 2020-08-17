@@ -9,7 +9,7 @@
 #import "HeroStrings.h"
 
 @implementation HeroStrings
-
+/*I do not see Shutter in here? Did I just completely leave it out? How about power? 08.17.20*/
 
 -(void)objectDidLoad {
     
@@ -3502,7 +3502,7 @@
     if ([object.commandPath containsString:@"sub_mode"]) { // for SUB MODE
         urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/command/sub_mode?mode=%@", object.commandPath];
     }
-    else if ([object.commandPath containsString:@"/mode"]) { // for MODE
+    else if ([object.commandPath containsString:@"/mode"]||[object.commandPath containsString:@"/shutter"]) { // for MODE
         urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/command%@", object.commandPath];
     }
     else {
