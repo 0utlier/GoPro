@@ -176,7 +176,7 @@
     [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:nightExposure10];
     [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:shutterCall];
     [self.methodManager.deviceCurrent.heroDAO splitJSON];
-    
+    sleep(6);
     CommandPathObject *wifiOFF = [[CommandPathObject alloc]init];
     wifiOFF.commandPath = @"63/0";
     [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:wifiOFF];

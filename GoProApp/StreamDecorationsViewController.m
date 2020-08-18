@@ -9,6 +9,12 @@
 #import "StreamDecorationsViewController.h"
 #import "MethodManager/MethodManager.h"
 /* This is to be added once the streaming function works properly. For now, just to decorate the way it will work 08.11.20*/
+
+/*08.17.20 TO DO
+ Save a screenshot of the current page? [for Time Lapse setup] [or export screen grab from the UDP stream would be even better]
+ Hide all decorations? Or picture of just layer with nothing on top?
+*/
+
 @interface StreamDecorationsViewController ()
 
 @property (strong, nonatomic) MethodManager *methodManager;
@@ -18,6 +24,9 @@
 //@property UIStackView *columnView;
 @property NSInteger gridCount;
 @property UILabel* displayValues;
+
+@property CGFloat screenHeight;
+@property CGFloat screenWidth;
 
 // have not decided if necessary 08.13.20
 typedef enum  { // current mode, to determine what arrays to call upon
@@ -40,6 +49,9 @@ typedef enum  { // current mode, to determine what arrays to call upon
     NSLog(@"device is object %@", self.methodManager.deviceCurrent);
 
     self.view.backgroundColor = [UIColor grayColor];
+    self.screenHeight = self.view.bounds.size.height;
+    self.screenWidth = self.view.bounds.size.width;
+
     [self createGridButton];
     [self createValueLabel];
 //    [self createLineForGrid:2];
@@ -73,7 +85,7 @@ typedef enum  { // current mode, to determine what arrays to call upon
 
 
 -(void)createValueLabel {
-    UILabel *valueLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 300, 400, 40)];
+    UILabel *valueLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 30, 400, 40)];
     valueLabel.backgroundColor = [UIColor redColor];
     valueLabel.text = @"unassigned?";
     [self.methodManager.deviceCurrent.heroDAO getVideoResolution];
@@ -163,19 +175,46 @@ typedef enum  { // current mode, to determine what arrays to call upon
 - (void)createGridButton {
     UIButton *enableGrid = [UIButton buttonWithType:UIButtonTypeCustom];
     [enableGrid addTarget:self
-                       action:@selector(testButtonPressed:)
+                       action:@selector(gridButtonPressed:)
              forControlEvents:UIControlEventTouchUpInside];
     [enableGrid setTitle:@"GRID" forState:UIControlStateNormal];
-    enableGrid.frame = CGRectMake(80.0, 410.0, 160.0, 40.0);
+    // currently hardcoded
+    enableGrid.frame = CGRectMake((self.screenWidth/2)-80, 410.0, 160.0, 40.0);
     enableGrid.backgroundColor = [UIColor redColor];
     self.enableGrid = enableGrid;
     [self.view addSubview:self.enableGrid];
 }
 
--(void)testButtonPressed:(UIButton *)submitTestCode {
+-(void)gridButtonPressed:(UIButton *)submitGridCode {
     NSLog(@"test pressed");
     self.enableGrid.backgroundColor = [UIColor blueColor];
     [self createLineForGrid];
+//    [self hideAllDecorations]; // testing 08.17.20 // works 08.18.20
+    [self showScreenShot];
+}
+
+- (void) showScreenShot {
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    CGRect rect = [keyWindow bounds];
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [keyWindow.layer renderInContext:context];
+    UIImage *screenShot = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();// ?
+    
+    /*08.17.20 if you want to save the image to camera roll - quality is low. Fix that if necessary*/
+//    UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
+    int portionHeight = self.screenHeight/3;
+    int portionWidth = self.screenWidth/3;
+    
+    UIImageView *myImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.screenWidth-portionWidth, self.screenHeight-portionHeight, portionWidth, portionHeight)];
+    myImageView.image = screenShot;
+    [self.view addSubview:myImageView];
+}
+
+-(void)hideAllDecorations {
+    [self.displayValues setHidden:YES];
+    [self.enableGrid setHidden:YES];
 }
 
 @end
