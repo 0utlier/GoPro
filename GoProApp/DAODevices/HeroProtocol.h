@@ -104,9 +104,9 @@
 
 #pragma mark - POWER & SHUTTER
 // 08.19.20 no need for return, since it is binary
-- (void)getPower:(SettingsObject *)objectForSwitch;
+- (void)getPower:(BOOL)changeToStatus;
 //- (void)getPowerOff:(SettingsObject *)objectForSwitch;
-- (void)getRecording:(SettingsObject *)objectForSwitch;
+- (void)getRecording:(BOOL)changeToStatus;
 //- (void)getRecordingOff:(SettingsObject *)objectForSwitch;
 
 

@@ -119,10 +119,6 @@
     NSLog(@"test pressed");
 //    sleep(3);
     
-    SettingsObject *testForPower = [[SettingsObject alloc]init];
-    testForPower.title = @"Recording";
-    testForPower.switchStatus = YES; // device is being turned off
-    [self.methodManager.deviceCurrent.heroDAO getRecording:testForPower];
 }
 
 

@@ -1713,51 +1713,46 @@
 
 #pragma mark - POWER & SHUTTER
 //power
-- (void)getPower:(SettingsObject *)objectForSwitch {
+- (void)getPower:(BOOL)changeToStatus {
     // create a commandPath to send to URL call [with value of object's title]
     CommandPathObject *powerObject = [[CommandPathObject alloc]init];
-    powerObject.value = objectForSwitch.title;
     
     // 08.19.20 currently we are not including turning back on. A little more involved
-    if (objectForSwitch.switchStatus == YES) {
-        NSLog(@"[08.19.20 NOT SET YET] Status for object %@ is NO!", objectForSwitch.title);
+    if (changeToStatus == YES) {
+        NSLog(@"[08.19.20 NOT SET YET] Turn POWER ON!");
         // include commandPath for object
         powerObject.commandPath = @"NOT USING YET";
         // update the switchStatus
-        objectForSwitch.switchStatus = NO;
+        return; // please remove once the commandpath is worked out
     }
-    else if (objectForSwitch.switchStatus == NO) {
-        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
+    else if (changeToStatus == NO) {
+        NSLog(@"Turn POWER OFF!");
         // include commandPath for object
         // http://10.5.5.9/gp/gpControl/command/system/sleep
         powerObject.commandPath = @"/system/sleep";
         // update the switchStatus
-        objectForSwitch.switchStatus = YES;
-        NSLog(@"GoPro go good night");
-
     }
     
     [self sendCurrentURL:powerObject];
 }
 
-- (void)getRecording:(SettingsObject *)objectForSwitch {
+- (void)getRecording:(BOOL)changeToStatus {
     // create a commandPath to send to URL call [with value of object's title]
     CommandPathObject *recordingObject = [[CommandPathObject alloc]init];
-    recordingObject.value = objectForSwitch.title;
     
-    if (objectForSwitch.switchStatus == YES) {
-        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
-        // include commandPath for object
-        recordingObject.commandPath = @"/shutter?p=0";
-        // update the switchStatus
-        objectForSwitch.switchStatus = NO;
-    }
-    else if (objectForSwitch.switchStatus == NO) {
-        NSLog(@"Status for object %@ is NO!", objectForSwitch.title);
+    // 08.19.20 currently we are not including turning back on. A little more involved
+    if (changeToStatus == YES) {
+        NSLog(@"Start RECORDING YES!");
         // include commandPath for object
         recordingObject.commandPath = @"/shutter?p=1";
         // update the switchStatus
-        objectForSwitch.switchStatus = YES;
+        return; // please remove once the commandpath is worked out
+    }
+    else if (changeToStatus == NO) {
+        NSLog(@"Stop RECORDING NO!");
+        // include commandPath for object
+        recordingObject.commandPath = @"/shutter?p=0";
+        // update the switchStatus
     }
     
     [self sendCurrentURL:recordingObject];
