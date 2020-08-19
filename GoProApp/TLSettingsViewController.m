@@ -606,6 +606,11 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
         self.minutesValue.locked = YES;
         self.secondsValue.locked = YES;
         self.FPSValue.locked = YES;
+        /*        // disable all from changing // removed 08.18.20 - want to give user ability to change even if locked
+         self.IntervalExposure.userInteractionEnabled = NO;
+         self.X_Minutes.userInteractionEnabled = NO;
+         self.Z_Seconds.userInteractionEnabled = NO;
+         self.Y_FPS.userInteractionEnabled = NO; */
         NSLog(@"Update button labels for BINARIES NONE");
         [self lockIntervalButtonPressed:self.lockIntervalButton];
         [self lockMinutesButtonPressed:self.lockMinutesButton];
@@ -621,6 +626,11 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
     self.minutesValue.locked = NO;
     self.secondsValue.locked = NO;
     self.FPSValue.locked = NO;
+    /*        // enable all to change // removed 08.18.20 - want to give user ability to change even if locked
+     self.IntervalExposure.userInteractionEnabled = YES;
+     self.X_Minutes.userInteractionEnabled = YES;
+     self.Z_Seconds.userInteractionEnabled = YES;
+     self.Y_FPS.userInteractionEnabled = YES; */
     NSLog(@"Update button labels for BINARIES ALL");
     [self lockIntervalButtonPressed:self.lockIntervalButton];
     [self lockMinutesButtonPressed:self.lockMinutesButton];
@@ -865,6 +875,12 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
 -(void) updateValuesWithEquation { // find what is locked, and assign unlocked values, by priority
     NSLog(@"Changing values for properties - do I return a property or set it?");
     
+    // moved 08.18.20 - check immediately and move on if the case
+    if (self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked) {
+        // 08.18.20 TODO need to revert whatever is changed back to itself
+        NSLog(@"EVERYONE IS LOCKED AND WE DID NOT CONSIDER");
+        return;
+    }
     // obtain current index/value of each of the pickers
     self.intervalExposureValue.valueOf = [self currentValueForPicker:self.IntervalExposure ofArray:self.availableIntervalExposure];
     self.minutesValue.valueOf = [self currentValueForPicker:self.X_Minutes ofArray:self.availableMinutes];
@@ -890,10 +906,7 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
      (3) Interval [determined by camera]
      */
     
-    if (self.intervalExposureValue.locked && self.minutesValue.locked && self.secondsValue.locked && self.FPSValue.locked) {
-        NSLog(@"EVERYONE IS LOCKED AND WE DID NOT CONSIDER");
-        return;
-    }
+   
     /*For values that are not locked, follow the priority list above. Assign until there is only one value NOT locked. Once assigned, unlock previously changed. 07.22.20 maybe consider a notification if ONLY one of the values is unlocked, that it cannot be changed without unlocking a different value */
     
     /*07.15.20 this is where the decision about which value is locked and which is calculated*/

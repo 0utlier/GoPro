@@ -32,6 +32,7 @@
 /*Not using yet*/
 @property (nonatomic)BOOL successCall; // successful or not (NO = 0 = NOT) [delivery to GoPro]
 
+@property (nonatomic)BOOL shootingCurrently; // 08.18.20 used to determine if the camera is currently shooting
 
 /*this is going to be assigned when the app starts, by the current device being set, so that the calls and available options are set when methodManager offers information*/
 // define currently used GoPro as a 4,5,6...
