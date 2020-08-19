@@ -75,11 +75,11 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     
 //    [self.deviceCurrent.heroDAO createHardCodeAvailableSettings]; // sets the values of all available options for given Hero model
     NSLog(@"Device's modes available %@", self.deviceCurrent.heroDAO.availableModes);
-    [self.deviceCurrent.heroDAO powerOn];
+//    [self.deviceCurrent.heroDAO powerOn];
     
 }
 
-
+/* // removed 08.19.20 - not helpful or used
 - (void) justSomeOfTheCallsThatCanBeMade {
     //    deviceCurrent.heroDAO = hero3;
     //     self.deviceCurrent.heroDAO = hero4;
@@ -104,13 +104,13 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
     
     //    NSLog(@"this device is %@", self.deviceCurrent); // this is to check when using it throughout app, to ensure it is still same object
     
-    /*
+    / *
      NSLog(@"this device's available modes = \n %@", self.deviceCurrent.heroDAO.availableModes);
      NSLog(@"this device's available subModes = \n %@", self.deviceCurrent.heroDAO.availableSubModes);
      NSLog(@"this device's available frameRates = \n %@", self.deviceCurrent.heroDAO.availableFrameRates);
-     
-     */
-}
+     * /
+ 
+}*/
 
 #pragma mark - START UP
 

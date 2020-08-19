@@ -10,6 +10,7 @@
 
 @implementation HeroStrings
 /*I do not see Shutter in here? Did I just completely leave it out? How about power? 08.17.20*/
+/*08.19.20 yes I can see those functions do not exist yet. For ANY of the system settings yet. Need to incorporate in the protocol - then here*/
 
 -(void)objectDidLoad {
     
@@ -25,7 +26,7 @@
 
 // this is for comparison to the JSON that comes in. It will make that readable
 - (void)createHardCodeDictionary {
-    // status hardcode dictionary
+    // status hardcode dictionary // labeled if there is an existing function already created
     NSDictionary *myStatusDictionary = [[NSDictionary alloc]initWithObjectsAndKeys:
                                         @"1",  @"battery", // function
                                         @"2",  @"batteryLevel", // function
@@ -35,6 +36,7 @@
                                         @"39", @"capturedMultiShot",
                                         @"31", @"clientsConnected",
                                         @"32", @"streamingStatus", // function
+                                        @"8",  @"recordingProcessing", // function
                                         @"33", @"sdCardPresent", // function
                                         @"34", @"remainingPhotos",
                                         @"35", @"remainingVideoTime",
@@ -42,7 +44,6 @@
                                         @"37", @"capturedVideos",
                                         @"38", @"capturedPhotosAll",
                                         @"39", @"capturedVideosAll",
-                                        @"8",  @"recordingProcessing", //?
                                         @"54", @"remainingBytes",
                                         nil];
 //    NSLog(@"Hardcoded Status Dict: %@", myStatusDictionary);
@@ -163,8 +164,17 @@
     streamingStatus.paramType = @"typeSystemSettings";
     //    streamingStatus.switchStatus = [self binaryAssignment:streamingStatus];
     
+    /* I don't know why this is here 08.19.20 - looks like duplicate
+     streamingStatus.title = @"Streaming";
+     streamingStatus.value = [self readableStreamingStatus:[self compareStatusHardcode:@"streamingStatus"]];
+     streamingStatus.paramType = @"typeSystemSettings";*/
+    SettingsObject *recordingStatus = [[SettingsObject alloc]init];
+    recordingStatus.title = @"Recording";
+    recordingStatus.value = [self readableRecordingStatus:[self compareStatusHardcode:@"recordingProcessing"]];
+    recordingStatus.paramType = @"typeSystemSettings";
+    
     // create an array with all current settingsObjects
-    NSMutableArray *statusSettingsArray = [[NSMutableArray alloc]initWithObjects:battery, batteryLevel, mode, sdCardPresent, streamingStatus, nil];
+    NSMutableArray *statusSettingsArray = [[NSMutableArray alloc]initWithObjects:battery, batteryLevel, mode, sdCardPresent, streamingStatus, recordingStatus, nil];
     [self printMyArray:statusSettingsArray];
     
     NSLog(@"remain photos = %d", [self compareStatusHardcode:@"remainingPhotos"]);
@@ -1701,6 +1711,59 @@
 }
 
 
+#pragma mark - POWER & SHUTTER
+//power
+- (void)getPower:(SettingsObject *)objectForSwitch {
+    // create a commandPath to send to URL call [with value of object's title]
+    CommandPathObject *powerObject = [[CommandPathObject alloc]init];
+    powerObject.value = objectForSwitch.title;
+    
+    // 08.19.20 currently we are not including turning back on. A little more involved
+    if (objectForSwitch.switchStatus == YES) {
+        NSLog(@"[08.19.20 NOT SET YET] Status for object %@ is NO!", objectForSwitch.title);
+        // include commandPath for object
+        powerObject.commandPath = @"NOT USING YET";
+        // update the switchStatus
+        objectForSwitch.switchStatus = NO;
+    }
+    else if (objectForSwitch.switchStatus == NO) {
+        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
+        // include commandPath for object
+        // http://10.5.5.9/gp/gpControl/command/system/sleep
+        powerObject.commandPath = @"/system/sleep";
+        // update the switchStatus
+        objectForSwitch.switchStatus = YES;
+        NSLog(@"GoPro go good night");
+
+    }
+    
+    [self sendCurrentURL:powerObject];
+}
+
+- (void)getRecording:(SettingsObject *)objectForSwitch {
+    // create a commandPath to send to URL call [with value of object's title]
+    CommandPathObject *recordingObject = [[CommandPathObject alloc]init];
+    recordingObject.value = objectForSwitch.title;
+    
+    if (objectForSwitch.switchStatus == YES) {
+        NSLog(@"Status for object %@ is YES!", objectForSwitch.title);
+        // include commandPath for object
+        recordingObject.commandPath = @"/shutter?p=0";
+        // update the switchStatus
+        objectForSwitch.switchStatus = NO;
+    }
+    else if (objectForSwitch.switchStatus == NO) {
+        NSLog(@"Status for object %@ is NO!", objectForSwitch.title);
+        // include commandPath for object
+        recordingObject.commandPath = @"/shutter?p=1";
+        // update the switchStatus
+        objectForSwitch.switchStatus = YES;
+    }
+    
+    [self sendCurrentURL:recordingObject];
+}
+
+
 #pragma mark - JSON Handling
 
 
@@ -2056,6 +2119,23 @@
     }
     
 }
+
+- (NSString *) readableRecordingStatus:(int)value {
+    switch (value) {
+        case 0:
+            return @"Not Recording";
+            break;
+        case 1:
+            return @"Recording";
+            break;
+            
+        default:
+            return NULL;
+            break;
+    }
+    
+}
+
 
 - (NSString *) readableSDCard:(int)value {
     switch (value) {
@@ -3367,125 +3447,6 @@
 }
 
 
-
-#pragma mark - Command Paths [See Note]
-/*07.22.20 I believe this is was for the strings aspect, and not necessary calls any more*/
-// list all HTTP calls for given setting request [without the front part - just the tail]
-
-#pragma mark - POWER & SHUTTER
-//power
--(void)powerOn {
-    self.urlForCurrentCall =@"Hero Power On";
-    [self printCurrentURL];
-}
--(void)powerOff {
-    self.urlForCurrentCall =@"Hero Power Off";
-    [self printCurrentURL];
-}
-
-//shutter
-- (void)shutterOn{
-    self.urlForCurrentCall =@"Hero Shutter On";
-    [self printCurrentURL];
-}
-- (void)shutterOff{
-    self.urlForCurrentCall =@"Hero Shutter Off";
-    [self printCurrentURL];
-}
-
-
-#pragma mark - MODES
-- (void)modeVideo{
-    self.urlForCurrentCall =@"Hero Mode Video";
-    [self printCurrentURL];
-}
-- (void)modePhoto{
-    self.urlForCurrentCall =@"Hero Mode Photo";
-    [self printCurrentURL];
-}
-- (void)modeMulti{
-    self.urlForCurrentCall =@"Hero Mode Multi";
-    [self printCurrentURL];
-}
-
-#pragma mark - SUB MODES
-//video
-- (void)subVidVideo{
-    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode Video";
-    [self printCurrentURL];
-}
-
-- (void)subVidTimeLapse{
-    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode TimeLapse";
-    [self printCurrentURL];
-}
-
-- (void)subVidAndPhoto{
-    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode Video & Photo";
-    [self printCurrentURL];
-}
-
-- (void)subVidLooping{
-    self.urlForCurrentCall =@"Hero Mode Video - Sub Mode Looping";
-    [self printCurrentURL];
-}
-
-//photo
-- (void)subPhoPhoto{
-    self.urlForCurrentCall =@"Hero Mode Photo - Sub Mode Photo";
-    [self printCurrentURL];
-}
-
-- (void)subPhoContin{
-    self.urlForCurrentCall =@"Hero Mode Photo - Sub Mode Continuous";
-    [self printCurrentURL];
-}
-
-- (void)subPhoNight{
-    self.urlForCurrentCall =@"Hero Mode Photo - Sub Mode Night";
-    [self printCurrentURL];
-}
-
-//multi
-- (void)subMulBurst{
-    self.urlForCurrentCall =@"Hero Mode Multi - Sub Mode Burst";
-    [self printCurrentURL];
-}
-
-- (void)subMulTimeLapse{
-    self.urlForCurrentCall =@"Hero Mode Multi - Sub Mode Time Lapse";
-    [self printCurrentURL];
-}
-
-- (void)subMulNightLapse{
-    self.urlForCurrentCall =@"Hero Mode Multi - Sub Mode Night Lapse";
-    [self printCurrentURL];
-}
-
-- (void)changeMode:(NSString *)mode {
-    if ([mode isEqual:@"video"]) {
-        //        NSLog(@"change to video");
-        [self modeVideo];
-    }
-    else if ([mode isEqual:@"photo"]) {
-        //        NSLog(@"change to photo");
-        [self modePhoto];
-        
-    }
-    else if ([mode isEqual:@"multi"]) {
-        //        NSLog(@"change to multi");
-        [self modeMulti];
-        
-    }
-    else
-        NSLog(@"Uh oh, user chose something unavaialable");
-    
-}
-
-- (void)changeSubMode:(NSString *)subMode {
-    // if statement
-}
-
 #pragma mark - PRINTING
 
 -(void)printCurrentURL {
@@ -3493,7 +3454,7 @@
     [self splitJSON]; 
 }
 
--(void)sendCurrentURL:(CommandPathObject *)object { // 12.11.18 should I pass through the object, or the string? probably object since I can add properties to check and handle differently here
+-(void)sendCurrentURL:(CommandPathObject *)object {
     if ([object.value isEqualToString:@"Looping"]) {
         NSLog(@"this is why we need a check");
     }
@@ -3502,7 +3463,7 @@
     if ([object.commandPath containsString:@"sub_mode"]) { // for SUB MODE
         urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/command/sub_mode?mode=%@", object.commandPath];
     }
-    else if ([object.commandPath containsString:@"/mode"]||[object.commandPath containsString:@"/shutter"]) { // for MODE
+    else if ([object.commandPath containsString:@"/mode"]||[object.commandPath containsString:@"/shutter"]||[object.commandPath containsString:@"/sleep"]) { // for MODE
         urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/command%@", object.commandPath];
     }
     else {
@@ -3574,6 +3535,7 @@
     });
     return sharedDAO;
 }
+
 
 - (id)init {
     if (self = [super init]) {

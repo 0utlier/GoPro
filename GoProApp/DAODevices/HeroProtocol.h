@@ -27,37 +27,14 @@
 // this can be a ViewDidLoad for the object. Anything hard coded that needs to be set
 -(void)objectDidLoad;
 
-#pragma mark - POWER & SHUTTER
-- (void)powerOn;
-- (void)powerOff;
-- (void)shutterOn;
-- (void)shutterOff;
-
-#pragma mark - MODES
+/* // removed 08.19.20 -
+ #pragma mark - MODES
 - (void)changeMode:(NSString *)mode;
 
 //types of mode
-- (void)modeVideo;
-- (void)modePhoto;
-- (void)modeMulti;
-
-#pragma mark - SUB MODES
-- (void)changeSubMode:(NSString *)subMode; // this will contain the switchCase/if statements that will send the below calls depending on that the input is
-
-//video
-- (void)subVidVideo;
-- (void)subVidTimeLapse;
-- (void)subVidAndPhoto;
-- (void)subVidLooping;
-//photo
-- (void)subPhoPhoto;
-- (void)subPhoContin;
-- (void)subPhoNight;
-//multi
-- (void)subMulBurst;
-- (void)subMulTimeLapse;
-- (void)subMulNightLapse;
-
+ - (void)modeVideo;
+ - (void)modePhoto;
+ - (void)modeMulti; */
 
 #pragma mark - COMMAND PATHS
 
@@ -125,6 +102,13 @@
 - (void)getMSSpotMeter:(SettingsObject *)objectForSwitch;
 - (void)getMSProtune:(SettingsObject *)objectForSwitch;
 
+#pragma mark - POWER & SHUTTER
+// 08.19.20 no need for return, since it is binary
+- (void)getPower:(SettingsObject *)objectForSwitch;
+//- (void)getPowerOff:(SettingsObject *)objectForSwitch;
+- (void)getRecording:(SettingsObject *)objectForSwitch;
+//- (void)getRecordingOff:(SettingsObject *)objectForSwitch;
+
 
 #pragma mark - SETTINGS / STATUS
 
@@ -151,8 +135,8 @@
 
 - (NSMutableArray *)showAvailableArray:(NSString *)title;
 
-// if a binary value, check which one and make the call
-- (void)switchStatusForObject:(SettingsObject *)objectForSwitch; // made 07.18.20
+// if a binary value, check which one [object] and make the call [after displaying current setting]
+- (void)switchStatusForObject:(SettingsObject *)objectForSwitch; // made 07.18.20 for Binary [above]
 
 #pragma mark - AVAILABLE PROPERTIES
 @property (nonatomic, retain) NSMutableArray *availableModes;
@@ -253,6 +237,8 @@
 //- (NSString *) readableSubModeCurrentMultiShot:(int)value;
 
 - (NSString *) readableStreamingStatus:(int)value;
+
+- (NSString *) readableRecordingStatus:(int)value;
 
 - (NSString *) readableSDCard:(int)value;
 

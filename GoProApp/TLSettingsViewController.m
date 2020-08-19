@@ -362,7 +362,10 @@ typedef enum  { // current mode, to determine what arrays to call upon 07.27.20
         [self stopTimer];
         return;
     }
+    // TODO 08.19.20 obtain current settings and save for "last used"
     
+    
+    // if button pressed, start the submission and timer
     self.timerIsCountingDown = YES; // timer is going to be ON
     [submit setTitle:@"STOP" forState:(UIControlStateNormal)];
     // obtain currently assigned value for picker, using row as the index
