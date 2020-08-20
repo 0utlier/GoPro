@@ -80,6 +80,7 @@
 		43B9A11721A9AC3E00C0468E /* OptionsCVCCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OptionsCVCCell.m; sourceTree = "<group>"; };
 		5FB3228C24E27325009BFE6E /* StreamDecorationsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StreamDecorationsViewController.h; path = GoProApp/StreamDecorationsViewController.h; sourceTree = SOURCE_ROOT; };
 		5FB3228D24E27325009BFE6E /* StreamDecorationsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = StreamDecorationsViewController.m; path = GoProApp/StreamDecorationsViewController.m; sourceTree = SOURCE_ROOT; };
+		5FB416DD24ECDFE300B29A6B /* GoProApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GoProApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +144,7 @@
 		31A13C501FA6B5860012EC68 /* GoProApp */ = {
 			isa = PBXGroup;
 			children = (
+				5FB416DD24ECDFE300B29A6B /* GoProApp.entitlements */,
 				4354FF9B21AA35C500C2F3D8 /* OptionsTV */,
 				31A13C6D1FA6C60D0012EC68 /* AppDelegate */,
 				31A13C721FA6CD560012EC68 /* DAODevices */,
@@ -316,6 +318,11 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = J8S4TEK739;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.AccessWiFi = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -511,6 +518,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GoProApp/GoProApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J8S4TEK739;
@@ -528,6 +536,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GoProApp/GoProApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J8S4TEK739;

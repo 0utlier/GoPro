@@ -1730,7 +1730,6 @@
         // include commandPath for object
         // http://10.5.5.9/gp/gpControl/command/system/sleep
         powerObject.commandPath = @"/system/sleep";
-        // update the switchStatus
     }
     
     [self sendCurrentURL:powerObject];
@@ -1745,14 +1744,11 @@
         NSLog(@"Start RECORDING YES!");
         // include commandPath for object
         recordingObject.commandPath = @"/shutter?p=1";
-        // update the switchStatus
-        return; // please remove once the commandpath is worked out
     }
     else if (changeToStatus == NO) {
         NSLog(@"Stop RECORDING NO!");
         // include commandPath for object
         recordingObject.commandPath = @"/shutter?p=0";
-        // update the switchStatus
     }
     
     [self sendCurrentURL:recordingObject];

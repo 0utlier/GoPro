@@ -119,6 +119,7 @@
     NSLog(@"test pressed");
 //    sleep(3);
     
+    [self.methodManager.deviceCurrent.heroDAO getRecording:NO];
 }
 
 
