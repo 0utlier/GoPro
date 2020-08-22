@@ -46,7 +46,7 @@
                                         @"39", @"capturedVideosAll",
                                         @"54", @"remainingBytes",
                                         nil];
-//    NSLog(@"Hardcoded Status Dict: %@", myStatusDictionary);
+    //    NSLog(@"Hardcoded Status Dict: %@", myStatusDictionary);
     
     self.dictionaryStatusHardcode = myStatusDictionary;
     
@@ -120,11 +120,11 @@
                                           @"59", @"otherAutoPowerOff",
                                           nil];
     
-//    NSLog(@"Hardcoded Settings Dict: %@", mySettingsDictionary);
+    //    NSLog(@"Hardcoded Settings Dict: %@", mySettingsDictionary);
     
     self.dictionarySettingsHardcode = mySettingsDictionary;
     
-   
+    
 }
 
 
@@ -681,7 +681,7 @@
     NSMutableArray *myLoopingIntervals = [[NSMutableArray alloc]initWithObjects: loopingIntervalMax, loopingInterval5, loopingInterval20,loopingInterval60, loopingInterval120, nil];
     self.availableVideoLoopingInterval = myLoopingIntervals;
     return self.availableVideoLoopingInterval;
-
+    
     
 }
 
@@ -702,7 +702,7 @@
     NSMutableArray *myPhotoVideoIntervals = [[NSMutableArray alloc]initWithObjects: pvInterval5, pvInterval10, pvInterval30, pvInterval60, nil];
     self.availableVideoPhotoVideoInterval = myPhotoVideoIntervals;
     return self.availableVideoPhotoVideoInterval;
-
+    
 }
 
 - (NSMutableArray *)getVideoWhiteBalance {
@@ -734,7 +734,7 @@
     NSMutableArray *myWhiteBalances = [[NSMutableArray alloc]initWithObjects: whiteBalanceAuto, whiteBalance3000K, whiteBalance4000K, whiteBalance4800K, whiteBalance5500K, whiteBalance6000K, whiteBalance6500K, whiteBalanceNative, nil];
     self.availableVideoWhiteBalance = myWhiteBalances;
     return self.availableVideoWhiteBalance;
-
+    
 }
 
 - (NSMutableArray *)getVideoColor {
@@ -748,8 +748,8 @@
     NSMutableArray *myColors = [[NSMutableArray alloc]initWithObjects: colorFlat, colorGoProColor, nil];
     self.availableVideoColor = myColors;
     return self.availableVideoColor;
-
-
+    
+    
 }
 
 
@@ -785,7 +785,7 @@
     NSMutableArray *myEVComp = [[NSMutableArray alloc]initWithObjects: evComp2_0,evCompN1_5,evCompN1_0,evComp0_5,evComp0,evCompN0_5,evCompN1_0,evCompN1_5,evCompN2_0, nil];
     self.availableVideoEVComp = myEVComp;
     return self.availableVideoEVComp;
-
+    
 }
 
 
@@ -818,7 +818,7 @@
     NSMutableArray *myISOLimit = [[NSMutableArray alloc]initWithObjects: isoLimit100, isoLimit200, isoLimit400, isoLimit800, isoLimit1600, isoLimit3200, isoLimit6400, nil];
     self.availableVideoISOLimit = myISOLimit;
     return self.availableVideoISOLimit;
-
+    
 }
 
 
@@ -833,7 +833,7 @@
     NSMutableArray *myISOMode = [[NSMutableArray alloc]initWithObjects:isoModeMax, isoModeLock, nil];
     self.availableVideoISOMode = myISOMode;
     return self.availableVideoISOMode;
-
+    
 }
 
 
@@ -909,7 +909,7 @@
     NSMutableArray *myManualExposures = [[NSMutableArray alloc]initWithObjects: manualExposureAuto, manualExposure24, manualExposure25, manualExposure30, manualExposure48, manualExposure50, manualExposure60, manualExposure80, manualExposure90, manualExposure96, manualExposure100, manualExposure120, manualExposure160, manualExposure180, manualExposure192, manualExposure200, manualExposure240, manualExposure320, manualExposure360, manualExposure400, manualExposure480, manualExposure960, nil];
     self.availableVideoManualExposure = myManualExposures;
     return self.availableVideoManualExposure;
-
+    
     /* // not a clue what to do with this? 12.1.18
      Manual Video Exposure:
      
@@ -963,7 +963,7 @@
     NSMutableArray *mySharpness = [[NSMutableArray alloc]initWithObjects: sharpnessHigh, sharpnessMedium, sharpnessLow, nil];
     self.availableVideoSharpness = mySharpness;
     return self.availableVideoSharpness;
-
+    
 }
 
 // Switch Binary Values
@@ -1521,10 +1521,10 @@
     CommandPathObject *tlInterval60m = [[CommandPathObject alloc]init];
     tlInterval60m.value = @"60 Minutes";
     tlInterval60m.commandPath = @"32/3600";
-
-
-
-
+    
+    
+    
+    
     
     NSMutableArray *myNLIntervals = [[NSMutableArray alloc]initWithObjects: tlInterval_Continuous, tlInterval_4, tlInterval_5, tlInterval10, tlInterval15, tlInterval20, tlInterval30, tlInterval60, tlInterval2m, tlInterval5m, tlInterval30m, tlInterval60m, nil];
     self.availableMSNLInterval = myNLIntervals;
@@ -1711,7 +1711,7 @@
 }
 
 
-#pragma mark - POWER & SHUTTER
+#pragma mark - POWER & SHUTTER [System Settings]
 //power
 - (void)getPower:(BOOL)changeToStatus {
     // create a commandPath to send to URL call [with value of object's title]
@@ -1754,6 +1754,28 @@
     [self sendCurrentURL:recordingObject];
 }
 
+- (void)turnWiFiOff {
+    
+    CommandPathObject *wifiOFF = [[CommandPathObject alloc]init];
+    wifiOFF.commandPath = @"63/0";
+    [self sendCurrentURL:wifiOFF];
+}
+
+- (void)checkIfCurrentlyRecordingProcessing {
+    [self splitJSON:^(NSDictionary *myDictionary) {
+        //        NSLog(@"dictionary print 123");
+        NSLog(@"TEST AFTER 123");
+        NSString *currentStatusRecording = [[NSString alloc]init];
+        currentStatusRecording = [self readableRecordingStatus:[self compareStatusHardcode:@"recordingProcessing"]];
+        NSLog(@"STATUS = %@",currentStatusRecording);
+        while ([currentStatusRecording isEqualToString:@"Recording"]) {
+            NSLog(@"I am recording!");
+            [self checkIfCurrentlyRecordingProcessing];
+        }
+    }];
+    //    sleep(.25);
+    
+}
 
 #pragma mark - JSON Handling
 
@@ -1774,6 +1796,28 @@
         
         // use dictionaries and assign values
         [self assignCurrentStatusSettingsArray];
+    }];
+}
+
+// once JSON is acquired and parsed, split into settings and status to be used throughout app
+-(void)splitJSON:(void (^)(NSDictionary *myDictionary))completionHandler{
+    
+    // send signal to GoPro to recover current settings, and wait for completion
+    [self fetchGoProSettingsAndStatusJSONWithCompletion:^(NSDictionary *myJSONDictionary) {
+        // split dictionary into status and settings
+        self.dictionaryStatusDefinition = [myJSONDictionary objectForKey:@"status"];
+        self.dictionarySettingsDefinition = [myJSONDictionary objectForKey:@"settings"];
+        
+        NSLog(@"signal sent, and received JSON. Now splitting, and assigning to DAO's Setting Object");
+        /*http://10.5.5.9/gp/gpControl/status*/
+        NSLog(@"settingsDict = %@", self.dictionarySettingsDefinition);
+        NSLog(@"statusDict = %@", self.dictionaryStatusDefinition);
+        
+        // use dictionaries and assign values
+        [self assignCurrentStatusSettingsArray];
+        NSLog(@"Json called 123");
+        completionHandler(myJSONDictionary);
+        
     }];
 }
 
@@ -1812,18 +1856,18 @@
 // return readable values // QUESTION 07.11.20 why is there no MegaPixel here?
 - (NSMutableArray *)showAvailableArray:(NSString *)title {
     
-   /* if ([title isEqualToString:@"Sub Mode"]) {
-        if ([self.currentMode isEqualToString:@"Video"]) {
-            return self.availableVideoSubMode;
-        }
-        else if ([self.currentMode isEqualToString:@"Photo"])
-            return self.availablePhotoSubMode;
-        else if ([self.currentMode isEqualToString:@"MultiShot"])
-            return self.availableMSSubMode;
-    }
-    //    NSLog(@"The array seeking = %@", [titleToArray objectForKey:title]);
-    return [self.dictionaryAvailableArrays objectForKey:title];
-*/
+    /* if ([title isEqualToString:@"Sub Mode"]) {
+     if ([self.currentMode isEqualToString:@"Video"]) {
+     return self.availableVideoSubMode;
+     }
+     else if ([self.currentMode isEqualToString:@"Photo"])
+     return self.availablePhotoSubMode;
+     else if ([self.currentMode isEqualToString:@"MultiShot"])
+     return self.availableMSSubMode;
+     }
+     //    NSLog(@"The array seeking = %@", [titleToArray objectForKey:title]);
+     return [self.dictionaryAvailableArrays objectForKey:title];
+     */
     // check what title is submitted
     // run correct function, to return array, return given array
     
@@ -1869,19 +1913,19 @@
     }
     else if ([title isEqualToString:@"Manual Exposure"]) {
         return self.getVideoManualExposure;
-    
+        
     }
     else if ([title isEqualToString:@"ISO Mode"]) {
         return self.getVideoISOMode;
-
+        
     }
     else if ([title isEqualToString:@"ISO Limit"]) {
         return self.getVideoISOLimit;
-
+        
     }
     else if ([title isEqualToString:@"Sharpness"]) {
         return self.getVideoSharpness;
-
+        
     }
     else if ([title isEqualToString:@"EV Comp"]) {
         return self.getVideoEVComp;
@@ -1892,49 +1936,49 @@
     
     else if ([title isEqualToString:@"Sub Mode"]) {
         return self.getPhotoSubMode;
-     }
-
+    }
+    
     else if ([title isEqualToString:@"Continuous Rate"]) {
         return self.getPhotoContinuousRate;
-     }
-
+    }
+    
     else if ([title isEqualToString:@"Megapixels"]) {
         return self.getPhotoMegaPixels;
-     }
-
+    }
+    
     else if ([title isEqualToString:@"Night Exposure"]) {
         return self.getPhotoNightExposure;
-     }
-
+    }
+    
     else if ([title isEqualToString:@"White Balance"]) {
         return self.getPhotoWhiteBalance;
-     }
-
+    }
+    
     else if ([title isEqualToString:@"Color"]) {
         return self.getPhotoColor;
-     }
-
+    }
+    
     else if ([title isEqualToString:@"Sharpness"]) {
         return self.getPhotoSharpness;
-     }
-
+    }
+    
     else if ([title isEqualToString:@"EV Comp"]) {
         return self.getPhotoEVComp;
-     }
-
+    }
+    
     else if ([title isEqualToString:@"ISO Min"]) {
         return self.getPhotoISOMin;
-     }
-
+    }
+    
     else if ([title isEqualToString:@"ISO Limit"]) {
         return self.getPhotoISOLimit;
-     }
-
+    }
     
-
+    
+    
     else return nil;
-
-
+    
+    
 }
 
 // if a binary value, check which one and make the call
@@ -3442,7 +3486,7 @@
 
 -(void)printCurrentURL {
     NSLog(@"The DevCall %@",self.urlForCurrentCall);
-    [self splitJSON]; 
+    [self splitJSON];
 }
 
 -(void)sendCurrentURL:(CommandPathObject *)object {
@@ -3458,7 +3502,7 @@
         urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/command%@", object.commandPath];
     }
     else {
-    urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/setting/%@", object.commandPath];
+        urlString = [NSString stringWithFormat:@"http://10.5.5.9/gp/gpControl/setting/%@", object.commandPath];
     }
     NSLog(@"sent to gp %@",urlString);
     NSURL *url = [NSURL URLWithString:urlString];
@@ -3498,8 +3542,8 @@
     }];
     [dataTask resume];
     
-
-//    [self splitJSON];
+    
+    //    [self splitJSON];
 }
 
 //==============================================//

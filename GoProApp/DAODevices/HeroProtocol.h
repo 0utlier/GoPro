@@ -102,12 +102,15 @@
 - (void)getMSSpotMeter:(SettingsObject *)objectForSwitch;
 - (void)getMSProtune:(SettingsObject *)objectForSwitch;
 
-#pragma mark - POWER & SHUTTER
+#pragma mark - POWER & SHUTTER [System Settings]
 // 08.19.20 no need for return, since it is binary
 - (void)getPower:(BOOL)changeToStatus;
 //- (void)getPowerOff:(SettingsObject *)objectForSwitch;
 - (void)getRecording:(BOOL)changeToStatus;
 //- (void)getRecordingOff:(SettingsObject *)objectForSwitch;
+- (void)turnWiFiOff;
+
+- (void)checkIfCurrentlyRecordingProcessing;
 
 
 #pragma mark - SETTINGS / STATUS
