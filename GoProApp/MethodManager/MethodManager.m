@@ -17,13 +17,13 @@
 
 /*09.17.18 added, but have not used any of these in code yet*/
 
-BOOL shooting; // shooting or  (NO = 0 = Silent)
+//BOOL recording; // recording or  (NO = 0 = Silent) // removed 08.22.20, moved to DAO protocol
 BOOL connected; // connected or  (NO = 0 = no connection found)
 BOOL power; // deviceOn or  (NO = 0 = deviceOff)
 BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 
 /*
- shooting 11.18.17
+ recording 11.18.17 // removed 08.22.20 [moved to DAO protocol]
  created in MM
  [not initialized, but assumed NO]
  meant to be in: VC VWA if, set NO : not there yet
@@ -52,6 +52,24 @@ BOOL streaming; // currently viewing lens or  (NO = 0 = not utilizing view)
 
 
 #pragma mark - TEST CODE
+
+// 08.22.20 added to check if GoPro is recording.
+//- (void)checkIfCurrentlyRecordingProcessing {
+//    [self.deviceCurrent.heroDAO splitJSON:^(NSDictionary *myDictionary) {
+//        //        NSLog(@"dictionary print 123");
+//        NSString *currentStatusRecording = [[NSString alloc]init];
+//        currentStatusRecording = [self.deviceCurrent.heroDAO checkIfCurrentlyRecordingProcessing];
+//        NSLog(@"STATUS = %@",currentStatusRecording);
+//        if ([currentStatusRecording isEqualToString:@"Recording"]) {
+//            NSLog(@"I am recording!");
+//            self.deviceCurrent.heroDAO.recordingCurrently = YES;
+//            sleep(1);
+//            [self checkIfCurrentlyRecordingProcessing];
+//        }
+//    }];
+//    self.deviceCurrent.heroDAO.recordingCurrently = NO;
+//}
+
 //(Move to startUpApp method)
 
 - (void)assignDeviceManager: (NSString *)device/*(*UIViewController or whatever to pass in right one)*/ {

@@ -186,10 +186,10 @@ typedef enum  { // current mode, to determine what arrays to call upon, or what 
 }
 
 -(void)shutterButtonPressed:(UIButton *)submitShutter {
-    if (self.methodManager.shootingCurrently == YES) { // if currently shooting, stop and reset
+    if (self.methodManager.deviceCurrent.heroDAO.recordingCurrently == YES) { // if currently shooting, stop and reset
         self.shutterButton.backgroundColor = [UIColor greenColor];
         [self.methodManager.deviceCurrent.heroDAO getRecording:NO];
-        self.methodManager.shootingCurrently = NO;
+        self.methodManager.deviceCurrent.heroDAO.recordingCurrently = NO;
         [self showAllDecorations];
         [self.screenShotView setHidden:YES];
         [self.shutterButton setTitle:@"SHUTTER" forState:UIControlStateNormal];
@@ -200,7 +200,7 @@ typedef enum  { // current mode, to determine what arrays to call upon, or what 
     [self showScreenShot];
     self.shutterButton.backgroundColor = [UIColor purpleColor];
     [self.methodManager.deviceCurrent.heroDAO getRecording:YES];
-    self.methodManager.shootingCurrently = YES;
+    self.methodManager.deviceCurrent.heroDAO.recordingCurrently = YES;
     [self.shutterButton setTitle:@"SHOOTING" forState:UIControlStateNormal];
 }
 

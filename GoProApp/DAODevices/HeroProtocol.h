@@ -24,6 +24,15 @@
 
 + (instancetype)sharedDAO;
 
+@property (nonatomic)BOOL recordingCurrently; // recording or  (NO = 0 = Silent)
+// 08.18.20 used to determine if the camera is currently shooting
+
+/* recordingCurrently 08.22.20
+ created in HeroProtocol
+ [not initialized, but assumed NO]
+ meant to be in: VC VWA if, set NO : not there yet
+ */
+
 // this can be a ViewDidLoad for the object. Anything hard coded that needs to be set
 -(void)objectDidLoad;
 
@@ -117,6 +126,8 @@
 
 // split up JSON after FETCH complete
 - (void)splitJSON;
+// 08.22.20 test code for receiving if "recording" is currently happening
+- (void)splitJSON:(void (^)(NSDictionary *myDictionary))completionHandler;
 
 // obtain the JSON and return the dictionary, with use of CompletionHandler
 -(void)fetchGoProSettingsAndStatusJSONWithCompletion:(void (^)(NSDictionary *myDictionary))completionHandler;

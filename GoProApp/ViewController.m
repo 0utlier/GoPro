@@ -120,7 +120,7 @@
 
 //    sleep(3);
           [self.methodManager.deviceCurrent.heroDAO checkIfCurrentlyRecordingProcessing];
-    NSLog(@"recording = ");
+    NSLog(@"SHOWING UP, %d", self.methodManager.deviceCurrent.heroDAO.recordingCurrently);
 }
 
 

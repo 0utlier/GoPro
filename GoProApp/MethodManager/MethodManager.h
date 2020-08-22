@@ -32,9 +32,12 @@
 /*Not using yet*/
 @property (nonatomic)BOOL successCall; // successful or not (NO = 0 = NOT) [delivery to GoPro]
 
-@property (nonatomic)BOOL shootingCurrently; // 08.18.20 used to determine if the camera is currently shooting
+//@property (nonatomic)BOOL recordingCurrently; // 08.18.20 used to determine if the camera is currently shooting // moved 08.22.20 to DAO protocol
 
-/*this is going to be assigned when the app starts, by the current device being set, so that the calls and available options are set when methodManager offers information*/
+// testing for checking if GoPro is recording
+//- (void)checkIfCurrentlyRecordingProcessing;
+
+    /*this is going to be assigned when the app starts, by the current device being set, so that the calls and available options are set when methodManager offers information*/
 // define currently used GoPro as a 4,5,6...
 @property (strong, nonatomic) NSString *gpCurrent;
 // from this, make a DAO singleton that is used for delivery of signals [VC >> MM >> DAO >> GoPro]

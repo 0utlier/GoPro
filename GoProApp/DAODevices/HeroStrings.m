@@ -164,10 +164,6 @@
     streamingStatus.paramType = @"typeSystemSettings";
     //    streamingStatus.switchStatus = [self binaryAssignment:streamingStatus];
     
-    /* I don't know why this is here 08.19.20 - looks like duplicate
-     streamingStatus.title = @"Streaming";
-     streamingStatus.value = [self readableStreamingStatus:[self compareStatusHardcode:@"streamingStatus"]];
-     streamingStatus.paramType = @"typeSystemSettings";*/
     SettingsObject *recordingStatus = [[SettingsObject alloc]init];
     recordingStatus.title = @"Recording";
     recordingStatus.value = [self readableRecordingStatus:[self compareStatusHardcode:@"recordingProcessing"]];
@@ -1762,19 +1758,20 @@
 }
 
 - (void)checkIfCurrentlyRecordingProcessing {
-    [self splitJSON:^(NSDictionary *myDictionary) {
-        //        NSLog(@"dictionary print 123");
-        NSLog(@"TEST AFTER 123");
-        NSString *currentStatusRecording = [[NSString alloc]init];
-        currentStatusRecording = [self readableRecordingStatus:[self compareStatusHardcode:@"recordingProcessing"]];
-        NSLog(@"STATUS = %@",currentStatusRecording);
-        while ([currentStatusRecording isEqualToString:@"Recording"]) {
-            NSLog(@"I am recording!");
-            [self checkIfCurrentlyRecordingProcessing];
-        }
-    }];
-    //    sleep(.25);
-    
+        [self splitJSON:^(NSDictionary *myDictionary) {
+    NSString *currentStatusRecording = [[NSString alloc]init];
+    currentStatusRecording = [self readableRecordingStatus:[self compareStatusHardcode:@"recordingProcessing"]];
+            NSLog(@"STATUS = %@",currentStatusRecording);
+            if ([currentStatusRecording isEqualToString:@"Recording"]) {
+                NSLog(@"I am recording!");
+                sleep(1);
+                self.recordingCurrently = YES;
+                [self checkIfCurrentlyRecordingProcessing];
+            }
+            else {
+                self.recordingCurrently = NO;
+            }
+        }];
 }
 
 #pragma mark - JSON Handling
@@ -3632,5 +3629,6 @@
 @synthesize availableVideoSubMode;
 @synthesize availableVideoTLInterval;
 @synthesize availableVideoWhiteBalance;
+@synthesize recordingCurrently;
 
 @end
