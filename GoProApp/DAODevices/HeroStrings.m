@@ -1757,8 +1757,11 @@
     [self sendCurrentURL:wifiOFF];
 }
 
-- (void)checkIfCurrentlyRecordingProcessing {
-        [self splitJSON:^(NSDictionary *myDictionary) {
+- (void)checkIfCurrentlyRecordingProcessing:(NSDate *)methodStart {
+    self.methodStart = methodStart;
+    
+    
+    [self splitJSON:^(NSDictionary *myDictionary) {
     NSString *currentStatusRecording = [[NSString alloc]init];
     currentStatusRecording = [self readableRecordingStatus:[self compareStatusHardcode:@"recordingProcessing"]];
             NSLog(@"STATUS = %@",currentStatusRecording);
@@ -1766,13 +1769,42 @@
                 NSLog(@"I am recording!");
                 sleep(1);
                 self.recordingCurrently = YES;
-                [self checkIfCurrentlyRecordingProcessing];
+                [self checkIfCurrentlyRecordingProcessing:self.methodStart];
             }
             else {
                 self.recordingCurrently = NO;
+
             }
         }];
+    NSDate *methodFinish = [NSDate date];
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:self.methodStart];
+    NSLog(@"executionTime = %f", executionTime);
 }
+
+- (void)howLongBetweenShots:(NSDate *)methodStart {
+    self.methodStart = methodStart;
+    
+    [self splitJSON:^(NSDictionary *myDictionary) {
+        int currentPhotoCount = [self compareStatusHardcode:@"capturedPhotosAll"];
+        NSLog(@"taken photos = %d",currentPhotoCount);
+        NSLog(@"taken photos property = %d",self.currentCount);
+        if (currentPhotoCount <= self.currentCount || self.currentCount == 0) {
+            NSLog(@"I am the same! Or less");
+            sleep(1);
+            self.recordingCurrently = YES;
+            self.currentCount = currentPhotoCount;
+            [self howLongBetweenShots:self.methodStart];
+        }
+        else {
+            self.recordingCurrently = NO;
+            self.currentCount = currentPhotoCount;
+        }
+    }];
+    NSDate *methodFinish = [NSDate date];
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:self.methodStart];
+    NSLog(@"executionTime = %f", executionTime);
+}
+
 
 #pragma mark - JSON Handling
 
@@ -1790,6 +1822,10 @@
         /*http://10.5.5.9/gp/gpControl/status*/
         NSLog(@"settingsDict = %@", self.dictionarySettingsDefinition);
         NSLog(@"statusDict = %@", self.dictionaryStatusDefinition);
+        
+//        int currentPhotoCount = [self compareStatusHardcode:@"capturedPhotosAll"];
+//        self.currentCount = currentPhotoCount;
+
         
         // use dictionaries and assign values
         [self assignCurrentStatusSettingsArray];

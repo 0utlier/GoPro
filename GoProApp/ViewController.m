@@ -119,7 +119,13 @@
     NSLog(@"test pressed");
 
 //    sleep(3);
-          [self.methodManager.deviceCurrent.heroDAO checkIfCurrentlyRecordingProcessing];
+    NSDate *methodStart = [NSDate date];
+    CommandPathObject *recordingObject = [[CommandPathObject alloc]init];
+    recordingObject.commandPath = @"/shutter?p=1";
+    [self.methodManager.deviceCurrent.heroDAO sendCurrentURL:recordingObject];
+    [self.methodManager.deviceCurrent.heroDAO howLongBetweenShots:methodStart];
+
+//          [self.methodManager.deviceCurrent.heroDAO checkIfCurrentlyRecordingProcessing:methodStart];
     NSLog(@"SHOWING UP, %d", self.methodManager.deviceCurrent.heroDAO.recordingCurrently);
 }
 

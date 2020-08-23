@@ -119,7 +119,8 @@
 //- (void)getRecordingOff:(SettingsObject *)objectForSwitch;
 - (void)turnWiFiOff;
 
-- (void)checkIfCurrentlyRecordingProcessing;
+- (void)checkIfCurrentlyRecordingProcessing:(NSDate*)methodStart;
+- (void)howLongBetweenShots:(NSDate*)methodStart;
 
 
 #pragma mark - SETTINGS / STATUS

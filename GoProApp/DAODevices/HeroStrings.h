@@ -18,5 +18,7 @@
 #pragma MARK - IMPORTANT
 
 @interface HeroStrings : NSObject <HeroDAO>
+@property NSDate *methodStart; // test remove please
+@property int currentCount;
 
 @end
