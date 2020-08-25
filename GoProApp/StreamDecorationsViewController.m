@@ -186,6 +186,10 @@ typedef enum  { // current mode, to determine what arrays to call upon, or what 
 }
 
 -(void)shutterButtonPressed:(UIButton *)submitShutter {
+    // TODO 08.25.20 start checking device is recording every 1 second. Send signal to stop if so.
+    // check for mode. if video, start stop buttons. If Photo, change title, but freeze button from cahnging until processing is done
+    
+    
     if (self.methodManager.deviceCurrent.heroDAO.recordingCurrently == YES) { // if currently shooting, stop and reset
         self.shutterButton.backgroundColor = [UIColor greenColor];
         [self.methodManager.deviceCurrent.heroDAO getRecording:NO];
@@ -199,9 +203,16 @@ typedef enum  { // current mode, to determine what arrays to call upon, or what 
     [self hideAllDecorations];
     [self showScreenShot];
     self.shutterButton.backgroundColor = [UIColor purpleColor];
+    [self.methodManager.deviceCurrent.heroDAO retainOldSetting];
     [self.methodManager.deviceCurrent.heroDAO getRecording:YES];
     self.methodManager.deviceCurrent.heroDAO.recordingCurrently = YES;
     [self.shutterButton setTitle:@"SHOOTING" forState:UIControlStateNormal];
+    
+    // is device currently recording?
+    NSDate *methodStart = [NSDate date];
+    //    sleep(3);
+    [self.methodManager.deviceCurrent.heroDAO checkIfCurrentlyRecordingProcessing:methodStart];
+
 }
 
 

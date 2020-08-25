@@ -120,7 +120,8 @@
 - (void)turnWiFiOff;
 
 - (void)checkIfCurrentlyRecordingProcessing:(NSDate*)methodStart;
-- (void)howLongBetweenShots:(NSDate*)methodStart;
+- (void)howLongBetweenShots:(NSDate*)methodStart; //testing 08.25.20 to find "Auto Exposure" length
+- (void)retainOldSetting;
 
 
 #pragma mark - SETTINGS / STATUS
@@ -233,6 +234,7 @@
 
 @property (nonatomic, retain) NSString *urlForCurrentCall; // for passing through the HTTP call
 
+@property (nonatomic, retain) NSMutableArray *lastUsedSettingsArray; // made 08.25.20 for last used, incase user wants to quickly get back to last used settings
 
 #pragma mark - READABLE FUNCTIONS
 // return readable values

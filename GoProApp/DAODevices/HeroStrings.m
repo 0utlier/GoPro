@@ -472,6 +472,17 @@
     
 }
 
+- (void)retainOldSetting {
+    // get current settings and assign as an array of commandpaths
+    self.lastUsedSettingsArray = self.currentSettingsArray;
+    NSLog(@"HERE IS THE LIST OF LAST USED");
+
+    for (SettingsObject *currentSetting in self.lastUsedSettingsArray) {
+        NSLog(@"%@ = %@",currentSetting.title, currentSetting.value);
+    }
+
+}
+
 // 07.11.20 I believe this is to RETURN arrays for all available calls for this particular GoPro
 #pragma mark - COMMANDPATH
 
@@ -1758,24 +1769,32 @@
 }
 
 - (void)checkIfCurrentlyRecordingProcessing:(NSDate *)methodStart {
+    // when implementing this, use [as parameter]:
+    //     NSDate *methodStart = [NSDate date];
+    
     self.methodStart = methodStart;
     
     
     [self splitJSON:^(NSDictionary *myDictionary) {
-    NSString *currentStatusRecording = [[NSString alloc]init];
-    currentStatusRecording = [self readableRecordingStatus:[self compareStatusHardcode:@"recordingProcessing"]];
-            NSLog(@"STATUS = %@",currentStatusRecording);
-            if ([currentStatusRecording isEqualToString:@"Recording"]) {
-                NSLog(@"I am recording!");
-                sleep(1);
-                self.recordingCurrently = YES;
-                [self checkIfCurrentlyRecordingProcessing:self.methodStart];
-            }
-            else {
-                self.recordingCurrently = NO;
+        int currentVideoDuration = 0;
+        currentVideoDuration = [self compareStatusHardcode:@"currentVideoDuration"];
+        NSLog(@"DURATION = %d",currentVideoDuration);
+        NSLog(@"DURATION OUTPUT = %@",[self.dictionaryStatusDefinition valueForKey:[self.dictionaryStatusHardcode valueForKey:@"currentVideoDuration"]]);
 
-            }
-        }];
+        NSString *currentStatusRecording = [[NSString alloc]init];
+        currentStatusRecording = [self readableRecordingStatus:[self compareStatusHardcode:@"recordingProcessing"]];
+        NSLog(@"STATUS = %@",currentStatusRecording);
+        if ([currentStatusRecording isEqualToString:@"Recording"]) {
+            NSLog(@"I am recording!");
+            sleep(1);
+            self.recordingCurrently = YES;
+            [self checkIfCurrentlyRecordingProcessing:self.methodStart];
+        }
+        else {
+            self.recordingCurrently = NO;
+            
+        }
+    }];
     NSDate *methodFinish = [NSDate date];
     NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:self.methodStart];
     NSLog(@"executionTime = %f", executionTime);
@@ -3665,6 +3684,7 @@
 @synthesize availableVideoSubMode;
 @synthesize availableVideoTLInterval;
 @synthesize availableVideoWhiteBalance;
-@synthesize recordingCurrently;
 
+@synthesize recordingCurrently;
+@synthesize lastUsedSettingsArray;
 @end
